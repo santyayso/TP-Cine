@@ -1,3 +1,4 @@
+<div class="card-pelicula">
 <img [src]="pelicula().portada" [attr.alt]="'Portada de ' + pelicula().titulo">
 <h2>{{ pelicula().titulo }}</h2>
 <p>{{ pelicula().duracion }} min</p>
@@ -5,6 +6,9 @@
 <p>Preventa ya disponible!</p>
 }
 <a [routerLink]="['/pelicula', pelicula().id_pelicula]">Ver detalle</a>
+</div>
+<hr>
+
 <!-- 
 <hr>
 <hr>
