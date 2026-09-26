@@ -4,3 +4,8 @@ img {
   object-fit: cover;
   border-radius: 8px;
 }
+
+.control-cantidad{
+  display: flex;
+
+}

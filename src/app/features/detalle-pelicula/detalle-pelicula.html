@@ -20,9 +20,11 @@
 } 
 
 <h3>Cantidad:</h3>
+<div class="control-cantidad">
 <button (click)="setearCantidad(-1)">-</button>
 <p>{{ cantidadEntradas() }}</p>
 <button (click)="setearCantidad(1)">+</button>
+</div>
 
 
 <button [disabled]="funcionSeleccionada() === null" (click)="navegarHaciaCompra()">COMPRAR ENTRADAS</button>
