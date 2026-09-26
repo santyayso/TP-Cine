@@ -10,3 +10,9 @@
   height: 300px;
   object-fit: cover;
 }
+
+
+.control-cantidad{
+  display: flex;
+
+}

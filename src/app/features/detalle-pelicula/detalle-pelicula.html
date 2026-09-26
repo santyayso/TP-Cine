@@ -11,6 +11,14 @@
 
 </div>
 
+
+@if (fechaSeleccionada()){
+<h3>Horarios disponibles</h3>
+@for (funcion of listaFuncionesSegunFechaSeleccionada(); track funcion.id_funcion){
+<button (click)="setearFuncionSeleccionada(funcion)">{{ funcion.fecha_hora | date:'HH:mm' }}</button>
+}
+}
+
 @if (funciones().length != 0){
 <h3>Elegí una fecha</h3>
 @for (fecha of fechaFunciones(); track fecha){
@@ -30,12 +38,7 @@
 <button [disabled]="funcionSeleccionada() === null" (click)="navegarHaciaCompra()">COMPRAR ENTRADAS</button>
 }
 
-@if (fechaSeleccionada()){
-<h3>Horarios disponibles</h3>
-@for (funcion of listaFuncionesSegunFechaSeleccionada(); track funcion.id_funcion){
-<button (click)="setearFuncionSeleccionada(funcion)">{{ funcion.fecha_hora | date:'HH:mm' }}</button>
-}
-}
+
 
 }
 
