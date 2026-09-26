@@ -9,3 +9,9 @@ img {
   display: flex;
 
 }
+
+
+.seleccionada{
+  background-color: lightblue;
+  color: white;
+}
