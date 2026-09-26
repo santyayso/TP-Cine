@@ -1,0 +1,53 @@
+.seleccionada{
+    background-color: green !important;
+}
+
+.mapa-butacas{
+    display: flex;
+    flex-direction: column;
+    color: rgb(66, 66, 66);
+    font-size: 0.9rem;
+
+}
+
+.fila{
+    display: flex;
+    gap: 45px;
+  
+}
+
+.bloque{
+    display: flex;
+}
+
+.butaca-comun {
+    background-color: #999595;
+}
+
+.butaca-vip {
+    background-color: #ffd700;
+}
+
+
+.butaca-discapacitado {
+    background-color: #3b82f6;
+}
+
+.butaca-comun,
+.butaca-discapacitado,
+.butaca-vip {
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 3px;
+
+}
+
+
+
+.guia-butaca{
+    display: flex;
+}

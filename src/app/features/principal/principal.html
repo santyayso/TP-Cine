@@ -1,0 +1,32 @@
+<section>
+    <h1>Proximamente</h1>
+    @for (pelicula of listaPeliculasProximamente(); track pelicula.id_pelicula) {
+    <app-card-pelicula [pelicula]="pelicula" [leyendaPreventa]="true"></app-card-pelicula>
+    }
+</section>
+
+<!-- <section>
+    <h1>Lo mas vendido</h1>
+    @for (pelicula of listaPeliculasMasVendidas(); track pelicula.id_pelicula) {
+    <app-card-pelicula [pelicula]="pelicula"></app-card-pelicula>
+}
+</section> -->
+
+<section>
+    <h1>Catalogo General</h1>
+    <input type="text" placeholder="Buscar pelicula..." [value]="terminosBusqueda()"
+        (input)="terminosBusqueda.set($any($event.target).value)">
+
+    @for (genero of listaGeneros(); track genero.id_genero){
+    <label>
+        <input type="checkbox" (change)="alternarGenero(genero.id_genero)"> {{ genero.nombre_genero}}
+    </label>
+
+    }
+
+    @for (pelicula of listaPeliculasCatalogoGeneral(); track pelicula.id_pelicula) {
+    <app-card-pelicula [pelicula]="pelicula"></app-card-pelicula>
+
+    }
+
+</section>

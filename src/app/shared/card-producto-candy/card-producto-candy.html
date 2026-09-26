@@ -1,0 +1,6 @@
+<img [src]="productoCandy().imagen" [attr.alt]="'Imagen de ' + productoCandy().nombre">
+<h4>{{ productoCandy().nombre }}</h4>
+<p>${{ productoCandy().precio }} </p>
+<button (click)="restarCantidad()">-</button>
+<p>{{ productoCandyCarrito().cantidad }}</p>
+<button (click)="sumarCantidad()">+</button>

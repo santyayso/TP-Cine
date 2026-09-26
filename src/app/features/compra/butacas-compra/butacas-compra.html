@@ -1,0 +1,68 @@
+<section class="mapa-butacas">
+    @for (fila of matrizButacas(); track fila){
+
+        <div class="fila">
+
+            @for (bloque of fila; track bloque){
+
+            <div class="bloque">
+                @for (butaca of bloque; track butaca){
+        
+                    @switch (butaca.tipo){
+                        @case ('comun'){
+                        <div class="butaca-comun" [class.seleccionada]="estaSeleccionada(butaca)" (click)="alternarButaca(butaca)">
+                            <p>{{ butaca.fila }}{{ butaca.numero }}</p>
+                        </div>
+                        }
+
+                        @case ('discapacitado'){
+                        <div class="butaca-discapacitado" [class.seleccionada]="estaSeleccionada(butaca)" (click)="alternarButaca(butaca)">
+                            <p>{{ butaca.fila }}{{ butaca.numero }}</p>
+                        </div>
+                        }
+
+                        @case ('vip'){
+                        <div class="butaca-vip" [class.seleccionada]="estaSeleccionada(butaca)" (click)="alternarButaca(butaca)">
+                            <p>{{ butaca.fila }}{{ butaca.numero }}</p>
+                        </div>
+                        }
+                        
+                        }
+                    
+                }
+
+
+            </div>
+            }
+
+        </div>
+    }
+
+</section>
+
+<p>Cantidad de entradas seleccionadas: {{ compraService.cantidadEntradas() }}</p>
+<!-- <p>Cantidad de butacas que ya seleccionó {{ butacasSeleccionadas().length }}</p> -->
+<p>Butacas restantes a seleccionar: {{ butacasRestantesAseleccionar() }}</p>
+
+
+<section class="guia">
+    <div class="guia-butaca">
+        <div class="butaca-comun"></div>
+        <p>Butaca convencional {{ compraService.calcularPrecioButaca('comun') | currency:'ARS' }}</p>
+      
+    </div>
+    <div class="guia-butaca">
+        <div class="butaca-vip"></div>
+        <p>Butaca VIP {{ compraService.calcularPrecioButaca('vip') | currency:'ARS' }}</p>
+         
+    </div>
+    <div class="guia-butaca">
+        <div class="butaca-discapacitado"></div>
+        <p>Butaca discapacitado {{ compraService.calcularPrecioButaca('discapacitado') | currency:'ARS' }}</p>
+      
+    </div>
+
+
+</section>
+
+<button (click)="navegarHaciaResumen()">Siguiente</button>

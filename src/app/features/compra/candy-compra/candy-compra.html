@@ -1,0 +1,15 @@
+<h1>Nuestros productos de la seccion Candy</h1>
+@for (categoria of categoriasProductos(); track categoria){
+    <h2>{{ categoria }}</h2>
+
+    @for (producto of productosCandy(); track producto.id_producto_candy){
+
+    @if (producto.categoria == categoria){
+    <app-card-producto-candy (outputModificarCarrito)="modificarCarrito($event)"
+        [productoCandy]="producto"></app-card-producto-candy>
+    }
+
+    }
+}
+
+<button (click)="navegarHaciaButacas()">Siguiente</button>

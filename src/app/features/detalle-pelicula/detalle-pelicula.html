@@ -1,0 +1,45 @@
+@if (pelicula(); as p) {
+<img [src]="p.portada" [attr.alt]="'Portada de ' + p.titulo">
+<h2>{{ p.titulo }}</h2>
+<p>{{ p.duracion }} min</p>
+<p>{{ p.sinopsis }}</p>
+<p>{{ p.restriccion_edad }}</p>
+<div class="generos">
+    @for (generoRelacion of p.pelicula_generos; track generoRelacion.generos.id_genero){
+    <span>{{ generoRelacion.generos.nombre_genero }}</span>
+    }
+
+</div>
+
+@if (funciones().length != 0){
+<h3>Elegí una fecha</h3>
+@for (fecha of fechaFunciones(); track fecha){
+<button (click)="setearFechaSeleccionada(fecha)">{{ fecha }}</button>
+
+
+} 
+
+<h3>Cantidad:</h3>
+<button (click)="setearCantidad(-1)">-</button>
+<p>{{ cantidadEntradas() }}</p>
+<button (click)="setearCantidad(1)">+</button>
+
+
+<button [disabled]="funcionSeleccionada() === null" (click)="navegarHaciaCompra()">COMPRAR ENTRADAS</button>
+}
+
+@if (fechaSeleccionada()){
+<h3>Horarios disponibles</h3>
+@for (funcion of listaFuncionesSegunFechaSeleccionada(); track funcion.id_funcion){
+<button (click)="setearFuncionSeleccionada(funcion)">{{ funcion.fecha_hora | date:'HH:mm' }}</button>
+}
+}
+
+}
+
+
+<!-- 
+} @else{
+<p>Funciones agotada</p>
+}
+} -->
