@@ -1,0 +1,9 @@
+<header class="navbar">
+
+  @if (authService.currentUser()) {
+  <a href="#" (click)="logout(); $event.preventDefault()">Cerrar Sesión</a>
+  } @else {
+  <a routerLink="/login" routerLinkActive="active">Iniciar Sesión</a>
+  }
+
+</header>

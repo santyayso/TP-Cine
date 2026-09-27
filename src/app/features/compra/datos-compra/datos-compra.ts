@@ -3,7 +3,6 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CompraService } from '../../../core/services/compra-service';
 import { inject } from '@angular/core';
 import { Validators } from '@angular/forms';
-import { DatosComprador, TipoSangre } from '../../../core/models/datosCompradorInterface';
 import { Router } from '@angular/router';
 
 @Component({
@@ -16,8 +15,6 @@ import { Router } from '@angular/router';
 export class DatosCompra {
   private compraService = inject(CompraService)
   private router = inject(Router)
-  tipoDeSangre = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']
-  colorDeOjos = ['Marrón', 'Negro', 'Azul', 'Celeste', 'Verde', 'Otro']
 
   datosCompraForm = new FormGroup({
     nombre: new FormControl('', [
@@ -39,17 +36,7 @@ export class DatosCompra {
       Validators.pattern(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/),
 
     ]),
-    tipoDeSangre: new FormControl('', [
-      Validators.required
-    ]),
-    colorDeOjos: new FormControl('', [
-      Validators.required
-    ]),
-    cantidadDiasVacaciones: new FormControl(0, [
-      Validators.required,
-      Validators.min(1),
-      Validators.max(50)
-    ])
+
 
   })
 
@@ -80,9 +67,6 @@ export class DatosCompra {
       apellido: formValue.apellido!,
       email: formValue.email!,
       fechaDeNacimiento: formValue.fechaDeNacimiento!,
-      colorDeOjos: formValue.colorDeOjos!,
-      tipoDeSangre: formValue.tipoDeSangre! as TipoSangre,
-      cantidadDiasVacaciones: formValue.cantidadDiasVacaciones!
 
     });
 

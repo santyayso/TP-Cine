@@ -4,6 +4,10 @@ import { DetallePelicula } from './features/detalle-pelicula/detalle-pelicula';
 import { DatosCompra } from './features/compra/datos-compra/datos-compra';
 import { CandyCompra } from './features/compra/candy-compra/candy-compra';
 import { ButacasCompra } from './features/compra/butacas-compra/butacas-compra';
+import { LoginComponent } from './features/auth/login/login';
+import { RegisterComponent } from './features/auth/register/register';
+import { PagoCompra } from './features/compra/pago-compra/pago-compra';
+
 export const routes: Routes = [
     {
         path: '',
@@ -29,7 +33,19 @@ export const routes: Routes = [
     {
         path: 'comprar/butacas',
         component: ButacasCompra
+    },
+    { 
+        path: 'login', 
+        component: LoginComponent },
+    {
+         path: 'register', 
+         component: RegisterComponent 
+    },
+    {
+        path: 'comprar/pago',
+        component: PagoCompra
     }
+
 
 
 ];

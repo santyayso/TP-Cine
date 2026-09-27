@@ -59,49 +59,6 @@
     </div>
     }
 
-    <label for="tipoDeSangre">Tipo de sangre *</label>
-    <select id="tipoDeSangre" formControlName="tipoDeSangre">
-        @for (tipo of tipoDeSangre; track tipo) {
-        <option [value]="tipo">{{ tipo }}</option>
-        }
-    </select>
-    @if (formularioControles.tipoDeSangre.touched && formularioControles.tipoDeSangre.invalid) {
-    <div>
-        @if (formularioControles.tipoDeSangre.hasError('required')) {
-        <small>Seleccioná un tipo de sangre</small>
-        }
-    </div>
-    }
-
-    <label for="colorDeOjos">Color de ojos *</label>
-    <select id="colorDeOjos" formControlName="colorDeOjos">
-        @for (color of colorDeOjos; track color) {
-        <option [value]="color">{{ color }}</option>
-        }
-    </select>
-    @if (formularioControles.colorDeOjos.touched && formularioControles.colorDeOjos.invalid) {
-    <div>
-        @if (formularioControles.colorDeOjos.hasError('required')) {
-        <small>Seleccioná un color de ojos</small>
-        }
-    </div>
-    }
-
-    <label for="cantidadDiasVacaciones">Días de vacaciones por año *</label>
-    <input type="number" id="cantidadDiasVacaciones" formControlName="cantidadDiasVacaciones">
-    @if (formularioControles.cantidadDiasVacaciones.touched && formularioControles.cantidadDiasVacaciones.invalid) {
-    <div>
-        @if (formularioControles.cantidadDiasVacaciones.hasError('required')) {
-        <small>Este campo es obligatorio</small>
-        }
-        @if (formularioControles.cantidadDiasVacaciones.hasError('min')) {
-        <small>La cantidad de vacaciones no puede ser negativo</small>
-        }
-        @if (formularioControles.cantidadDiasVacaciones.hasError('max')) {
-        <small>Máximo 50 días</small>
-        }
-    </div>
-    }
 
 
     

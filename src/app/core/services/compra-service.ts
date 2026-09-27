@@ -65,5 +65,15 @@ export class CompraService {
         return precioBase;
     }
 
+    calcularTotalButacas(butacas: ButacaGenerada[]): number{
+        let total = 0
+
+        for (const butaca of butacas){
+            total += this.calcularPrecioButaca(butaca.tipo)
+        }
+
+        return total
+    }
+
 
 }

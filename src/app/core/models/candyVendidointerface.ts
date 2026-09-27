@@ -4,5 +4,6 @@ export interface CandyVendido {
     id_producto_candy: number,
     precio_pagado: number,
     cantidad: number,
-    es_canje: boolean
+    es_canje: boolean,
+    nombre: string
 }

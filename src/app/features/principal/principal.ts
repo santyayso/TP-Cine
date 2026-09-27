@@ -4,9 +4,10 @@ import { PeliculasService } from "../../core/services/peliculas-service";
 import { Genero } from "../../core/models/generoInterface";
 import { Pelicula } from "../../core/models/peliculaInterface";
 import { peliculaGeneroRelacion } from "../../core/models/peliculaGeneroRelacion";
+import { Header } from "../../layout/header/header";
 
 @Component({
-  imports: [CardPelicula],
+  imports: [CardPelicula, Header],
   selector: 'app-principal',
   styleUrl: './principal.css',
   templateUrl: './principal.html',

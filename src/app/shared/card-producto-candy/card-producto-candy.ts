@@ -19,14 +19,16 @@ export class CardProductoCandy {
     id_producto_candy: 0,
     precio_pagado: 0,
     cantidad: 0,
-    es_canje: false
+    es_canje: false,
+    nombre: ""
   })
 
   constructor() {
     effect(() => {
       this.productoCandyCarrito.update((actual) => ({
         ...actual,
-        id_producto_candy: this.productoCandy().id_producto_candy
+        id_producto_candy: this.productoCandy().id_producto_candy,
+        nombre: this.productoCandy().nombre
       }));
     });
   }
@@ -44,6 +46,7 @@ export class CardProductoCandy {
         precio_pagado: this.productoCandy().precio * (actual.cantidad - 1)
       }));
     }
+    this.outputModificarCarrito.emit(this.productoCandyCarrito())
   }
 
   sumarCantidad() {

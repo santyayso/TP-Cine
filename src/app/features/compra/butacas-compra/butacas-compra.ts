@@ -4,6 +4,7 @@ import { inject, signal, computed } from '@angular/core';
 import { ButacaGenerada } from '../../../core/models/butacaGeneradaInterface';
 import { CompraService } from '../../../core/services/compra-service';
 import { CurrencyPipe } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   imports: [CurrencyPipe],
@@ -14,6 +15,7 @@ import { CurrencyPipe } from '@angular/common';
 
 export class ButacasCompra implements OnInit {
   compraService = inject(CompraService)
+  router  = inject(Router)
   private butacasService = inject(ButacasService)
   matrizButacas = signal<ButacaGenerada[][][]>([])
   butacasSeleccionadas = signal<ButacaGenerada[]>([])
@@ -28,7 +30,7 @@ export class ButacasCompra implements OnInit {
     return this.butacasSeleccionadas().some((butaca) => butaca.fila == butacaSeleccionada.fila && butaca.numero == butacaSeleccionada.numero)
   }
 
-  butacasRestantesAseleccionar = computed(() =>{
+  butacasRestantesAseleccionar = computed(() => {
     return this.compraService.cantidadEntradas() - this.butacasSeleccionadas().length
   })
 
@@ -55,14 +57,19 @@ export class ButacasCompra implements OnInit {
 
   }
 
-  navegarHaciaResumen() {
+  navegarHaciaPago() {
     if (this.butacasRestantesAseleccionar() > 0) {
       alert(`Usted no eligió la cantidad de butacas correspondientes a la cantidad de entradas que seleccionó (${this.compraService.cantidadEntradas()})`)
     }
-    else(
+    else (
       this.compraService.setearButacas(this.butacasSeleccionadas())
+    
     )
- }
+
+     this.router.navigate(['comprar/pago'])
 
 
   }
+
+
+}

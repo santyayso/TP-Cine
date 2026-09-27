@@ -1,0 +1,29 @@
+<h1>Resumen de la compra</h1>
+
+@if (compraService.peliculaSeleccionada(); as pelicula) {
+  <p>{{ compraService.peliculaSeleccionada()?.titulo }}</p>
+}
+
+@if (compraService.funcionSeleccionada(); as funcion) {
+  <p>{{ funcion.fecha_hora | date:'short' }}</p>
+}
+
+<p>Cantidad de entradas: {{ compraService.cantidadEntradas() }}</p>
+
+<p>Butacas seleccionadas: </p>
+@for (butaca of compraService.butacasSeleccionadas(); track butaca.fila + butaca.numero){
+    <p>{{ butaca.fila }}{{ butaca.numero }}</p>
+}
+
+<p>Total entradas: {{ totalButacas() }}</p>
+
+<h2>Candy</h2>
+@for (producto of compraService.listaCandyVendidos(); track producto.id_producto_candy){
+    <p>{{ producto.nombre }}</p>
+    <p>{{ producto.cantidad }} x {{ producto.precio_pagado / producto.cantidad }}</p>
+   
+   
+}
+    
+
+<p>Total Candy: {{ totalCandy() }}</p>
