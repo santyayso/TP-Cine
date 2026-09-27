@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 
 export class ButacasCompra implements OnInit {
   compraService = inject(CompraService)
-  router  = inject(Router)
+  router = inject(Router)
   private butacasService = inject(ButacasService)
   matrizButacas = signal<ButacaGenerada[][][]>([])
   butacasSeleccionadas = signal<ButacaGenerada[]>([])
@@ -61,12 +61,13 @@ export class ButacasCompra implements OnInit {
     if (this.butacasRestantesAseleccionar() > 0) {
       alert(`Usted no eligió la cantidad de butacas correspondientes a la cantidad de entradas que seleccionó (${this.compraService.cantidadEntradas()})`)
     }
-    else (
+    else {
       this.compraService.setearButacas(this.butacasSeleccionadas())
-    
-    )
 
-     this.router.navigate(['comprar/pago'])
+      this.router.navigate(['comprar/pago'])
+    }
+
+
 
 
   }

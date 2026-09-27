@@ -8,6 +8,8 @@
 <p>{{ funcion.fecha_hora | date:'short' }}</p>
 }
 
+<hr>
+
 <p>Cantidad de entradas: {{ compraService.cantidadEntradas() }}</p>
 
 <p>Butacas seleccionadas: </p>
@@ -15,8 +17,8 @@
 <p>{{ butaca.fila }}{{ butaca.numero }}</p>
 }
 
-<p>Total entradas: {{ totalButacas() }}</p>
-
+<p><strong>Total entradas: {{ totalButacas() }}</strong></p>
+<hr>
 <h2>Candy</h2>
 @for (producto of compraService.listaCandyVendidos(); track producto.id_producto_candy){
 <p>{{ producto.nombre }}</p>
@@ -25,10 +27,28 @@
 
 }
 
+<p><strong>Total Candy: {{ totalCandy() }}</strong></p>
+<hr>
 
-<p>Total Candy: {{ totalCandy() }}</p>
+<p><strong>TOTAL: {{ total() }}</strong></p>
 
-<p>TOTAL: {{ total() }}</p>
+<hr>
+@if (authService.currentUser() && cuponesDisponibles().length > 0) {
+  <h3>Tenés cupones disponibles</h3>
+  @for (cupon of cuponesDisponibles(); track cupon.id_cupon_usuario) {
+    <label>
+      <input type="radio" name="cupon" (change)="aplicarCupon(cupon.cupones)">
+      {{ cupon.cupones.nombre }} — {{ cupon.cupones.porcentaje }}% off
+    </label>
+  }
+    <label>
+      <input type="radio" name="cupon" (change)="aplicarCupon(null)">
+      Sin cupon
+    </label>
+    <p><strong>TOTAL CON CUPON APLICADO: {{ totalConCupon() | currency:'ARS' }}</strong></p>
+}
+
+<hr>
 
 @if (authService.currentUser()) {
 <div class="pago-credito">
@@ -49,4 +69,5 @@
 }
 
 <p><strong>A pagar en efectivo: {{ montoEfectivo() | currency:'ARS' }}</strong></p>
+<hr>
 <button [disabled]="errorCredito() !== null" (click)="confirmarCompra()">Confirmar compra</button>
