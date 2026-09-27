@@ -37,7 +37,7 @@
   <h3>Tenés cupones disponibles</h3>
   @for (cupon of cuponesDisponibles(); track cupon.id_cupon_usuario) {
     <label>
-      <input type="radio" name="cupon" (change)="aplicarCupon(cupon.cupones)">
+      <input type="radio" name="cupon" (change)="aplicarCupon(cupon)">
       {{ cupon.cupones.nombre }} — {{ cupon.cupones.porcentaje }}% off
     </label>
   }

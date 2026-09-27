@@ -6,12 +6,22 @@ import { Pelicula } from '../models/peliculaInterface';
 import { CandyVendido } from '../models/candyVendidointerface';
 import { ButacaGenerada } from '../models/butacaGeneradaInterface';
 import { TipoButaca } from '../models/butacaGeneradaInterface';
+import { VentasService } from './ventas-service';
+import { inject } from '@angular/core';
+import { AuthService } from './auth';
+import { Cupon } from '../models/cuponInterface';
+import { ButacaVendida } from '../models/butacaVendida';
+import { CuponesService } from './cupones-service';
 
 @Injectable({
     providedIn: 'root',
 })
 
 export class CompraService {
+    ventasService = inject(VentasService)
+    authService = inject(AuthService)
+    cuponesServices  = inject(CuponesService)
+
     funcionSeleccionada = signal<Funcion | null>(null)
     datosComprador = signal<DatosComprador | null>(null)
     cantidadEntradas = signal<number>(1)
@@ -21,7 +31,7 @@ export class CompraService {
 
     setearCandy(items: CandyVendido[]) {
         this.listaCandyVendidos.set(items);
-        console.log(this.listaCandyVendidos())
+        // console.log(this.listaCandyVendidos())
     }
 
     setearFuncion(funcion: Funcion) {
@@ -37,7 +47,6 @@ export class CompraService {
 
     setearDatosComprador(datos: DatosComprador) {
         this.datosComprador.set(datos)
-        // console.log(datos)
 
     }
 
@@ -49,7 +58,6 @@ export class CompraService {
 
     setearButacas(butacas: ButacaGenerada[]) {
         this.butacasSeleccionadas.set(butacas);
-        // console.log(this.butacasSeleccionadas())
     }
 
     calcularPrecioButaca(tipoButaca: TipoButaca): number {
@@ -62,13 +70,13 @@ export class CompraService {
             return precioBase + funcion.recargo_vip;
         }
 
-        return precioBase;
+        return precioBase
     }
 
-    calcularTotalButacas(butacas: ButacaGenerada[]): number{
+    calcularTotalButacas(butacas: ButacaGenerada[]): number {
         let total = 0
 
-        for (const butaca of butacas){
+        for (const butaca of butacas) {
             total += this.calcularPrecioButaca(butaca.tipo)
         }
 
@@ -76,4 +84,73 @@ export class CompraService {
     }
 
 
+    private convertirFechaParaSupabase(fechaDDMMAAAA: string): string {
+        const [dia, mes, anio] = fechaDDMMAAAA.split('/')
+        return `${anio}-${mes}-${dia}`
+    }
+
+    async generarCompra(monto_efectivo: number, total: number, monto_credito: number, id_cupon_aplicado: number | null, id_cupon_usuario: number | null) {
+        const datosComprador = this.datosComprador()
+        if (!datosComprador) return
+
+        const funcion = this.funcionSeleccionada()
+        if (!funcion) return
+
+        const idVenta = await this.ventasService.crearVenta({
+            nombre: datosComprador.nombre,
+            apellido: datosComprador.apellido,
+            email: datosComprador.email,
+            fecha_nacimiento: this.convertirFechaParaSupabase(datosComprador.fechaDeNacimiento),
+            total: total,
+            id_usuario: this.authService.currentUser()?.id ?? null,
+            id_cupon_aplicado: id_cupon_aplicado,
+            monto_efectivo: monto_efectivo,
+            monto_credito: monto_credito,
+        })
+
+        if (!idVenta) return
+
+        const idFuncion = funcion.id_funcion
+
+        const idDetalleVenta = await this.ventasService.crearDetalleVenta(idVenta, "123", idFuncion)
+
+        if (!idDetalleVenta) return;
+
+        const filasButacas: Omit<ButacaVendida, 'id_butaca_vendida'>[] = [];
+
+        for (const butaca of this.butacasSeleccionadas()) {
+            filasButacas.push({
+                id_detalle_venta: idDetalleVenta,
+                id_funcion: idFuncion,
+                fila_butaca: butaca.fila,
+                numero_butaca: butaca.numero,
+                tipo_butaca: butaca.tipo,
+                precio_pagado: this.calcularPrecioButaca(butaca.tipo),
+                es_canje: false,
+            })
+        }
+
+        await this.ventasService.crearButacasVendidas(filasButacas)
+
+
+        const filasCandy = this.listaCandyVendidos().map((producto) => ({
+            id_detalle_venta: idDetalleVenta,
+            id_producto_candy: producto.id_producto_candy,
+            precio_pagado: producto.precio_pagado,
+            cantidad: producto.cantidad,
+            es_canje: producto.es_canje,
+
+        }));
+
+        await this.ventasService.crearCandyVendidos(filasCandy);
+
+
+        if (id_cupon_usuario) {
+            await this.cuponesServices.marcarCuponComoUsado(id_cupon_usuario);
+        }
+
+    }
 }
+
+
+

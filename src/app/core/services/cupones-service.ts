@@ -35,6 +35,8 @@ export class CuponesService {
   }
   
 
+
+
 //   async otorgarCuponAUsuario(idUsuario: string, idCupon: number): Promise<void> {
 //     const { error } = await this.supabaseService.cliente
 //       .from('cupones_usuario')

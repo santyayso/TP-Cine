@@ -3,8 +3,7 @@ import { signal, inject, computed } from '@angular/core';
 import { CompraService } from '../../../core/services/compra-service';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { AuthService } from '../../../core/services/auth';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { Validators } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { CuponUsuario } from '../../../core/models/cuponUsuarioInterface';
 import { CuponesService } from '../../../core/services/cupones-service';
 import { Cupon } from '../../../core/models/cuponInterface';
@@ -19,7 +18,7 @@ export class PagoCompra implements OnInit {
   public compraService = inject(CompraService)
   public authService = inject(AuthService)
   private cuponesService = inject(CuponesService)
-
+  
   totalButacas = signal<number>(0)
   totalCandy = signal<number>(0)
   creditoIngresado = signal<number>(0)
@@ -53,7 +52,7 @@ export class PagoCompra implements OnInit {
 
   setearCreditoIngresado(valorTexto: string) {
     const numero = Number(valorTexto)
-    this.creditoIngresado.set(numero);
+    this.creditoIngresado.set(numero)
   }
   
   errorCredito = computed(() => {
@@ -68,11 +67,13 @@ export class PagoCompra implements OnInit {
     if (valor > this.totalConCupon()) {
       return 'Estas ingresando un monto mayor al total';
     }
-    return null;
+    return null
   })
 
 
+  cuponUsuarioSeleccionado = signal<CuponUsuario | null>(null);
   cuponSeleccionado = signal<Cupon | null>(null);
+  
 
   totalConCupon = computed(() => {
     const cupon = this.cuponSeleccionado();
@@ -81,27 +82,31 @@ export class PagoCompra implements OnInit {
     return this.total() - ((cupon.porcentaje * this.total()) / 100);
   });
 
-  aplicarCupon(cupon: Cupon | null) {
-    this.cuponSeleccionado.set(cupon);
+  aplicarCupon(cupon: CuponUsuario | null) {
+    this.cuponUsuarioSeleccionado.set(cupon)  
+    this.cuponSeleccionado.set(cupon?.cupones ?? null);
   }
 
 
 
 
-  confirmarCompra() {
+  async confirmarCompra() {
     const error = this.errorCredito()
     if (error) {
       alert(error);
       return;
     }
 
-    const datos = {
-      total: this.total(),
-      credito: this.creditoIngresado(),
-      efectivo: this.montoEfectivo()
-    };
 
-    // console.log(datos);
+    await this.compraService.generarCompra(
+    this.montoEfectivo(),
+    this.totalConCupon(),
+    this.creditoIngresado(),
+    this.cuponSeleccionado()?.id_cupon ?? null,
+    this.cuponUsuarioSeleccionado()?.id_cupon_usuario ?? null
+  )
+
+   
   }
 
 
