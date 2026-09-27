@@ -1,29 +1,52 @@
 <h1>Resumen de la compra</h1>
 
 @if (compraService.peliculaSeleccionada(); as pelicula) {
-  <p>{{ compraService.peliculaSeleccionada()?.titulo }}</p>
+<p>{{ compraService.peliculaSeleccionada()?.titulo }}</p>
 }
 
 @if (compraService.funcionSeleccionada(); as funcion) {
-  <p>{{ funcion.fecha_hora | date:'short' }}</p>
+<p>{{ funcion.fecha_hora | date:'short' }}</p>
 }
 
 <p>Cantidad de entradas: {{ compraService.cantidadEntradas() }}</p>
 
 <p>Butacas seleccionadas: </p>
 @for (butaca of compraService.butacasSeleccionadas(); track butaca.fila + butaca.numero){
-    <p>{{ butaca.fila }}{{ butaca.numero }}</p>
+<p>{{ butaca.fila }}{{ butaca.numero }}</p>
 }
 
 <p>Total entradas: {{ totalButacas() }}</p>
 
 <h2>Candy</h2>
 @for (producto of compraService.listaCandyVendidos(); track producto.id_producto_candy){
-    <p>{{ producto.nombre }}</p>
-    <p>{{ producto.cantidad }} x {{ producto.precio_pagado / producto.cantidad }}</p>
-   
-   
+<p>{{ producto.nombre }}</p>
+<p>{{ producto.cantidad }} x {{ producto.precio_pagado / producto.cantidad }}</p>
+
+
 }
-    
+
 
 <p>Total Candy: {{ totalCandy() }}</p>
+
+<p>TOTAL: {{ total() }}</p>
+
+@if (authService.currentUser()) {
+<div class="pago-credito">
+  <p>Crédito disponible: {{ creditoDisponible() | currency:'ARS' }}</p>
+  <label for="creditos">Monto a pagar con creditos</label>
+  <input 
+    [disabled]="creditoDisponible() == 0"
+    id="creditos" 
+    type="number" 
+    [value]="creditoIngresado()" 
+    (input)="setearCreditoIngresado($any($event.target).value)">
+
+
+  @if (errorCredito()) {
+    <small class="error">{{ errorCredito() }}</small>
+  }
+</div>
+}
+
+<p><strong>A pagar en efectivo: {{ montoEfectivo() | currency:'ARS' }}</strong></p>
+<button [disabled]="errorCredito() !== null" (click)="confirmarCompra()">Confirmar compra</button>
