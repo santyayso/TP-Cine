@@ -1,9 +1,32 @@
 <header class="navbar">
 
-  @if (authService.currentUser()) {
-  <a href="#" (click)="logout(); $event.preventDefault()">Cerrar Sesión</a>
-  } @else {
-  <a routerLink="/login" routerLinkActive="active">Iniciar Sesión</a>
-  }
+  <nav class="navbar-enlaces">
+
+    @if (authService.currentUser()) {
+    <button class="boton-cerrar-sesion" (click)="logout()">
+      Cerrar Sesión
+    </button>
+    } @else {
+    <a class="navbar-link" routerLink="/login" routerLinkActive="active">
+      Iniciar Sesión
+    </a>
+    }
+    <a *appRole="'admin'" class="navbar-link" routerLink="/admin/candy" routerLinkActive="active">
+      Admin Candy
+    </a>
+
+    <a *appRole="'admin'" class="navbar-link" routerLink="/admin/peliculas" routerLinkActive="active">
+      Admin Peliculas
+    </a>
+
+    <a *appRole="'admin'" class="navbar-link" routerLink="/admin/roles" routerLinkActive="active">
+      Admin Roles
+    </a>
+
+    <a *appRole="'admin'" class="navbar-link" routerLink="/admin/cupones" routerLinkActive="active">
+      Admin Cupones
+    </a>
+
+  </nav>
 
 </header>

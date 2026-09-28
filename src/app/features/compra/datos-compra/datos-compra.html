@@ -1,71 +1,131 @@
-<form [formGroup]="datosCompraForm" (ngSubmit)="onSubmit()">
+<section class="seccion-formulario">
 
-    <label for="nombre">Nombre *</label>
-    <input type="text" id="nombre" formControlName="nombre" placeholder="Ingrese su nombre">
-
-    @if (formularioControles.nombre.touched && formularioControles.nombre.invalid) {
-    <div>
-        @if (formularioControles.nombre.hasError('required')) {
-        <small>El nombre es obligatorio</small>
-        }
-        @if (formularioControles.nombre.hasError('minlength')) {
-        <small>Mínimo 3 caracteres</small>
-        }
-        @if (formularioControles.nombre.hasError('maxlength')) {
-        <small>Máximo 50 caracteres</small>
-        }
-    </div>
-    }
-
-    <label for="apellido">Apellido *</label>
-    <input type="text" id="apellido" formControlName="apellido" placeholder="Ingrese su apellido">
-    @if (formularioControles.apellido.touched && formularioControles.apellido.invalid) {
-    <div>
-        @if (formularioControles.apellido.hasError('required')) {
-        <small>El apellido es obligatorio</small>
-        }
-        @if (formularioControles.apellido.hasError('minlength')) {
-        <small>Mínimo 3 caracteres</small>
-        }
-        @if (formularioControles.apellido.hasError('maxlength')) {
-        <small>Máximo 20 caracteres</small>
-        }
-    </div>
-    }
-
-    <label for="email">Email *</label>
-    <input type="email" id="email" formControlName="email" placeholder="ejemplo@mail.com">
-    @if (formularioControles.email.touched && formularioControles.email.invalid) {
-    <div>
-        @if (formularioControles.email.hasError('required')) {
-        <small>El email es obligatorio</small>
-        }
-        @if (formularioControles.email.hasError('email')) {
-        <small>Ingrese un email válido</small>
-        }
-    </div>
-    }
-
-    <label for="fechaDeNacimiento">Fecha de nacimiento (DD/MM/AAAA) *</label>
-    <input type="text" id="fechaDeNacimiento" formControlName="fechaDeNacimiento" placeholder="15/03/1990">
-    @if (formularioControles.fechaDeNacimiento.touched && formularioControles.fechaDeNacimiento.invalid) {
-    <div>
-        @if (formularioControles.fechaDeNacimiento.hasError('required')) {
-        <small>La fecha de nacimiento es obligatoria</small>
-        }
-        @if (formularioControles.fechaDeNacimiento.hasError('pattern')) {
-        <small>Formato inválido. El formato debe ser: DD/MM/AAAA</small>
-        }
-    </div>
-    }
+    <form class="formulario-compra" [formGroup]="datosCompraForm" (ngSubmit)="onSubmit()">
 
 
+        <div class="encabezado-formulario">
+            <h1>Datos de la compra</h1>
 
-    
-    <button type="submit" [disabled]="datosCompraForm.invalid">
-      Siguiente
-    </button>
+            <p>
+                Completá tus datos para continuar con la compra de tus entradas.
+            </p>
+        </div>
+
+        <div class="grupo-campo">
+
+            <label for="nombre">Nombre *</label>
+
+            <input type="text" id="nombre" formControlName="nombre" placeholder="Ingrese su nombre">
+
+            @if (formularioControles.nombre.touched && formularioControles.nombre.invalid) {
+
+            <div class="mensaje-error">
+
+                @if (formularioControles.nombre.hasError('required')) {
+                <small>El nombre es obligatorio</small>
+                }
+
+                @if (formularioControles.nombre.hasError('minlength')) {
+                <small>Mínimo 3 caracteres</small>
+                }
+
+                @if (formularioControles.nombre.hasError('maxlength')) {
+                <small>Máximo 50 caracteres</small>
+                }
+
+            </div>
+
+            }
+
+        </div>
 
 
+        <div class="grupo-campo">
 
-</form>
+            <label for="apellido">Apellido *</label>
+
+            <input type="text" id="apellido" formControlName="apellido" placeholder="Ingrese su apellido">
+
+            @if (formularioControles.apellido.touched && formularioControles.apellido.invalid) {
+
+            <div class="mensaje-error">
+
+                @if (formularioControles.apellido.hasError('required')) {
+                <small>El apellido es obligatorio</small>
+                }
+
+                @if (formularioControles.apellido.hasError('minlength')) {
+                <small>Mínimo 3 caracteres</small>
+                }
+
+                @if (formularioControles.apellido.hasError('maxlength')) {
+                <small>Máximo 20 caracteres</small>
+                }
+
+            </div>
+
+            }
+
+        </div>
+
+
+        <div class="grupo-campo">
+
+            <label for="email">Email *</label>
+
+            <input type="email" id="email" formControlName="email" placeholder="ejemplo@mail.com">
+
+            @if (formularioControles.email.touched && formularioControles.email.invalid) {
+
+            <div class="mensaje-error">
+
+                @if (formularioControles.email.hasError('required')) {
+                <small>El email es obligatorio</small>
+                }
+
+                @if (formularioControles.email.hasError('email')) {
+                <small>Ingrese un email válido</small>
+                }
+
+            </div>
+
+            }
+
+        </div>
+
+
+        <div class="grupo-campo">
+
+            <label for="fechaDeNacimiento">
+                Fecha de nacimiento (DD/MM/AAAA) *
+            </label>
+
+            <input type="text" id="fechaDeNacimiento" formControlName="fechaDeNacimiento" placeholder="15/03/1990">
+
+            @if (formularioControles.fechaDeNacimiento.touched && formularioControles.fechaDeNacimiento.invalid) {
+
+            <div class="mensaje-error">
+
+                @if (formularioControles.fechaDeNacimiento.hasError('required')) {
+                <small>La fecha de nacimiento es obligatoria</small>
+                }
+
+                @if (formularioControles.fechaDeNacimiento.hasError('pattern')) {
+                <small>Formato inválido. El formato debe ser: DD/MM/AAAA</small>
+                }
+
+            </div>
+
+            }
+
+        </div>
+
+
+        <button class="boton-siguiente" type="submit" [disabled]="datosCompraForm.invalid">
+            Siguiente
+        </button>
+
+
+    </form>
+
+</section>

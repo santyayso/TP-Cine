@@ -1,0 +1,184 @@
+<main class="pagina-gestion">
+
+    <h1>Gestión de candy</h1>
+
+    <section class="seccion-formulario-admin">
+
+        @if (productoEnEdicion()) {
+        <h2>Editar producto</h2>
+        } @else {
+        <h2>Nuevo producto</h2>
+        }
+
+        <form class="formulario-producto" [formGroup]="formulario" (ngSubmit)="guardar()">
+
+            <div class="grupo-campo">
+                <label for="nombre">Nombre *</label>
+                <input id="nombre" type="text" formControlName="nombre">
+
+                @if (controles.nombre.touched && controles.nombre.invalid) {
+                <small>El nombre es obligatorio (2 a 50 caracteres)</small>
+                }
+            </div>
+
+            <div class="grupo-campo">
+                <label for="categoria">Categoría *</label>
+
+                <select id="categoria" formControlName="categoria">
+                    @for (categoria of categorias; track categoria) {
+                    <option [value]="categoria">{{ categoria }}</option>
+                    }
+                </select>
+
+                @if (controles.categoria.touched && controles.categoria.invalid) {
+                <small>Seleccioná una categoría</small>
+                }
+            </div>
+
+            <div class="grupo-campo">
+                <label for="precio">Precio *</label>
+                <input id="precio" type="number" formControlName="precio">
+
+                @if (controles.precio.touched && controles.precio.invalid) {
+                <small>El precio debe ser mayor a 0</small>
+                }
+            </div>
+
+            <div class="grupo-campo">
+                <label for="puntos">Puntos de canje</label>
+                <input id="puntos" type="number" formControlName="puntos">
+
+                @if (controles.puntos.touched && controles.puntos.invalid) {
+                <small>Los puntos no pueden ser negativos</small>
+                }
+            </div>
+
+            <div class="grupo-campo campo-imagen">
+                <label for="imagen">URL de la imagen *</label>
+                <input id="imagen" type="text" formControlName="imagen" placeholder="https://...">
+
+                @if (controles.imagen.touched && controles.imagen.invalid) {
+                <small>Ingresá una URL válida que empiece con http:// o https://</small>
+                }
+            </div>
+
+            <div class="acciones-formulario">
+                <button class="boton-principal" type="submit">
+                    @if (productoEnEdicion()) {
+                    Guardar cambios
+                    } @else {
+                    Crear producto
+                    }
+                </button>
+
+                <button class="boton-secundario" type="button" (click)="terminarEdicion()">
+                    @if (productoEnEdicion()) {
+                    Cancelar edición
+                    } @else {
+                    Limpiar formulario
+                    }
+                </button>
+            </div>
+
+        </form>
+
+    </section>
+
+    <section class="seccion-productos">
+
+        <div class="encabezado-productos">
+            <h2>Productos cargados</h2>
+
+            <input
+                class="buscador"
+                type="text"
+                placeholder="Buscar producto o categoría..."
+                [value]="terminosBusqueda()"
+                (input)="terminosBusqueda.set($any($event.target).value)">
+        </div>
+
+        <div class="contenedor-tabla">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Imagen</th>
+                        <th>Nombre</th>
+                        <th>Categoría</th>
+                        <th>Precio</th>
+                        <th>Puntos</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @for (producto of productosFiltrados(); track producto.id_producto_candy) {
+
+                    <tr>
+
+                        <td>
+                            <img
+                                class="imagen-producto"
+                                [src]="producto.imagen"
+                                [attr.alt]="producto.nombre">
+                        </td>
+
+                        <td>{{ producto.nombre }}</td>
+                        <td>{{ producto.categoria }}</td>
+                        <td>{{ producto.precio | currency:'ARS' }}</td>
+                        <td>{{ producto.puntos ?? '-' }}</td>
+
+                        <td>
+                            @if (producto.activo) {
+                            <span class="estado estado-activo">Activo</span>
+                            } @else {
+                            <span class="estado estado-inactivo">Inactivo</span>
+                            }
+                        </td>
+
+                        <td class="acciones-tabla">
+
+                            <button
+                                class="boton-editar"
+                                (click)="prepararEdicion(producto)">
+                                Editar
+                            </button>
+
+                            <button
+                                class="boton-estado"
+                                (click)="cambiarEstado(producto)">
+                                @if (producto.activo) {
+                                Dar de baja
+                                } @else {
+                                Reactivar
+                                }
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                    }
+
+                    @empty {
+
+                    <tr>
+                        <td colspan="7" class="sin-productos">
+                            No se encontraron productos.
+                        </td>
+                    </tr>
+
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</main>

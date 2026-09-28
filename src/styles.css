@@ -1,1 +1,59 @@
-/* You can add global styles to this file, and also import other style files */
+/* VARIABLES GENERALES */
+:root {
+    --rojo: #e63946;
+    --rojo-hover: #ff4d5a;
+
+    --fondo: #121212;
+    --fondo-contenedor: #1c1c1c;
+    --fondo-card: #242424;
+
+    --texto-principal: #f5f5f5;
+    --texto-secundario: #b5b5b5;
+
+    --borde: #333333;
+}
+
+
+/* FUENTE */
+
+@font-face {
+    font-family: "fuentePrincipal";
+    src: url("/assets/fonts/Oswald/Oswald-VariableFont_wght.ttf");
+    font-weight: 200 700;
+}
+
+
+/* GENERALES */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    background-color: var(--fondo);
+    color: var(--texto-principal);
+    font-family: "fuentePrincipal", sans-serif;
+}
+
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+}
+
+a {
+    text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+p {
+    margin-top: 0;
+}/* You can add global styles to this file, and also import other style files */

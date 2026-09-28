@@ -8,7 +8,9 @@ export const authAdminGuard: CanActivateFn = (route, state) => {
 
 
   const user = authService.currentUserData();
-  
+
+ 
+
   if (user?.rol === "admin") {
     return true;
   }

@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { CandyService } from '../../../core/services/candy-service';
-import { inject, signal, OnInit } from '@angular/core';
+import { inject, signal, OnInit, computed } from '@angular/core';
 import { ProductoCandy } from '../../../core/models/productoCandyInterface';
 import { CardProductoCandy } from '../../../shared/card-producto-candy/card-producto-candy';
 import { CandyVendido } from '../../../core/models/candyVendidointerface';
 import { Router } from '@angular/router';
 import { CompraService } from '../../../core/services/compra-service';
+import { CATEGORIAS_CANDY } from '../../../core/services/candy-service';
 
 @Component({
   imports: [CardProductoCandy],
@@ -16,19 +17,25 @@ import { CompraService } from '../../../core/services/compra-service';
 export class CandyCompra implements OnInit {
   private candyService = inject(CandyService)
   private router = inject(Router)
-  private compraService = inject(CompraService) 
+  private compraService = inject(CompraService)
 
-  categoriasProductos = signal<string[]>([])
+ 
   productosCandy = signal<ProductoCandy[]>([])
   listaProductosCandyCarrito = signal<CandyVendido[]>([])
 
+
+  categoriasConProductosCargados = computed(() =>
+    CATEGORIAS_CANDY.filter((categoria) =>
+      this.productosCandy().some((producto) => producto.categoria === categoria)
+    )
+  )
+
+  obtenerProductosDeCategoriaEspecifica(categoria: string): ProductoCandy[] {
+    return this.productosCandy().filter((producto) => producto.categoria === categoria)
+  }
+
   async ngOnInit() {
-    const data = await this.candyService.obtenerProductosCandy();
-    this.productosCandy.set(data)
-
-    const categorias = await this.candyService.obtenerCategoriasUnicas();
-    this.categoriasProductos.set(categorias)
-
+    this.productosCandy.set(await this.candyService.obtenerProductosCandy())
   }
 
   modificarCarrito(productoCandyCarrito: CandyVendido) {
@@ -45,7 +52,7 @@ export class CandyCompra implements OnInit {
     });
   }
 
-  navegarHaciaButacas(){
+  navegarHaciaButacas() {
     this.compraService.setearCandy(this.listaProductosCandyCarrito());
     this.router.navigate(['/comprar/butacas'])
 

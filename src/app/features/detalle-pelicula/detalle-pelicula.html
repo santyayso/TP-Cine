@@ -1,45 +1,130 @@
 @if (pelicula(); as p) {
 
-    <img [src]="p.portada" [attr.alt]="'Portada de ' + p.titulo">
-    <h2>{{ p.titulo }}</h2>
-    <p>{{ p.duracion }} min</p>
-    <p>{{ p.sinopsis }}</p>
-    <p>{{ p.restriccion_edad }}</p>
-    <div class="generos">
-        @for (generoRelacion of p.pelicula_generos; track generoRelacion.generos.id_genero){
-        <span>{{ generoRelacion.generos.nombre_genero }}</span>
-        }
+<section class="detalle-pelicula">
 
-    </div>
+    <article class="contenedor-detalle">
 
-    @if (funciones().length != 0){
-        <h3>Fechas</h3>
-        @for (fecha of fechaFunciones(); track fecha){
-        <button  [class.seleccionada]="fechaSeleccionada() === fecha" (click)="setearFechaSeleccionada(fecha)">{{ obtenerFechaHoraOriginal(fecha) | date:'dd/MM' }}</button>
-        } 
+        <div class="contenedor-portada-detalle">
+            <img class="portada-detalle" [src]="p.portada" [attr.alt]="'Portada de ' + p.titulo">
+        </div>
 
-     @if (fechaSeleccionada()){
-        <h3>Horarios disponibles</h3>
-            @for (funcion of listaHorariosSegunFechaSeleccionada(); track funcion.id_funcion){
-            <button [class.seleccionada]="funcionSeleccionada()?.id_funcion === funcion.id_funcion" (click)="setearFuncionSeleccionada(funcion)">{{ funcion.fecha_hora | date:'HH:mm' }}</button>
+
+        <div class="informacion-pelicula">
+
+            <h2 class="titulo-pelicula">{{ p.titulo }}</h2>
+
+            <p class="duracion-pelicula">{{ p.duracion }} min</p>
+
+            <p class="sinopsis-pelicula">{{ p.sinopsis }}</p>
+
+            @if (p.restriccion_edad){
+                <p class="restriccion-edad">+ {{ p.restriccion_edad }}</p>
             }
-        }
-
-    <h3>Cantidad:</h3>
-    <div class="control-cantidad">
-    <button (click)="setearCantidad(-1)">-</button>
-    <p>{{ cantidadEntradas() }}</p>
-    <button (click)="setearCantidad(1)">+</button>
-    </div>
-
-    <button [disabled]="funcionSeleccionada() === null" (click)="navegarHaciaCompra()">COMPRAR ENTRADAS</button>
-    
-    }
+            @else{
+                <p class="restriccion-edad"> Sin restriccion de edad</p>
+            }
+            
 
 
-    @else if(!esProximamente()){
-        <p>Sin funciones disponibles por el momento</p>
-    }
+            <div class="generos">
+
+                @for (generoRelacion of p.pelicula_generos; track generoRelacion.generos.id_genero){
+
+                <span>{{ generoRelacion.generos.nombre_genero }}</span>
+
+                }
+
+            </div>
+
+
+            @if (funciones().length != 0){
+
+            <div class="contenedor-compra">
+
+                <div class="grupo-seleccion">
+
+                    <h3>Fechas</h3>
+
+                    <div class="opciones-fechas">
+
+                        @for (fecha of fechaFunciones(); track fecha){
+
+                        <button class="boton-opcion" [class.seleccionada]="fechaSeleccionada() === fecha"
+                            (click)="setearFechaSeleccionada(fecha)">
+                            {{ obtenerFechaHoraOriginal(fecha) | date:'dd/MM' }}
+                        </button>
+
+                        }
+
+                    </div>
+
+                </div>
+
+
+                @if (fechaSeleccionada()){
+
+                <div class="grupo-seleccion">
+
+                    <h3>Horarios disponibles</h3>
+
+                    <div class="opciones-horarios">
+
+                        @for (funcion of listaHorariosSegunFechaSeleccionada(); track funcion.id_funcion){
+
+                        <button class="boton-opcion"
+                            [class.seleccionada]="funcionSeleccionada()?.id_funcion === funcion.id_funcion"
+                            (click)="setearFuncionSeleccionada(funcion)">
+                            {{ funcion.fecha_hora | date:'HH:mm' }}
+                        </button>
+
+                        }
+
+                    </div>
+
+                </div>
+
+                }
+
+
+                <div class="grupo-seleccion">
+
+                    <h3>Cantidad:</h3>
+
+                    <div class="control-cantidad">
+
+                        <button (click)="setearCantidad(-1)">-</button>
+
+                        <p>{{ cantidadEntradas() }}</p>
+
+                        <button (click)="setearCantidad(1)">+</button>
+
+                    </div>
+
+                </div>
+
+
+                <button class="boton-comprar" [disabled]="funcionSeleccionada() === null"
+                    (click)="navegarHaciaCompra()">
+                    COMPRAR ENTRADAS
+                </button>
+
+            </div>
+
+            }
+
+
+            @else if(!esProximamente()){
+
+            <p class="sin-funciones">
+                Sin funciones disponibles por el momento
+            </p>
+
+            }
+
+        </div>
+
+    </article>
+
+</section>
 
 }
-

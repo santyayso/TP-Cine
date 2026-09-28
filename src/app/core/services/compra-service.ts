@@ -12,6 +12,7 @@ import { AuthService } from './auth';
 import { Cupon } from '../models/cuponInterface';
 import { ButacaVendida } from '../models/butacaVendida';
 import { CuponesService } from './cupones-service';
+import { PeliculasService } from './peliculas-service';
 
 @Injectable({
     providedIn: 'root',
@@ -20,8 +21,8 @@ import { CuponesService } from './cupones-service';
 export class CompraService {
     ventasService = inject(VentasService)
     authService = inject(AuthService)
-    cuponesServices  = inject(CuponesService)
-
+    cuponesServices = inject(CuponesService)
+    peliculasService = inject(PeliculasService)
     funcionSeleccionada = signal<Funcion | null>(null)
     datosComprador = signal<DatosComprador | null>(null)
     cantidadEntradas = signal<number>(1)
@@ -62,15 +63,20 @@ export class CompraService {
 
     calcularPrecioButaca(tipoButaca: TipoButaca): number {
         const funcion = this.funcionSeleccionada();
-        if (!funcion) return 0;
+        const pelicula = this.peliculaSeleccionada();
+        if (!funcion || !pelicula) return 0;
 
-        const precioBase = funcion.precio_preventa ?? funcion.precio;
+        let precioBase = funcion.precio;
+
+        if (this.peliculasService.perteneceAProximamente(pelicula) && funcion.precio_preventa != null) {
+            precioBase = funcion.precio_preventa;
+        }
 
         if (tipoButaca === 'vip') {
             return precioBase + funcion.recargo_vip;
         }
 
-        return precioBase
+        return precioBase;
     }
 
     calcularTotalButacas(butacas: ButacaGenerada[]): number {

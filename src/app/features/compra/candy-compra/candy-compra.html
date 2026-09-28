@@ -1,15 +1,43 @@
-<h1>Nuestros productos de la seccion Candy</h1>
-@for (categoria of categoriasProductos(); track categoria){
-    <h2>{{ categoria }}</h2>
+<main class="pagina-candy">
 
-    @for (producto of productosCandy(); track producto.id_producto_candy){
+    <section class="seccion-candy">
 
-    @if (producto.categoria == categoria){
-    <app-card-producto-candy (outputModificarCarrito)="modificarCarrito($event)"
-        [productoCandy]="producto"></app-card-producto-candy>
-    }
+        <h1 class="titulo-candy">Nuestros productos de la seccion Candy</h1>
 
-    }
-}
+        @for (categoria of categoriasConProductosCargados(); track categoria){
 
-<button (click)="navegarHaciaButacas()">Siguiente</button>
+        <div class="categoria-candy">
+
+            <h2>{{ categoria }}</h2>
+
+            <div class="contenedor-productos-candy">
+
+                @for (producto of obtenerProductosDeCategoriaEspecifica(categoria); track producto.id_producto_candy) {
+
+                <app-card-producto-candy
+                    (outputModificarCarrito)="modificarCarrito($event)"
+                    [productoCandy]="producto">
+                </app-card-producto-candy>
+
+                }
+
+            </div>
+
+        </div>
+
+        }
+
+
+        <div class="contenedor-siguiente">
+
+            <button
+                class="boton-siguiente"
+                (click)="navegarHaciaButacas()">
+                Siguiente
+            </button>
+
+        </div>
+
+    </section>
+
+</main>

@@ -1,13 +1,33 @@
-<div class="card-candy">
-<img [src]="productoCandy().imagen" [attr.alt]="'Imagen de ' + productoCandy().nombre">
-<h4>{{ productoCandy().nombre }}</h4>
-<p>${{ productoCandy().precio }} </p>
+<article class="card-candy">
 
-<div class="control-cantidad">
-<button (click)="restarCantidad()">-</button>
-<p>{{ productoCandyCarrito().cantidad }}</p>
-<button (click)="sumarCantidad()">+</button>
-</div>
+    <div class="contenedor-imagen-candy">
 
-</div>
-<hr>
+        <img
+            [src]="productoCandy().imagen"
+            [attr.alt]="'Imagen de ' + productoCandy().nombre">
+
+    </div>
+
+
+    <div class="contenido-card-candy">
+
+        <h4>{{ productoCandy().nombre }}</h4>
+
+        <p class="precio-candy">
+            ${{ productoCandy().precio }}
+        </p>
+
+
+        <div class="control-cantidad">
+
+            <button (click)="restarCantidad()">-</button>
+
+            <p>{{ productoCandyCarrito().cantidad }}</p>
+
+            <button (click)="sumarCantidad()">+</button>
+
+        </div>
+
+    </div>
+
+</article>

@@ -1,0 +1,385 @@
+
+.pagina-pago {
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+
+    margin: 3rem 0;
+}
+
+
+
+.resumen-compra {
+    width: 90%;
+    max-width: 700px;
+
+    padding: 2.5rem;
+
+    background-color: var(--fondo-contenedor);
+
+    border: 1px solid var(--borde);
+    border-radius: 15px;
+
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+
+.resumen-compra h1 {
+    margin-bottom: 2rem;
+
+    color: var(--texto-principal);
+
+    font-size: 2rem;
+    text-align: center;
+}
+
+
+
+
+.datos-pelicula {
+    text-align: center;
+}
+
+
+.nombre-pelicula {
+    margin-bottom: 0.3rem;
+
+    color: var(--texto-principal);
+
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+
+.fecha-funcion {
+    margin: 0;
+
+    color: var(--texto-secundario);
+}
+
+
+
+
+.separador {
+    width: 100%;
+    height: 1px;
+
+    margin: 1.8rem 0;
+
+    background-color: var(--borde);
+}
+
+
+
+.seccion-resumen {
+    color: var(--texto-secundario);
+}
+
+
+.seccion-resumen h2,
+.seccion-resumen h3 {
+    color: var(--texto-principal);
+}
+
+
+.seccion-resumen h2 {
+    margin-bottom: 1.2rem;
+
+    font-size: 1.4rem;
+}
+
+
+.seccion-resumen h3 {
+    margin-bottom: 1rem;
+
+    font-size: 1.15rem;
+}
+
+
+
+.butacas-seleccionadas {
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 0.5rem;
+
+    margin-bottom: 1.5rem;
+}
+
+
+.butacas-seleccionadas span {
+    min-width: 45px;
+
+    padding: 0.35rem 0.6rem;
+
+    background-color: var(--fondo-card);
+
+    color: var(--texto-principal);
+
+    border: 1px solid var(--borde);
+    border-radius: 6px;
+
+    text-align: center;
+
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+
+
+.subtotal {
+    margin-top: 1.5rem;
+    margin-bottom: 0;
+
+    color: var(--texto-principal);
+
+    text-align: right;
+}
+
+
+
+
+.lista-candy {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.producto-resumen {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 1rem;
+
+    padding: 0.7rem 0;
+
+    border-bottom: 1px solid var(--borde);
+}
+
+
+.producto-resumen p {
+    margin: 0;
+}
+
+
+
+.total-compra {
+    margin: 2rem 0;
+
+    padding: 1rem;
+
+    background-color: rgba(230, 57, 70, 0.1);
+
+    border-left: 4px solid var(--rojo);
+    border-radius: 6px;
+}
+
+
+.total-compra p {
+    margin: 0;
+
+    color: var(--texto-principal);
+
+    font-size: 1.3rem;
+
+    text-align: right;
+}
+
+
+
+
+.seccion-cupones {
+    margin: 2rem 0;
+
+    padding-top: 1.5rem;
+
+    border-top: 1px solid var(--borde);
+}
+
+
+.lista-cupones {
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.7rem;
+}
+
+
+.opcion-cupon {
+    display: flex;
+    align-items: center;
+
+    gap: 0.6rem;
+
+    cursor: pointer;
+}
+
+
+.opcion-cupon input {
+    accent-color: var(--rojo);
+
+    cursor: pointer;
+}
+
+
+.total-cupon {
+    margin-top: 1.3rem;
+
+    color: var(--rojo);
+
+    text-align: right;
+}
+
+
+
+.pago-credito {
+    display: flex;
+    flex-direction: column;
+
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+
+    border-top: 1px solid var(--borde);
+}
+
+
+.pago-credito p {
+    color: var(--texto-secundario);
+}
+
+
+.pago-credito label {
+    margin-bottom: 0.5rem;
+
+    color: var(--texto-principal);
+
+    font-weight: 600;
+}
+
+
+.pago-credito input {
+    width: 100%;
+
+    padding: 0.75rem 0.9rem;
+
+    background-color: var(--fondo-card);
+
+    color: var(--texto-principal);
+
+    border: 1px solid var(--borde);
+    border-radius: 7px;
+
+    font-size: 1rem;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.pago-credito input:focus {
+    border-color: var(--rojo);
+
+    box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.12);
+}
+
+
+.pago-credito input:disabled {
+    opacity: 0.5;
+
+    cursor: not-allowed;
+}
+
+
+.error {
+    margin-top: 0.4rem;
+
+    color: var(--rojo);
+
+    font-size: 0.8rem;
+}
+
+
+
+.monto-efectivo {
+    margin: 2rem 0 1.5rem;
+
+    padding-top: 1.5rem;
+
+    border-top: 1px solid var(--borde);
+}
+
+
+.monto-efectivo p {
+    margin: 0;
+
+    color: var(--texto-principal);
+
+    font-size: 1.2rem;
+
+    text-align: right;
+}
+
+
+.boton-confirmar {
+    width: 100%;
+
+    padding: 0.85rem 1rem;
+
+    background-color: var(--rojo);
+
+    color: white;
+
+    border: 1px solid var(--rojo);
+    border-radius: 7px;
+
+    font-size: 1rem;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        transform 0.15s ease,
+        opacity 0.2s ease;
+}
+
+
+.boton-confirmar:hover:not(:disabled) {
+    background-color: var(--rojo-hover);
+
+    transform: translateY(-2px);
+}
+
+
+.boton-confirmar:disabled {
+    opacity: 0.4;
+
+    cursor: not-allowed;
+}
+
+
+
+@media (max-width: 600px) {
+
+    .pagina-pago {
+        margin-top: 2rem;
+    }
+
+
+    .resumen-compra {
+        width: 90%;
+
+        padding: 1.5rem;
+    }
+
+
+    .producto-resumen {
+        align-items: flex-start;
+    }
+}
+

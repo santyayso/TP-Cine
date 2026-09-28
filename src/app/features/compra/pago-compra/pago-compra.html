@@ -1,73 +1,201 @@
-<h1>Resumen de la compra</h1>
+<main class="pagina-pago">
 
-@if (compraService.peliculaSeleccionada(); as pelicula) {
-<p>{{ compraService.peliculaSeleccionada()?.titulo }}</p>
-}
+  <section class="resumen-compra">
 
-@if (compraService.funcionSeleccionada(); as funcion) {
-<p>{{ funcion.fecha_hora | date:'short' }}</p>
-}
-
-<hr>
-
-<p>Cantidad de entradas: {{ compraService.cantidadEntradas() }}</p>
-
-<p>Butacas seleccionadas: </p>
-@for (butaca of compraService.butacasSeleccionadas(); track butaca.fila + butaca.numero){
-<p>{{ butaca.fila }}{{ butaca.numero }}</p>
-}
-
-<p><strong>Total entradas: {{ totalButacas() }}</strong></p>
-<hr>
-<h2>Candy</h2>
-@for (producto of compraService.listaCandyVendidos(); track producto.id_producto_candy){
-<p>{{ producto.nombre }}</p>
-<p>{{ producto.cantidad }} x {{ producto.precio_pagado / producto.cantidad }}</p>
+    <h1>Resumen de la compra</h1>
 
 
-}
+    <div class="datos-pelicula">
 
-<p><strong>Total Candy: {{ totalCandy() }}</strong></p>
-<hr>
+      @if (compraService.peliculaSeleccionada(); as pelicula) {
+      <p class="nombre-pelicula">
+        {{ compraService.peliculaSeleccionada()?.titulo }}
+      </p>
+      }
 
-<p><strong>TOTAL: {{ total() }}</strong></p>
+      @if (compraService.funcionSeleccionada(); as funcion) {
+      <p class="fecha-funcion">
+        {{ funcion.fecha_hora | date:'short' }}
+      </p>
+      }
 
-<hr>
-@if (authService.currentUser() && cuponesDisponibles().length > 0) {
-  <h3>Tenés cupones disponibles</h3>
-  @for (cupon of cuponesDisponibles(); track cupon.id_cupon_usuario) {
-    <label>
-      <input type="radio" name="cupon" (change)="aplicarCupon(cupon)">
-      {{ cupon.cupones.nombre }} — {{ cupon.cupones.porcentaje }}% off
-    </label>
-  }
-    <label>
-      <input type="radio" name="cupon" (change)="aplicarCupon(null)">
-      Sin cupon
-    </label>
-    <p><strong>TOTAL CON CUPON APLICADO: {{ totalConCupon() | currency:'ARS' }}</strong></p>
-}
-
-<hr>
-
-@if (authService.currentUser()) {
-<div class="pago-credito">
-  <p>Crédito disponible: {{ creditoDisponible() | currency:'ARS' }}</p>
-  <label for="creditos">Monto a pagar con creditos</label>
-  <input 
-    [disabled]="creditoDisponible() == 0"
-    id="creditos" 
-    type="number" 
-    [value]="creditoIngresado()" 
-    (input)="setearCreditoIngresado($any($event.target).value)">
+    </div>
 
 
-  @if (errorCredito()) {
-    <small class="error">{{ errorCredito() }}</small>
-  }
-</div>
-}
+    <div class="separador"></div>
 
-<p><strong>A pagar en efectivo: {{ montoEfectivo() | currency:'ARS' }}</strong></p>
-<hr>
-<button [disabled]="errorCredito() !== null" (click)="confirmarCompra()">Confirmar compra</button>
+
+    <section class="seccion-resumen">
+
+      <p>
+        Cantidad de entradas:
+        <strong>{{ compraService.cantidadEntradas() }}</strong>
+      </p>
+
+
+      <p>Butacas seleccionadas:</p>
+
+      <div class="butacas-seleccionadas">
+
+        @for (butaca of compraService.butacasSeleccionadas(); track butaca.fila + butaca.numero){
+
+        <span>
+          {{ butaca.fila }}{{ butaca.numero }}
+        </span>
+
+        }
+
+      </div>
+
+
+      <p class="subtotal">
+        <strong>Total entradas: {{ totalButacas() }}</strong>
+      </p>
+
+    </section>
+
+
+    <div class="separador"></div>
+
+    @if (compraService.listaCandyVendidos().length > 0) {
+
+
+    <section class="seccion-resumen">
+
+      <h2>Candy</h2>
+
+      <div class="lista-candy">
+
+        @for (producto of compraService.listaCandyVendidos(); track producto.id_producto_candy){
+
+        <div class="producto-resumen">
+
+          <p>{{ producto.nombre }}</p>
+
+          <p>
+            {{ producto.cantidad }} x
+            {{ producto.precio_pagado / producto.cantidad }}
+          </p>
+
+        </div>
+
+        }
+
+      </div>
+
+      <p class="subtotal">
+        <strong>Total Candy: {{ totalCandy() }}</strong>
+      </p>
+
+    </section>
+    }
+
+    <div class="total-compra">
+
+      <p>
+        <strong>TOTAL: {{ total() }}</strong>
+      </p>
+
+    </div>
+
+
+    @if (authService.currentUser() && cuponesDisponibles().length > 0) {
+
+    <section class="seccion-resumen seccion-cupones">
+
+      <h3>Tenés cupones disponibles</h3>
+
+
+      <div class="lista-cupones">
+
+        @for (cupon of cuponesDisponibles(); track cupon.id_cupon_usuario) {
+
+        <label class="opcion-cupon">
+
+          <input type="radio" name="cupon" (change)="aplicarCupon(cupon)">
+
+          <span>
+            {{ cupon.cupones.nombre }} — {{ cupon.cupones.porcentaje }}% off
+          </span>
+
+        </label>
+
+        }
+
+
+        <label class="opcion-cupon">
+
+          <input type="radio" name="cupon" (change)="aplicarCupon(null)">
+
+          <span>Sin cupon</span>
+
+        </label>
+
+      </div>
+
+
+      <p class="total-cupon">
+        <strong>
+          TOTAL CON CUPON APLICADO:
+          {{ totalConCupon() | currency:'ARS' }}
+        </strong>
+      </p>
+
+    </section>
+
+    }
+
+
+    @if (authService.currentUser()) {
+
+    <section class="pago-credito">
+
+      <p>
+        Crédito disponible:
+        <strong>{{ creditoDisponible() | currency:'ARS' }}</strong>
+      </p>
+
+
+      <label for="creditos">
+        Monto a pagar con creditos
+      </label>
+
+
+      <input [disabled]="creditoDisponible() == 0" id="creditos" type="number" [value]="creditoIngresado()"
+        (input)="setearCreditoIngresado($any($event.target).value)">
+
+
+      @if (errorCredito()) {
+
+      <small class="error">
+        {{ errorCredito() }}
+      </small>
+
+      }
+
+    </section>
+
+    }
+
+
+    <div class="monto-efectivo">
+
+      <p>
+        <strong>
+          A pagar en efectivo:
+          {{ montoEfectivo() | currency:'ARS' }}
+        </strong>
+      </p>
+
+    </div>
+
+
+    <button class="boton-confirmar" [disabled]="errorCredito() !== null" (click)="confirmarCompra()">
+
+      Confirmar compra
+
+    </button>
+
+  </section>
+
+</main>

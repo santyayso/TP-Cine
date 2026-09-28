@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Supabase } from './supabase';
 import { CuponUsuario } from '../models/cuponUsuarioInterface';
+import { Cupon } from '../models/cuponInterface';
 
 @Injectable({
   providedIn: 'root',
@@ -37,13 +38,5 @@ export class CuponesService {
 
 
 
-//   async otorgarCuponAUsuario(idUsuario: string, idCupon: number): Promise<void> {
-//     const { error } = await this.supabaseService.cliente
-//       .from('cupones_usuario')
-//       .insert({ id_usuario: idUsuario, id_cupon: idCupon });
-
-//     if (error) {
-//       console.error('Error al otorgar cupón:', error);
-//     }
-//   }
+  
 }

@@ -1,18 +1,165 @@
-.card-candy img {
-  width: 100%;          
-  height: 300px;       
-  object-fit: cover;  
-  object-position: center; 
+
+.card-candy {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    background-color: var(--fondo-card);
+
+    border: 1px solid var(--borde);
+    border-radius: 10px;
+
+    overflow: hidden;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        border-color 0.3s ease;
 }
 
-.card-candy img {
-  width: 200px;
-  height: 300px;
-  object-fit: cover;
+
+.card-candy:hover {
+    transform: translateY(-6px);
+
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4);
+
+    border-color: var(--rojo);
 }
 
 
-.control-cantidad{
-  display: flex;
 
+
+.contenedor-imagen-candy {
+    width: 100%;
+    height: 170px;
+
+    overflow: hidden;
+
+    background-color: #181818;
+}
+
+.contenedor-imagen-candy img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    padding: 0.7rem;
+
+    border-radius: 8px;
+
+    transition: transform 0.3s ease;
+}
+
+
+.card-candy:hover .contenedor-imagen-candy img {
+    transform: scale(1.05);
+}
+
+
+
+
+.contenido-card-candy {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 1rem;
+}
+
+
+
+.contenido-card-candy h4 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+
+    color: var(--texto-principal);
+
+    font-size: 1.1rem;
+    font-weight: 600;
+
+    text-align: center;
+}
+
+
+
+
+.precio-candy {
+    margin: 0 0 1rem;
+
+    color: var(--rojo);
+
+    font-size: 1.15rem;
+    font-weight: 700;
+}
+
+
+
+.control-cantidad {
+    margin-top: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 1rem;
+}
+
+
+.control-cantidad button {
+    width: 35px;
+    height: 35px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: transparent;
+
+    color: var(--texto-principal);
+
+    border: 1px solid var(--borde);
+    border-radius: 7px;
+
+    font-size: 1.1rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.15s ease;
+}
+
+
+.control-cantidad button:hover {
+    background-color: rgba(230, 57, 70, 0.1);
+
+    border-color: var(--rojo);
+
+    color: var(--rojo);
+
+    transform: scale(1.08);
+}
+
+
+.control-cantidad p {
+    min-width: 25px;
+
+    margin: 0;
+
+    color: var(--texto-principal);
+
+    font-size: 1.1rem;
+    font-weight: 600;
+
+    text-align: center;
 }

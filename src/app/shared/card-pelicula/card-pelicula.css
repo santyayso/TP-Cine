@@ -1,12 +1,149 @@
-.card-pelicula img {
-  width: 100%;          
-  height: 300px;       
-  object-fit: cover;  
-  object-position: center; 
+.card-pelicula {
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    background-color: var(--fondo-card);
+
+    border: 1px solid var(--borde);
+    border-radius: 10px;
+
+    overflow: hidden;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        border-color 0.3s ease;
 }
 
-.card-pelicula img {
-  width: 200px;
-  height: 300px;
-  object-fit: cover;
+
+.card-pelicula:hover {
+    transform: translateY(-6px);
+
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4);
+
+    border-color: var(--rojo);
+}
+
+
+
+
+.contenedor-portada {
+    width: 100%;
+    height: 300px;
+
+    overflow: hidden;
+
+    background-color: #181818;
+}
+
+
+.contenedor-portada img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    transition: transform 0.35s ease;
+}
+
+
+.card-pelicula:hover .contenedor-portada img {
+    transform: scale(1.04);
+}
+
+
+
+
+.contenido-card {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 1rem;
+}
+
+
+.contenido-card h2 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+
+    color: var(--texto-principal);
+
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+
+
+
+.duracion {
+    margin: 0 0 0.8rem;
+
+    color: var(--texto-secundario);
+
+    font-size: 0.9rem;
+}
+
+
+
+
+.preventa {
+    align-self: flex-start;
+
+    margin: 0 0 1rem;
+
+    padding: 0.25rem 0.6rem;
+
+    background-color: rgba(230, 57, 70, 0.12);
+
+    color: var(--rojo);
+
+    border-radius: 12px;
+
+    font-size: 0.75rem;
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.03em;
+}
+
+
+
+
+.boton-detalle {
+    margin-top: auto;
+
+    padding: 0.55rem 0.8rem;
+
+    background-color: transparent;
+
+    color: var(--texto-principal);
+
+    border: 1px solid var(--rojo);
+    border-radius: 6px;
+
+    text-align: center;
+
+    font-size: 0.95rem;
+    font-weight: 600;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.15s ease;
+}
+
+
+.boton-detalle:hover {
+    background-color: var(--rojo);
+
+    color: white;
+
+    transform: translateY(-2px);
 }

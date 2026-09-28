@@ -1,53 +1,89 @@
 import { Injectable } from '@angular/core';
-import { ProductoCandy } from '../models/productoCandyInterface';
+import { ProductoCandy, CategoriaCandy } from '../models/productoCandyInterface';
 import { Supabase } from './supabase';
 import { inject } from '@angular/core';
 import { signal } from '@angular/core';
 
+export const CATEGORIAS_CANDY: CategoriaCandy[] = ['Pochoclos', 'Bebidas', 'Golosinas', 'Snacks'];
+
+
 @Injectable({
-    providedIn: 'root',
+  providedIn: 'root',
 })
 export class CandyService {
 
-    private supabaseService = inject(Supabase);
+  private supabaseService = inject(Supabase);
 
 
-    async obtenerProductosCandy(): Promise<ProductoCandy[]> {
-        const { data, error } = await this.supabaseService.cliente
-            .from('productos_candy')
-            .select('*')
-            .eq('activo', true);
+  async obtenerProductosCandy(): Promise<ProductoCandy[]> {
+    const { data, error } = await this.supabaseService.cliente
+      .from('productos_candy')
+      .select('*')
+      .eq('activo', true);
 
-        if (error) {
-            console.error('Error al traer productos de candy:', error);
-            return [];
-        }
-
-        return data ?? [];
+    if (error) {
+      console.error('Error al traer productos de candy:', error);
+      return [];
     }
 
+    return data ?? [];
+  }
 
-    async obtenerCategoriasUnicas(): Promise<string[]> {
-        const { data, error } = await this.supabaseService.cliente
-            .from('productos_candy')
-            .select('categoria');
 
-        if (error) {
-            console.error('Error:', error);
-            return [];
-        }
 
-        const categorias = data.map((producto: any) => producto.categoria);
 
-        const categoriasUnicas = categorias.reduce((categoriasAcumuladas: string[], categoriaActual: string) => {
-            if (!categoriasAcumuladas.includes(categoriaActual)) {
-                categoriasAcumuladas.push(categoriaActual);
-            }
-            return categoriasAcumuladas;
-        }, []);
+  async obtenerProductosAdmin(): Promise<ProductoCandy[]> {
+    const { data, error } = await this.supabaseService.cliente
+      .from('productos_candy')
+      .select('*')
+      .order('id_producto_candy');
 
-        return categoriasUnicas;
+    if (error) {
+      console.error('Error al traer productos (admin):', error);
+      return [];
     }
+    return data ?? [];
+  }
+
+
+  async crearProducto(datos: Omit<ProductoCandy, 'id_producto_candy' | 'activo'>): Promise<boolean> {
+    const { error } = await this.supabaseService.cliente
+      .from('productos_candy')
+      .insert({ ...datos, activo: true });
+
+    if (error) {
+      console.error('Error al crear producto:', error);
+      return false;
+    }
+    return true;
+  }
+
+  async modificarProducto(idProducto: number, datos: Omit<ProductoCandy, 'id_producto_candy' | 'activo'>): Promise<boolean> {
+    const { error } = await this.supabaseService.cliente
+      .from('productos_candy')
+      .update(datos)
+      .eq('id_producto_candy', idProducto);
+
+    if (error) {
+      console.error('Error al modificar producto:', error);
+      return false;
+    }
+    return true;
+  }
+
+  async cambiarEstadoProducto(idProducto: number, activo: boolean): Promise<boolean> {
+    const { error } = await this.supabaseService.cliente
+      .from('productos_candy')
+      .update({ activo })
+      .eq('id_producto_candy', idProducto);
+
+    if (error) {
+      console.error('Error al cambiar estado:', error);
+      return false;
+    }
+    return true;
+  }
+
 
 }
 

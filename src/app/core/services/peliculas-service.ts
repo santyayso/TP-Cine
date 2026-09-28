@@ -60,11 +60,92 @@ export class PeliculasService {
     }
 
 
+    async obtenerPeliculasAdmin(): Promise<Pelicula[]> {
+        const { data, error } = await this.supabaseService.cliente
+            .from('peliculas')
+            .select('*, funciones(*), pelicula_generos(generos(*))')
+            .order('id_pelicula');
 
+        if (error) {
+            console.error('Error al traer películas (admin):', error);
+            return [];
+        }
+        return data ?? [];
+    }
+
+    async crearPelicula(datos: Omit<Pelicula, 'id_pelicula' | 'activo' | 'funciones' | 'pelicula_generos'>, idsGeneros: number[]): Promise<boolean> {
+        const { data, error } = await this.supabaseService.cliente
+            .from('peliculas')
+            .insert({ ...datos, activo: true })
+            .select()
+            .single();
+
+        if (error) {
+            console.error('Error al crear película:', error);
+            return false;
+        }
+
+        return await this.guardarGeneros(data.id_pelicula, idsGeneros);
+    }
+
+    async modificarPelicula(idPelicula: number, datos: Omit<Pelicula, 'id_pelicula' | 'activo' | 'funciones' | 'pelicula_generos'>, idsGeneros: number[]): Promise<boolean> {
+        const { error } = await this.supabaseService.cliente
+            .from('peliculas')
+            .update(datos)
+            .eq('id_pelicula', idPelicula);
+
+        if (error) {
+            console.error('Error al modificar película:', error);
+            return false;
+        }
+
+        return await this.guardarGeneros(idPelicula, idsGeneros);
+    }
+
+    async cambiarEstadoPelicula(idPelicula: number, activo: boolean): Promise<boolean> {
+        const { error } = await this.supabaseService.cliente
+            .from('peliculas')
+            .update({ activo })
+            .eq('id_pelicula', idPelicula);
+
+        if (error) {
+            console.error('Error al cambiar estado:', error);
+            return false;
+        }
+        return true;
+    }
+
+   
+    private async guardarGeneros(idPelicula: number, idsGeneros: number[]): Promise<boolean> {
+        const { error: errorBorrado } = await this.supabaseService.cliente
+            .from('pelicula_generos')
+            .delete()
+            .eq('id_pelicula', idPelicula);
+
+        if (errorBorrado) {
+            console.error('Error al limpiar géneros:', errorBorrado);
+            return false;
+        }
+
+        const filas = idsGeneros.map((idGenero) => ({
+            id_pelicula: idPelicula,
+            id_genero: idGenero,
+        }));
+
+        const { error } = await this.supabaseService.cliente
+            .from('pelicula_generos')
+            .insert(filas);
+
+        if (error) {
+            console.error('Error al guardar géneros:', error);
+            return false;
+        }
+        return true;
+    }
 
     // IGNORA  LAS HORAS, por eso el menor o IGUAL en  el return. Porque si no, si ahora son las 12 hs y tengo una funcion para las  18hs, va  a dar  false
     // Verifica si las funciones ya pasaron o  si no pasaron pero son hoy (para mandarlas al catalogo general)
-    private esHoyOEsPasada(fechaHoraFuncion: string): boolean {
+    public esHoyOEsPasada(fechaHoraFuncion: string): boolean {
         const fecha = new Date(fechaHoraFuncion);
         fecha.setHours(0, 0, 0, 0);
 

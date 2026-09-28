@@ -1,110 +1,241 @@
 <div class="auth-container">
-  <div class="auth-card">
-    <h2>Crear Cuenta</h2>
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
 
-      <div class="form-group">
-        <label for="nombre">Nombre</label>
-        <input id="nombre" type="text" formControlName="nombre" placeholder="Tu nombre">
-      </div>
+    <div class="auth-card">
 
-      <div class="form-group">
-        <label for="apellido">Apellido</label>
-        <input id="apellido" type="text" formControlName="apellido" placeholder="Tu apellido">
-      </div>
+        <div class="auth-encabezado">
 
-      <div class="form-group">
-        <label for="email">Correo electrónico</label>
-        <input id="email" type="email" formControlName="email" placeholder="tu@email.com">
-      </div>
+            <h2>Crear Cuenta</h2>
 
-      <div class="form-group">
-        <label for="password">Contraseña (Mínimo 6 caracteres)</label>
-        <input id="password" type="password" formControlName="password" placeholder="******">
-      </div>
+            <p>Completá tus datos para registrarte.</p>
 
-      <div class="form-group">
-        <label for="fechaDeNacimiento">Fecha de nacimiento (DD/MM/AAAA)</label>
-        <input id="fechaDeNacimiento" type="text" formControlName="fechaDeNacimiento" placeholder="15/03/1990">
-        @if (formularioControles.fechaDeNacimiento.touched && formularioControles.fechaDeNacimiento.invalid) {
-        <div>
-          @if (formularioControles.fechaDeNacimiento.hasError('required')) {
-          <small>La fecha de nacimiento es obligatoria</small>
-          }
-          @if (formularioControles.fechaDeNacimiento.hasError('pattern')) {
-          <small>Formato inválido. Usá DD/MM/AAAA</small>
-          }
         </div>
-        }
-      </div>
 
-      <div class="form-group">
-        <label for="tipoDeSangre">Tipo de sangre *</label>
-        <select id="tipoDeSangre" formControlName="tipoDeSangre">
-          <option value="">Seleccioná</option>
-          @for (tipo of tipoDeSangre; track tipo) {
-          <option [value]="tipo">{{ tipo }}</option>
-          }
-        </select>
-        @if (formularioControles.tipoDeSangre.touched && formularioControles.tipoDeSangre.invalid) {
-        <div>
-          @if (formularioControles.tipoDeSangre.hasError('required')) {
-          <small>Seleccioná un tipo de sangre</small>
-          }
-        </div>
-        }
-      </div>
 
-      <div class="form-group">
-        <label for="colorDeOjos">Color de ojos *</label>
-        <select id="colorDeOjos" formControlName="colorDeOjos">
-          <option value="">Seleccioná</option>
-          @for (color of colorDeOjos; track color) {
-          <option [value]="color">{{ color }}</option>
-          }
-        </select>
-        @if (formularioControles.colorDeOjos.touched && formularioControles.colorDeOjos.invalid) {
-        <div>
-          @if (formularioControles.colorDeOjos.hasError('required')) {
-          <small>Seleccioná un color de ojos</small>
-          }
-        </div>
-        }
-      </div>
+        <form
+            class="auth-form"
+            [formGroup]="registerForm"
+            (ngSubmit)="onSubmit()">
 
-      <div class="form-group">
-        <label for="cantidadDiasVacaciones">Días de vacaciones por año *</label>
-        <input type="number" id="cantidadDiasVacaciones" formControlName="cantidadDiasVacaciones">
-        @if (formularioControles.cantidadDiasVacaciones.touched && formularioControles.cantidadDiasVacaciones.invalid) {
-        <div>
-          @if (formularioControles.cantidadDiasVacaciones.hasError('required')) {
-          <small>Este campo es obligatorio</small>
-          }
-          @if (formularioControles.cantidadDiasVacaciones.hasError('min')) {
-          <small>La cantidad de vacaciones no puede ser negativa</small>
-          }
-          @if (formularioControles.cantidadDiasVacaciones.hasError('max')) {
-          <small>Máximo 50 días</small>
-          }
-        </div>
-        }
-      </div>
 
-      @if (successMessage()) {
-      <div class="success-msg">{{ successMessage() }}</div>
-      }
+            <div class="form-group">
 
-      @if (errorMessage()) {
-      <div class="error-msg">{{ errorMessage() }}</div>
-      }
+                <label for="nombre">Nombre</label>
 
-      <button type="submit" [disabled]="registerForm.invalid || isLoading()">
-        {{ isLoading() ? 'Registrando...' : 'Registrarse' }}
-      </button>
-    </form>
+                <input
+                    id="nombre"
+                    type="text"
+                    formControlName="nombre"
+                    placeholder="Tu nombre">
 
-    <p class="auth-link">
-      ¿Ya tienes cuenta? <a routerLink="/login">Inicia sesión aquí</a>
-    </p>
-  </div>
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="apellido">Apellido</label>
+
+                <input
+                    id="apellido"
+                    type="text"
+                    formControlName="apellido"
+                    placeholder="Tu apellido">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="email">Correo electrónico</label>
+
+                <input
+                    id="email"
+                    type="email"
+                    formControlName="email"
+                    placeholder="tu@email.com">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="password">Contraseña (Mínimo 6 caracteres)</label>
+
+                <input
+                    id="password"
+                    type="password"
+                    formControlName="password"
+                    placeholder="******">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="fechaDeNacimiento">
+                    Fecha de nacimiento (DD/MM/AAAA)
+                </label>
+
+                <input
+                    id="fechaDeNacimiento"
+                    type="text"
+                    formControlName="fechaDeNacimiento"
+                    placeholder="15/03/1990">
+
+                @if (formularioControles.fechaDeNacimiento.touched && formularioControles.fechaDeNacimiento.invalid) {
+
+                <div class="mensaje-error">
+
+                    @if (formularioControles.fechaDeNacimiento.hasError('required')) {
+                    <small>La fecha de nacimiento es obligatoria</small>
+                    }
+
+                    @if (formularioControles.fechaDeNacimiento.hasError('pattern')) {
+                    <small>Formato inválido. Usá DD/MM/AAAA</small>
+                    }
+
+                </div>
+
+                }
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="tipoDeSangre">Tipo de sangre *</label>
+
+                <select
+                    id="tipoDeSangre"
+                    formControlName="tipoDeSangre">
+
+                    <option value="">Seleccioná</option>
+
+                    @for (tipo of tipoDeSangre; track tipo) {
+                    <option [value]="tipo">{{ tipo }}</option>
+                    }
+
+                </select>
+
+                @if (formularioControles.tipoDeSangre.touched && formularioControles.tipoDeSangre.invalid) {
+
+                <div class="mensaje-error">
+
+                    @if (formularioControles.tipoDeSangre.hasError('required')) {
+                    <small>Seleccioná un tipo de sangre</small>
+                    }
+
+                </div>
+
+                }
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="colorDeOjos">Color de ojos *</label>
+
+                <select
+                    id="colorDeOjos"
+                    formControlName="colorDeOjos">
+
+                    <option value="">Seleccioná</option>
+
+                    @for (color of colorDeOjos; track color) {
+                    <option [value]="color">{{ color }}</option>
+                    }
+
+                </select>
+
+                @if (formularioControles.colorDeOjos.touched && formularioControles.colorDeOjos.invalid) {
+
+                <div class="mensaje-error">
+
+                    @if (formularioControles.colorDeOjos.hasError('required')) {
+                    <small>Seleccioná un color de ojos</small>
+                    }
+
+                </div>
+
+                }
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="cantidadDiasVacaciones">
+                    Días de vacaciones por año *
+                </label>
+
+                <input
+                    type="number"
+                    id="cantidadDiasVacaciones"
+                    formControlName="cantidadDiasVacaciones">
+
+                @if (formularioControles.cantidadDiasVacaciones.touched && formularioControles.cantidadDiasVacaciones.invalid) {
+
+                <div class="mensaje-error">
+
+                    @if (formularioControles.cantidadDiasVacaciones.hasError('required')) {
+                    <small>Este campo es obligatorio</small>
+                    }
+
+                    @if (formularioControles.cantidadDiasVacaciones.hasError('min')) {
+                    <small>La cantidad de vacaciones no puede ser negativa</small>
+                    }
+
+                    @if (formularioControles.cantidadDiasVacaciones.hasError('max')) {
+                    <small>Máximo 50 días</small>
+                    }
+
+                </div>
+
+                }
+
+            </div>
+
+
+            @if (successMessage()) {
+
+            <div class="success-msg">
+                {{ successMessage() }}
+            </div>
+
+            }
+
+
+            @if (errorMessage()) {
+
+            <div class="error-msg">
+                {{ errorMessage() }}
+            </div>
+
+            }
+
+
+            <button
+                class="boton-registro"
+                type="submit"
+                [disabled]="registerForm.invalid || isLoading()">
+
+                {{ isLoading() ? 'Registrando...' : 'Registrarse' }}
+
+            </button>
+
+        </form>
+
+
+        <p class="auth-link">
+
+            ¿Ya tienes cuenta?
+
+            <a routerLink="/login">
+                Inicia sesión aquí
+            </a>
+
+        </p>
+
+    </div>
+
 </div>

@@ -1,33 +1,79 @@
+<main class="pagina-principal">
 
-<section>
-    <h1>Proximamente</h1>
-    @for (pelicula of listaPeliculasProximamente(); track pelicula.id_pelicula) {
-    <app-card-pelicula [pelicula]="pelicula" [leyendaPreventa]="true"></app-card-pelicula>
-    }
-</section>
+    <section class="seccion-peliculas">
 
-<!-- <section>
-    <h1>Lo mas vendido</h1>
-    @for (pelicula of listaPeliculasMasVendidas(); track pelicula.id_pelicula) {
-    <app-card-pelicula [pelicula]="pelicula"></app-card-pelicula>
-}
-</section> -->
+        <div class="contenedor-peliculas contenedor-proximamente">
 
-<section>
-    <h1>Catalogo General</h1>
-    <input type="text" placeholder="Buscar pelicula..." [value]="terminosBusqueda()"
-        (input)="terminosBusqueda.set($any($event.target).value)">
+            <h1>Proximamente</h1>
 
-    @for (genero of listaGeneros(); track genero.id_genero){
-    <label>
-        <input type="checkbox" (change)="alternarGenero(genero.id_genero)"> {{ genero.nombre_genero}}
-    </label>
+            <div class="contenedor-cards proximamente-cards">
 
-    }
+                @for (pelicula of listaPeliculasProximamente(); track pelicula.id_pelicula) {
+                <app-card-pelicula [pelicula]="pelicula" [leyendaPreventa]="true">
+                </app-card-pelicula>
+                }
 
-    @for (pelicula of listaPeliculasCatalogoGeneral(); track pelicula.id_pelicula) {
-    <app-card-pelicula [pelicula]="pelicula"></app-card-pelicula>
+            </div>
 
-    }
+        </div>
 
-</section>
+    </section>
+
+    <!--
+    <section>
+        <h1>Lo mas vendido</h1>
+        @for (pelicula of listaPeliculasMasVendidas(); track pelicula.id_pelicula) {
+        <app-card-pelicula [pelicula]="pelicula"></app-card-pelicula>
+        }
+    </section>
+    -->
+
+
+    <section class="seccion-peliculas">
+
+        <div class="contenedor-peliculas">
+
+            <h1>Catalogo General</h1>
+
+
+            <div class="contenedor-filtros">
+
+                <input class="buscador" type="text" placeholder="Buscar pelicula..." [value]="terminosBusqueda()"
+                    (input)="terminosBusqueda.set($any($event.target).value)">
+
+
+                <div class="filtros-generos">
+
+                    @for (genero of listaGeneros(); track genero.id_genero){
+
+                    <label class="filtro-genero">
+
+                        <input type="checkbox" (change)="alternarGenero(genero.id_genero)">
+
+                        {{ genero.nombre_genero}}
+
+                    </label>
+
+                    }
+
+                </div>
+
+            </div>
+
+
+            <div class="contenedor-cards">
+
+                @for (pelicula of listaPeliculasCatalogoGeneral(); track pelicula.id_pelicula) {
+
+                <app-card-pelicula [pelicula]="pelicula">
+                </app-card-pelicula>
+
+                }
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>

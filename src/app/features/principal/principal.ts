@@ -25,6 +25,7 @@ export class Principal implements OnInit {
     // const peliculasProcesadas = data.map((pelicula: Pelicula) => this.peliculasService.filtrarFunciones(pelicula));
     this.listaPeliculas.set(data);
 
+
     const generos = await this.peliculasService.obtenerTodosLosGeneros();
     this.listaGeneros.set(generos)
   }
@@ -44,29 +45,31 @@ export class Principal implements OnInit {
 
   listaPeliculasProximamente = computed(() =>
     this.listaPeliculas()
-    .filter((pelicula) => this.peliculasService.perteneceAProximamente(pelicula))
-    .map((pelicula) => this.peliculasService.filtrarFunciones(pelicula))
+      .filter((pelicula) => this.peliculasService.perteneceAProximamente(pelicula))
+      .map((pelicula) => this.peliculasService.filtrarFunciones(pelicula))
   );
 
 
   listaPeliculasCatalogoGeneral = computed(() => {
     let peliculas = this.listaPeliculas()
-    .filter((pelicula) => this.peliculasService.perteneceACatalogoGeneral(pelicula))
-    .map((pelicula) => this.peliculasService.filtrarFunciones(pelicula))
+      .filter((pelicula) => this.peliculasService.perteneceACatalogoGeneral(pelicula))
+      .map((pelicula) => this.peliculasService.filtrarFunciones(pelicula))
 
-
-    if (!(this.terminosBusqueda() == "")) {
+    if (!(this.terminosBusqueda().trim() == "")) {
       const arrayPalabras = this.terminosBusqueda()
-        .toLocaleLowerCase()
-        .split(" ");
+        .trim()
+        .toLowerCase()
+        .split(" ")
+        .filter((palabra) => palabra != "") //  por si escribe 2 espacios
 
       peliculas = peliculas.filter((pelicula) => {
-        return arrayPalabras.some((palabra) =>
-          pelicula.titulo.toLocaleLowerCase().includes(palabra)
+        const palabrasTitulo = pelicula.titulo.toLowerCase().split(" ")
+
+        return arrayPalabras.some((palabraBuscada) =>
+          palabrasTitulo.some((palabraTitulo) => palabraTitulo.startsWith(palabraBuscada))
         )
       })
     }
-
 
     if (!(this.idGenerosSeleccionados().length == 0)) {
       peliculas = peliculas.filter((pelicula) =>

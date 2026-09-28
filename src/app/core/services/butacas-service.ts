@@ -3,9 +3,9 @@ import { ButacaGenerada } from "../models/butacaGeneradaInterface";
 import { TipoButaca } from "../models/butacaGeneradaInterface";
 
 const FILAS_COMUNES_1 = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'];
-const FILAS_COMUNES_2 = ['K', 'L', 'M', 'N', 'Ñ', 'O'];
-const FILA_DISCAPACITADOS = 'J';
-const FILAS_VIP = ['P', 'Q', 'R'];
+const FILAS_COMUNES_2 = ['L', 'M', 'N', 'Ñ', 'O', 'P'];
+const FILA_DISCAPACITADOS = ['J', 'K']
+const FILAS_VIP = ['Q', 'R', 'S'];
 
 @Injectable({
     providedIn: 'root',
@@ -19,7 +19,10 @@ export class ButacasService {
             matrizButacas.push(this.generarBloquesPorFila(fila, [4, 20, 4], 'comun'));
         }
 
-        matrizButacas.push(this.generarBloquesPorFila(FILA_DISCAPACITADOS, [2, 10, 2], 'discapacitado'));
+        for (const fila  of FILA_DISCAPACITADOS){
+            matrizButacas.push(this.generarBloquesPorFila(fila, [2, 10, 2], 'discapacitado'));
+        }
+        
 
         for (const fila of FILAS_COMUNES_2) {
             matrizButacas.push(this.generarBloquesPorFila(fila, [4, 20, 4], 'comun'));

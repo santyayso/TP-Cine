@@ -1,0 +1,169 @@
+
+
+.seccion-confirmacion {
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+
+    margin: 4rem 0;
+}
+
+
+
+.confirmacion {
+    width: 90%;
+    max-width: 550px;
+
+    padding: 3rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    background-color: var(--fondo-contenedor);
+
+    border: 1px solid var(--borde);
+    border-radius: 15px;
+
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+
+    text-align: center;
+}
+
+
+
+
+.icono-confirmacion {
+    width: 60px;
+    height: 60px;
+
+    margin-bottom: 1.5rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 2px solid var(--rojo);
+    border-radius: 50%;
+
+    color: var(--rojo);
+
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+
+
+
+.confirmacion h1 {
+    margin: 0 0 0.8rem;
+
+    color: var(--texto-principal);
+
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+
+.mensaje-confirmacion {
+    margin: 0 0 0.5rem;
+
+    color: var(--texto-principal);
+
+    font-size: 1.05rem;
+}
+
+
+.mensaje-secundario {
+    margin: 0;
+
+    color: var(--texto-secundario);
+
+    font-size: 0.95rem;
+}
+
+
+
+
+.acciones-confirmacion {
+    width: 100%;
+
+    margin-top: 2rem;
+
+    display: flex;
+
+    gap: 1rem;
+}
+
+
+.acciones-confirmacion button {
+    flex: 1;
+
+    padding: 0.8rem 1rem;
+
+    border-radius: 7px;
+
+    font-size: 1rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.15s ease;
+}
+
+
+
+.boton-pdf {
+    background-color: var(--rojo);
+
+    color: white;
+
+    border: 1px solid var(--rojo);
+}
+
+
+.boton-pdf:hover {
+    background-color: var(--rojo-hover);
+
+    transform: translateY(-2px);
+}
+
+
+
+.boton-inicio {
+    background-color: transparent;
+
+    color: var(--texto-principal);
+
+    border: 1px solid var(--borde);
+}
+
+
+.boton-inicio:hover {
+    border-color: var(--rojo);
+
+    color: var(--rojo);
+
+    background-color: rgba(230, 57, 70, 0.08);
+
+    transform: translateY(-2px);
+}
+
+
+
+@media (max-width: 600px) {
+
+    .confirmacion {
+        padding: 2rem 1.5rem;
+    }
+
+
+    .acciones-confirmacion {
+        flex-direction: column;
+    }
+
+}

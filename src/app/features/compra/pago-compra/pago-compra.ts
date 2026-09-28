@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CuponUsuario } from '../../../core/models/cuponUsuarioInterface';
 import { CuponesService } from '../../../core/services/cupones-service';
 import { Cupon } from '../../../core/models/cuponInterface';
+import { Router } from '@angular/router';
 
 @Component({
   imports: [CurrencyPipe, DatePipe, ReactiveFormsModule],
@@ -18,7 +19,8 @@ export class PagoCompra implements OnInit {
   public compraService = inject(CompraService)
   public authService = inject(AuthService)
   private cuponesService = inject(CuponesService)
-  
+  private router = inject(Router)
+
   totalButacas = signal<number>(0)
   totalCandy = signal<number>(0)
   creditoIngresado = signal<number>(0)
@@ -54,7 +56,7 @@ export class PagoCompra implements OnInit {
     const numero = Number(valorTexto)
     this.creditoIngresado.set(numero)
   }
-  
+
   errorCredito = computed(() => {
     const valor = this.creditoIngresado();
 
@@ -73,7 +75,7 @@ export class PagoCompra implements OnInit {
 
   cuponUsuarioSeleccionado = signal<CuponUsuario | null>(null);
   cuponSeleccionado = signal<Cupon | null>(null);
-  
+
 
   totalConCupon = computed(() => {
     const cupon = this.cuponSeleccionado();
@@ -83,7 +85,7 @@ export class PagoCompra implements OnInit {
   });
 
   aplicarCupon(cupon: CuponUsuario | null) {
-    this.cuponUsuarioSeleccionado.set(cupon)  
+    this.cuponUsuarioSeleccionado.set(cupon)
     this.cuponSeleccionado.set(cupon?.cupones ?? null);
   }
 
@@ -99,14 +101,15 @@ export class PagoCompra implements OnInit {
 
 
     await this.compraService.generarCompra(
-    this.montoEfectivo(),
-    this.totalConCupon(),
-    this.creditoIngresado(),
-    this.cuponSeleccionado()?.id_cupon ?? null,
-    this.cuponUsuarioSeleccionado()?.id_cupon_usuario ?? null
-  )
+      this.montoEfectivo(),
+      this.totalConCupon(),
+      this.creditoIngresado(),
+      this.cuponSeleccionado()?.id_cupon ?? null,
+      this.cuponUsuarioSeleccionado()?.id_cupon_usuario ?? null
+    )
+    
+    this.router.navigate(['comprar/pdf'])
 
-   
   }
 
 

@@ -1,0 +1,267 @@
+<main class="pagina-gestion">
+
+    <h1>Gestión de películas</h1>
+
+    <section class="seccion-formulario-admin">
+
+        @if (peliculaEnEdicion()) {
+        <h2>Editar película</h2>
+        } @else {
+        <h2>Nueva película</h2>
+        }
+
+        <form class="formulario-pelicula" [formGroup]="formulario" (ngSubmit)="guardar()">
+
+            <div class="grupo-campo">
+                <label for="titulo">Título *</label>
+                <input id="titulo" type="text" formControlName="titulo">
+
+                @if (controles.titulo.touched && controles.titulo.invalid) {
+                <small>El título es obligatorio (2 a 100 caracteres)</small>
+                }
+            </div>
+
+            <div class="grupo-campo">
+                <label for="duracion">Duración (minutos) *</label>
+                <input id="duracion" type="number" formControlName="duracion">
+
+                @if (controles.duracion.touched && controles.duracion.invalid) {
+                <small>La duración debe estar entre 1 y 400 minutos</small>
+                }
+            </div>
+
+            <div class="grupo-campo campo-completo">
+                <label for="sinopsis">Sinopsis *</label>
+                <textarea id="sinopsis" formControlName="sinopsis"></textarea>
+
+                @if (controles.sinopsis.touched && controles.sinopsis.invalid) {
+                <small>La sinopsis es obligatoria (máximo 500 caracteres)</small>
+                }
+            </div>
+
+            <div class="grupo-campo campo-completo">
+                <label for="portada">URL de la portada *</label>
+                <input
+                    id="portada"
+                    type="text"
+                    formControlName="portada"
+                    placeholder="https://...">
+
+                @if (controles.portada.touched && controles.portada.invalid) {
+                <small>Ingresá una URL válida que empiece con http:// o https://</small>
+                }
+            </div>
+
+            <div class="grupo-campo">
+                <label for="restriccion_edad">Restricción de edad</label>
+
+                <select id="restriccion_edad" formControlName="restriccion_edad">
+                    <option value="">Sin restricción</option>
+                    <option value="13">+13</option>
+                    <option value="18">+18</option>
+                </select>
+            </div>
+
+            @if (puedeModificarEstreno()) {
+
+            <div class="grupo-checkbox estreno-checkbox">
+
+                <label>
+                    <input
+                        type="checkbox"
+                        formControlName="ya_estrenada_previamente">
+
+                    <span>Ya estrenada previamente (va directo al catálogo)</span>
+                </label>
+
+            </div>
+
+            }
+
+            <div class="seccion-generos">
+
+                <h3>Géneros *</h3>
+
+                <div class="lista-generos">
+
+                    @for (genero of generos(); track genero.id_genero) {
+
+                    <label class="opcion-genero">
+
+                        <input
+                            type="checkbox"
+                            [checked]="idsGenerosSeleccionados().includes(genero.id_genero)"
+                            (change)="alternarGenero(genero.id_genero)">
+
+                        <span>{{ genero.nombre_genero }}</span>
+
+                    </label>
+
+                    }
+
+                </div>
+
+            </div>
+
+            <div class="acciones-formulario">
+
+                <button class="boton-principal" type="submit">
+
+                    @if (peliculaEnEdicion()) {
+                    Guardar cambios
+                    } @else {
+                    Crear película
+                    }
+
+                </button>
+
+                <button
+                    class="boton-secundario"
+                    type="button"
+                    (click)="terminarEdicion()">
+
+                    @if (peliculaEnEdicion()) {
+                    Cancelar edición
+                    } @else {
+                    Limpiar formulario
+                    }
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </section>
+
+
+    <section class="seccion-productos">
+
+        <div class="encabezado-productos">
+
+            <h2>Películas cargadas</h2>
+
+            <input
+                class="buscador"
+                type="text"
+                placeholder="Buscar película..."
+                [value]="terminosBusqueda()"
+                (input)="terminosBusqueda.set($any($event.target).value)">
+
+        </div>
+
+
+        <div class="contenedor-tabla">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Portada</th>
+                        <th>Título</th>
+                        <th>Duración</th>
+                        <th>Edad</th>
+                        <th>Géneros</th>
+                        <th>Estado</th>
+                        <th>Estreno</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @for (pelicula of peliculasFiltradas(); track pelicula.id_pelicula) {
+
+                    <tr>
+
+                        <td>
+                            <img
+                                class="imagen-pelicula"
+                                [src]="pelicula.portada"
+                                [attr.alt]="pelicula.titulo">
+                        </td>
+
+                        <td>{{ pelicula.titulo }}</td>
+
+                        <td>{{ pelicula.duracion }} min</td>
+
+                        <td>
+                            @if (pelicula.restriccion_edad) {
+                            +{{ pelicula.restriccion_edad }}
+                            } @else {
+                            ATP
+                            }
+                        </td>
+
+                        <td class="generos-tabla">
+
+                            @for (relacion of pelicula.pelicula_generos; track relacion.generos.id_genero) {
+                            <span>{{ relacion.generos.nombre_genero }}</span>
+                            }
+
+                        </td>
+
+                        <td>
+
+                            <span
+                                class="estado"
+                                [class.estado-activo]="pelicula.activo"
+                                [class.estado-inactivo]="!pelicula.activo">
+
+                                {{ pelicula.activo ? 'Activa' : 'Inactiva' }}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            @if (estaEstrenada(pelicula)) {
+                            <span class="estreno estrenada">Ya estrenada</span>
+                            } @else {
+                            <span class="estreno proximamente">Próximamente</span>
+                            }
+
+                        </td>
+
+                        <td class="acciones-tabla">
+
+                            <button
+                                class="boton-editar"
+                                (click)="prepararEdicion(pelicula)">
+                                Editar
+                            </button>
+
+                            <button
+                                class="boton-estado"
+                                (click)="cambiarEstado(pelicula)">
+
+                                {{ pelicula.activo ? 'Dar de baja' : 'Reactivar' }}
+
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                    }
+
+                    @empty {
+
+                    <tr>
+                        <td colspan="8" class="sin-productos">
+                            No se encontraron películas.
+                        </td>
+                    </tr>
+
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</main>
