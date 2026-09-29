@@ -5,10 +5,10 @@ import { ProductoCandy } from '../../../core/models/productoCandyInterface';
 import { CurrencyPipe } from '@angular/common';
 import { CategoriaCandy } from '../../../core/models/productoCandyInterface';
 import { CATEGORIAS_CANDY } from '../../../core/services/candy-service';
-
+import { Header } from '../../../layout/header/header';
 
 @Component({
-  imports: [ReactiveFormsModule, CurrencyPipe],
+  imports: [ReactiveFormsModule, CurrencyPipe, Header],
   selector: 'app-admin-candy',
   styleUrl: './admin-candy.css',
   templateUrl: './admin-candy.html',

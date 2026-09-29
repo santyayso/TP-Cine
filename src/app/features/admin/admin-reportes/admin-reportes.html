@@ -1,0 +1,28 @@
+<app-header></app-header>
+<main class="pagina-reportes">
+
+    <div class="encabezado-reportes">
+        <h1>Reportes</h1>
+        <p>Resumen de la actividad y rendimiento del cine.</p>
+    </div>
+
+    <section class="seccion-metricas">
+
+        <article class="tarjeta-metrica">
+
+            <h2>Facturación de hoy</h2>
+
+            <p class="valor-metrica">
+                {{ facturacionDeHoy() | currency:'ARS' }}
+            </p>
+
+            <span class="descripcion-metrica">
+                Total facturado durante el día
+            </span>
+
+        </article>
+
+    </section>
+
+</main>
+

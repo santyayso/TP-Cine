@@ -4,9 +4,10 @@ import { CompraService } from '../../../core/services/compra-service';
 import { inject } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Header } from '../../../layout/header/header';
 
 @Component({
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, Header],
   selector: 'app-datos-compra',
   styleUrl: './datos-compra.css',
   templateUrl: './datos-compra.html',
@@ -70,7 +71,7 @@ export class DatosCompra {
 
     });
 
-    this.router.navigate(['/comprar/candy']);
+    this.router.navigate(['/comprar/butacas']);
 
   }
 

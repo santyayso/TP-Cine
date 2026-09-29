@@ -13,6 +13,7 @@ import { authAdminGuard } from './core/guards/auth-admin-guard';
 import { AdminCandy } from './features/admin/admin-candy/admin-candy';
 import { AdminRoles } from './features/admin/admin-roles/admin-roles';
 import { AdminCupones } from './features/admin/admin-cupones/admin-cupones';
+import { AdminReportes } from './features/admin/admin-reportes/admin-reportes';
 
 export const routes: Routes = [
     {
@@ -74,6 +75,11 @@ export const routes: Routes = [
     {
         path: 'admin/cupones',
         component: AdminCupones,
+        canActivate: [authAdminGuard]
+    },
+     {
+        path: 'admin/reportes',
+        component: AdminReportes,
         canActivate: [authAdminGuard]
     }
 

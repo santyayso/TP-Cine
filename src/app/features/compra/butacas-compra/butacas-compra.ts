@@ -5,9 +5,9 @@ import { ButacaGenerada } from '../../../core/models/butacaGeneradaInterface';
 import { CompraService } from '../../../core/services/compra-service';
 import { CurrencyPipe } from '@angular/common';
 import { Router } from '@angular/router';
-
+import { Header } from '../../../layout/header/header';
 @Component({
-  imports: [CurrencyPipe],
+  imports: [CurrencyPipe, Header],
   selector: 'app-butacas-compra',
   styleUrl: './butacas-compra.css',
   templateUrl: './butacas-compra.html',
@@ -57,14 +57,14 @@ export class ButacasCompra implements OnInit {
 
   }
 
-  navegarHaciaPago() {
+  navegarHaciaCandy() {
     if (this.butacasRestantesAseleccionar() > 0) {
       alert(`Usted no eligió la cantidad de butacas correspondientes a la cantidad de entradas que seleccionó (${this.compraService.cantidadEntradas()})`)
     }
     else {
       this.compraService.setearButacas(this.butacasSeleccionadas())
 
-      this.router.navigate(['comprar/pago'])
+      this.router.navigate(['comprar/candy'])
     }
 
 

@@ -2,16 +2,14 @@
 
 .auth-container {
     width: 100%;
+    min-height: 100vh;
 
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
 
-    margin: 4rem 0;
+    padding: 2rem;
 }
-
-
-
 
 .auth-card {
     width: 90%;
@@ -210,10 +208,7 @@
 
 @media (max-width: 600px) {
 
-    .auth-container {
-        margin-top: 2rem;
-    }
-
+ 
 
     .auth-card {
         width: 90%;
@@ -221,4 +216,32 @@
         padding: 1.5rem;
     }
 
+}
+
+.boton-anonimo {
+    width: 100%;
+    margin-top: 0.8rem;
+    padding: 0.8rem 1rem;
+
+    background-color: transparent;
+    color: var(--texto-secundario);
+
+    border: 1px solid var(--borde);
+    border-radius: 7px;
+
+    font-size: 0.95rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.2s ease,
+        color 0.2s ease,
+        background-color 0.2s ease;
+}
+
+.boton-anonimo:hover {
+    color: var(--texto-principal);
+    border-color: #666;
+    background-color: var(--fondo-card);
 }

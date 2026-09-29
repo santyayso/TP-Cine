@@ -5,9 +5,9 @@ import { Pelicula } from '../../core/models/peliculaInterface';
 import { Funcion } from '../../core/models/funcionInterface';
 import { CompraService } from '../../core/services/compra-service';
 import { Router } from '@angular/router';
-
+import { Header } from '../../layout/header/header';
 @Component({
-  imports: [DatePipe],
+  imports: [DatePipe, Header],
   selector: 'app-detalle-pelicula',
   styleUrl: './detalle-pelicula.css',
   templateUrl: './detalle-pelicula.html',

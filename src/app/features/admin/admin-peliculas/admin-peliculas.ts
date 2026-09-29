@@ -3,9 +3,9 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { PeliculasService } from '../../../core/services/peliculas-service';
 import { Pelicula } from '../../../core/models/peliculaInterface';
 import { Genero } from '../../../core/models/generoInterface';
-
+import { Header } from '../../../layout/header/header';
 @Component({
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, Header],
   selector: 'app-admin-peliculas',
   styleUrl: './admin-peliculas.css',
   templateUrl: './admin-peliculas.html',

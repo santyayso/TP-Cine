@@ -3,6 +3,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth';
 import { TipoSangre, ColorOjos } from '../../../core/models/usuariointerface';
+import { CuponesService } from '../../../core/services/cupones-service';
 
 @Component({
   selector: 'app-register',
@@ -15,7 +16,7 @@ export class RegisterComponent {
   tipoDeSangre: TipoSangre[] = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']
   colorDeOjos: ColorOjos[] = ['Marrón', 'Negro', 'Azul', 'Celeste', 'Verde', 'Otro']
 
-
+  private cuponesService = inject(CuponesService)
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
 
@@ -44,7 +45,7 @@ export class RegisterComponent {
 
   private convertirFechaParaSupabase(fechaDDMMAAAA: string): string {
     const [dia, mes, anio] = fechaDDMMAAAA.split('/');
-    return `${anio}-${mes}-${dia}`;  
+    return `${anio}-${mes}-${dia}`;
   }
 
 
@@ -78,11 +79,21 @@ export class RegisterComponent {
       } else if (data.user) {
         this.successMessage.set('¡Registro exitoso! Por favor verifica tu email o inicia sesión.');
         this.registerForm.reset();
+
+        if (data.user) {
+        await this.cuponesService.otorgarCuponesAlRegistrarse(data.user.id, this.convertirFechaParaSupabase(fechaDeNacimiento!));
+        }
+
       }
     } catch (error: any) {
       this.errorMessage.set(error.message || 'Error al registrarse');
     } finally {
       this.isLoading.set(false);
     }
+
+
+
   }
+
+
 }

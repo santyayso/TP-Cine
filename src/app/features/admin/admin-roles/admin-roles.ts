@@ -2,10 +2,10 @@ import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { UsuariosService, ROLES } from '../../../core/services/usuariosService';
 import { AuthService } from '../../../core/services/auth';
 import { Usuario, RolUsuario } from '../../../core/models/usuariointerface';
-
+import { Header } from '../../../layout/header/header';
 
 @Component({
-  imports: [],
+  imports: [Header],
   selector: 'app-admin-roles',
   styleUrl: './admin-roles.css',
   templateUrl: './admin-roles.html',

@@ -2,10 +2,11 @@ import { Component, inject, signal } from '@angular/core';
 import { jsPDF } from 'jspdf';
 import { CompraService } from '../../../core/services/compra-service';
 import { Router } from '@angular/router';
+import { Header } from '../../../layout/header/header';
 
 @Component({
   selector: 'app-pdf-compra',
-  imports: [],
+  imports: [Header],
   templateUrl: './pdf-compra.html',
   styleUrl: './pdf-compra.css',
 })

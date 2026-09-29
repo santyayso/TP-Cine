@@ -3,6 +3,5 @@ export interface Cupon {
   nombre: string;
   porcentaje: number;
   edad_minima: number | null;
-  automatico: boolean;
   activo: boolean;
 }

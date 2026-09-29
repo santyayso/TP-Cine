@@ -1,1 +1,181 @@
-<p>admin-cupones works!</p>
+<app-header></app-header>
+<main class="pagina-gestion">
+
+    <h1>Gestión de cupones</h1>
+
+    <section class="seccion-formulario-admin">
+
+        @if (cuponEnEdicion()) {
+        <h2>Editar cupón</h2>
+        } @else {
+        <h2>Nuevo cupón</h2>
+        }
+
+        <form class="formulario-cupon" [formGroup]="formulario" (ngSubmit)="guardar()">
+
+            <div class="grupo-campo">
+                <label for="nombre">Nombre *</label>
+                <input id="nombre" type="text" formControlName="nombre">
+
+                @if (controles.nombre.touched && controles.nombre.invalid) {
+                <small>El nombre es obligatorio (2 a 50 caracteres)</small>
+                }
+            </div>
+
+            <div class="grupo-campo">
+                <label for="porcentaje">Porcentaje de descuento *</label>
+                <input id="porcentaje" type="number" formControlName="porcentaje">
+
+                @if (controles.porcentaje.touched && controles.porcentaje.invalid) {
+                <small>El porcentaje debe estar entre 1 y 100</small>
+                }
+            </div>
+
+            <div class="grupo-campo">
+                <label for="edad_minima">Edad mínima (opcional)</label>
+                <input id="edad_minima" type="number" formControlName="edad_minima">
+
+                @if (controles.edad_minima.touched && controles.edad_minima.invalid) {
+                <small>La edad mínima debe estar entre 1 y 120</small>
+                }
+
+                @if (cuponEnEdicion()) {
+                <small class="mensaje-aclaracion">
+                    La edad mínima no se puede modificar. Para cambiarla, desactiva este cupón y crea uno nuevo.
+                </small>
+                }
+
+            </div>
+
+            <div class="acciones-formulario">
+
+                <button class="boton-principal" type="submit">
+
+                    @if (cuponEnEdicion()) {
+                    Guardar cambios
+                    } @else {
+                    Crear cupón
+                    }
+
+                </button>
+
+                <button
+                    class="boton-secundario"
+                    type="button"
+                    (click)="terminarEdicion()">
+
+                    @if (cuponEnEdicion()) {
+                    Cancelar edición
+                    } @else {
+                    Limpiar formulario
+                    }
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </section>
+
+
+    <section class="seccion-cupones">
+
+        <div class="encabezado-cupones">
+
+            <h2>Cupones cargados</h2>
+
+            <input
+                class="buscador"
+                type="text"
+                placeholder="Buscar cupón..."
+                [value]="terminosBusqueda()"
+                (input)="terminosBusqueda.set($any($event.target).value)">
+
+        </div>
+
+
+        <div class="contenedor-tabla">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Descuento</th>
+                        <th>Edad mínima</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @for (cupon of cuponesFiltrados(); track cupon.id_cupon) {
+
+                    <tr>
+
+                        <td>{{ cupon.nombre }}</td>
+
+                        <td>
+                            <span class="descuento-cupon">
+                                {{ cupon.porcentaje }}%
+                            </span>
+                        </td>
+
+                        <td>{{ cupon.edad_minima ?? '-' }}</td>
+
+                        <td>
+
+                            <span
+                                class="estado"
+                                [class.estado-activo]="cupon.activo"
+                                [class.estado-inactivo]="!cupon.activo">
+
+                                {{ cupon.activo ? 'Activo' : 'Inactivo' }}
+
+                            </span>
+
+                        </td>
+
+                        <td class="acciones-tabla">
+
+                            <button
+                                class="boton-editar"
+                                (click)="prepararEdicion(cupon)">
+                                Editar
+                            </button>
+
+                            <button
+                                class="boton-estado"
+                                (click)="cambiarEstado(cupon)">
+
+                                {{ cupon.activo ? 'Dar de baja' : 'Reactivar' }}
+
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                    }
+
+                    @empty {
+
+                    <tr>
+                        <td colspan="5" class="sin-cupones">
+                            No se encontraron cupones.
+                        </td>
+                    </tr>
+
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</main>

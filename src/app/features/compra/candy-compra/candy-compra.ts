@@ -7,9 +7,10 @@ import { CandyVendido } from '../../../core/models/candyVendidointerface';
 import { Router } from '@angular/router';
 import { CompraService } from '../../../core/services/compra-service';
 import { CATEGORIAS_CANDY } from '../../../core/services/candy-service';
+import { Header } from '../../../layout/header/header';
 
 @Component({
-  imports: [CardProductoCandy],
+  imports: [CardProductoCandy, Header],
   selector: 'app-candy-compra',
   styleUrl: './candy-compra.css',
   templateUrl: './candy-compra.html',
@@ -52,9 +53,9 @@ export class CandyCompra implements OnInit {
     });
   }
 
-  navegarHaciaButacas() {
+  navegarHaciaPago() {
     this.compraService.setearCandy(this.listaProductosCandyCarrito());
-    this.router.navigate(['/comprar/butacas'])
+    this.router.navigate(['/comprar/pago'])
 
   }
 

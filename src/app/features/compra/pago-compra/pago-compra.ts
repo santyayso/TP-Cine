@@ -8,9 +8,10 @@ import { CuponUsuario } from '../../../core/models/cuponUsuarioInterface';
 import { CuponesService } from '../../../core/services/cupones-service';
 import { Cupon } from '../../../core/models/cuponInterface';
 import { Router } from '@angular/router';
+import { Header } from '../../../layout/header/header';
 
 @Component({
-  imports: [CurrencyPipe, DatePipe, ReactiveFormsModule],
+  imports: [CurrencyPipe, DatePipe, ReactiveFormsModule, Header],
   selector: 'app-pago-compra',
   styleUrl: './pago-compra.css',
   templateUrl: './pago-compra.html',
