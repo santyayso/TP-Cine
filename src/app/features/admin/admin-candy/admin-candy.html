@@ -55,11 +55,22 @@
             </div>
 
             <div class="grupo-campo campo-imagen">
-                <label for="imagen">URL de la imagen *</label>
-                <input id="imagen" type="text" formControlName="imagen" placeholder="https://...">
+                <label for="imagen">Imagen *</label>
 
-                @if (controles.imagen.touched && controles.imagen.invalid) {
-                <small>Ingresá una URL válida que empiece con http:// o https://</small>
+                <input id="imagen" type="file" accept="image/*" (change)="seleccionarArchivo($event)">
+
+                @if (previewUrl()) {
+                <div class="preview">
+                    <h3>Vista previa</h3>
+
+                    <img [src]="previewUrl()" alt="Vista previa">
+
+                    @if (archivoImagen()) {
+                    <button class="boton-eliminar-imagen" type="button" (click)="eliminarFotoSeleccionada()">
+                        Eliminar imagen
+                    </button>
+                    }
+                </div>
                 }
             </div>
 
@@ -90,12 +101,8 @@
         <div class="encabezado-productos">
             <h2>Productos cargados</h2>
 
-            <input
-                class="buscador"
-                type="text"
-                placeholder="Buscar producto o categoría..."
-                [value]="terminosBusqueda()"
-                (input)="terminosBusqueda.set($any($event.target).value)">
+            <input class="buscador" type="text" placeholder="Buscar producto o categoría..."
+                [value]="terminosBusqueda()" (input)="terminosBusqueda.set($any($event.target).value)">
         </div>
 
         <div class="contenedor-tabla">
@@ -121,10 +128,7 @@
                     <tr>
 
                         <td>
-                            <img
-                                class="imagen-producto"
-                                [src]="producto.imagen"
-                                [attr.alt]="producto.nombre">
+                            <img class="imagen-producto" [src]="producto.imagen" [attr.alt]="producto.nombre">
                         </td>
 
                         <td>{{ producto.nombre }}</td>
@@ -142,15 +146,11 @@
 
                         <td class="acciones-tabla">
 
-                            <button
-                                class="boton-editar"
-                                (click)="prepararEdicion(producto)">
+                            <button class="boton-editar" (click)="prepararEdicion(producto)">
                                 Editar
                             </button>
 
-                            <button
-                                class="boton-estado"
-                                (click)="cambiarEstado(producto)">
+                            <button class="boton-estado" (click)="cambiarEstado(producto)">
                                 @if (producto.activo) {
                                 Dar de baja
                                 } @else {
@@ -183,3 +183,4 @@
     </section>
 
 </main>
+<app-footer></app-footer>

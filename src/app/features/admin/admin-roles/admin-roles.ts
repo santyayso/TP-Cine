@@ -3,9 +3,9 @@ import { UsuariosService, ROLES } from '../../../core/services/usuariosService';
 import { AuthService } from '../../../core/services/auth';
 import { Usuario, RolUsuario } from '../../../core/models/usuariointerface';
 import { Header } from '../../../layout/header/header';
-
+import { Footer } from '../../../layout/footer/footer';
 @Component({
-  imports: [Header],
+  imports: [Header, Footer],
   selector: 'app-admin-roles',
   styleUrl: './admin-roles.css',
   templateUrl: './admin-roles.html',

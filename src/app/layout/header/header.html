@@ -1,36 +1,53 @@
 <header class="navbar">
 
-  <nav class="navbar-enlaces">
+    <div class="navbar-contenido">
 
-    @if (authService.currentUser()) {
-    <button class="boton-cerrar-sesion" (click)="logout()">
-      Cerrar Sesión
-    </button>
-    } @else {
-    <a class="navbar-link" routerLink="/login" routerLinkActive="active">
-      Iniciar Sesión
-    </a>
-    }
-    <a *appRole="'admin'" class="navbar-link" routerLink="/admin/candy" routerLinkActive="active">
-      Admin Candy
-    </a>
+        <a class="navbar-logo" routerLink="/principal">
+            <img src="assets/img/logo.png" alt="Cine Santy">
+        </a>
 
-    <a *appRole="'admin'" class="navbar-link" routerLink="/admin/peliculas" routerLinkActive="active">
-      Admin Peliculas
-    </a>
+        <nav class="navbar-principal">
+            <a class="navbar-link" routerLink="/principal" routerLinkActive="active">
+                Cartelera
+            </a>
 
-    <a *appRole="'admin'" class="navbar-link" routerLink="/admin/roles" routerLinkActive="active">
-      Admin Roles
-    </a>
+            <a *appRole="'admin'" class="navbar-link" routerLink="/admin/candy" routerLinkActive="active">
+                Admin Candy
+            </a>
 
-    <a *appRole="'admin'" class="navbar-link" routerLink="/admin/cupones" routerLinkActive="active">
-      Admin Cupones
-    </a>
+            <a *appRole="'admin'" class="navbar-link" routerLink="/admin/peliculas" routerLinkActive="active">
+                Admin Peliculas
+            </a>
 
-    <a *appRole="'admin'" class="navbar-link" routerLink="/admin/reportes" routerLinkActive="active">
-      Admin Reportes
-    </a>
+            <a *appRole="'admin'" class="navbar-link" routerLink="/admin/roles" routerLinkActive="active">
+                Admin Roles
+            </a>
 
-  </nav>
+            <a *appRole="'admin'" class="navbar-link" routerLink="/admin/cupones" routerLinkActive="active">
+                Admin Cupones
+            </a>
+
+            <a *appRole="'admin'" class="navbar-link" routerLink="/admin/reportes" routerLinkActive="active">
+                Admin Reportes
+            </a>
+        </nav>
+
+        <nav class="navbar-usuario">
+            @if (authService.currentUser()) {
+                <a class="navbar-link" routerLink="/perfil" routerLinkActive="active">
+                    Mi perfil
+                </a>
+
+                <button class="boton-cerrar-sesion" (click)="logout()">
+                    Cerrar sesión
+                </button>
+            } @else {
+                <a class="navbar-link" routerLink="/login" routerLinkActive="active">
+                    Iniciar sesión
+                </a>
+            }
+        </nav>
+
+    </div>
 
 </header>

@@ -1,0 +1,66 @@
+.pagina-perfil {
+    width: 90%;
+    max-width: 1200px;
+    margin: 3rem auto 5rem;
+}
+
+.encabezado-perfil {
+    margin-bottom: 2rem;
+}
+
+.encabezado-perfil h1 {
+    margin: 0 0 0.4rem;
+    color: var(--texto-principal);
+    font-size: 2rem;
+}
+
+.encabezado-perfil p {
+    margin: 0;
+    color: var(--texto-secundario);
+    font-size: 0.95rem;
+}
+
+.pestanas-perfil {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2.5rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid var(--borde);
+}
+
+.pestanas-perfil a {
+    padding: 0.65rem 1rem;
+    color: var(--texto-secundario);
+    border-radius: 7px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition:
+        color 0.2s ease,
+        background-color 0.2s ease;
+}
+
+.pestanas-perfil a:hover {
+    color: var(--texto-principal);
+    background-color: var(--fondo-card);
+}
+
+.pestanas-perfil a.active {
+    color: white;
+    background-color: var(--rojo);
+}
+
+@media (max-width: 600px) {
+
+    .pagina-perfil {
+        width: 92%;
+        margin-top: 2rem;
+    }
+
+    .pestanas-perfil {
+        flex-direction: column;
+    }
+
+    .pestanas-perfil a {
+        width: 100%;
+    }
+}

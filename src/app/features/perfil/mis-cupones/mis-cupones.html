@@ -1,0 +1,58 @@
+<section class="pagina-cupones">
+
+    <div class="encabezado-cupones">
+        <h1>Mis cupones</h1>
+        <p>Cupones disponibles para usar en tus próximas compras.</p>
+    </div>
+
+    @if (cuponesDisponibles().length > 0) {
+
+    <div class="lista-cupones">
+
+        @for (cupon of cuponesDisponibles(); track cupon.id_cupon_usuario) {
+
+        <article class="tarjeta-cupon">
+
+            <div class="contenido-cupon">
+
+                <h3>{{ cupon.cupones.nombre }}</h3>
+
+                <p class="descuento-cupon">
+                    {{ cupon.cupones.porcentaje }}%
+                </p>
+
+                <span class="texto-descuento">
+                    de descuento
+                </span>
+
+                @if (cupon.cupones.edad_minima) {
+
+                <small class="restriccion-cupon">
+                    Requiere ser mayor de {{ cupon.cupones.edad_minima }} años
+                </small>
+
+                }
+
+            </div>
+
+        </article>
+
+        }
+
+    </div>
+
+    } @else {
+
+    <div class="sin-cupones">
+
+        <h2>No tenés cupones disponibles</h2>
+
+        <p>
+            Cuando tengas un cupón disponible, vas a poder consultarlo desde acá.
+        </p>
+
+    </div>
+
+    }
+
+</section>

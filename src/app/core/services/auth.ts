@@ -89,4 +89,27 @@ export class AuthService {
   async signOut() {
     return this.supabase.auth.signOut();
   }
+
+
+  async actualizarCreditos(idUsuario: string, nuevoSaldo: number) {
+    const { error } = await this.supabase
+      .from('usuarios')
+      .update({ creditos_disponibles: nuevoSaldo })
+      .eq('id', idUsuario);
+
+    if (error) {
+      console.error('Error al actualizar créditos:', error);
+      return;
+    }
+
+
+    this.currentUserData.update((actual) => {
+      if (actual) {
+        return { ...actual, creditos_disponibles: nuevoSaldo };
+      } else {
+        return actual;
+      }
+    });
+  }
+
 }

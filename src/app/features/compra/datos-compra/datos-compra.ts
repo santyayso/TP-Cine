@@ -5,9 +5,10 @@ import { inject } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Header } from '../../../layout/header/header';
+import { Footer } from '../../../layout/footer/footer';
 
 @Component({
-  imports: [ReactiveFormsModule, Header],
+  imports: [ReactiveFormsModule, Header, Footer],
   selector: 'app-datos-compra',
   styleUrl: './datos-compra.css',
   templateUrl: './datos-compra.html',

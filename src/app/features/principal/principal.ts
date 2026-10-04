@@ -5,9 +5,10 @@ import { Genero } from "../../core/models/generoInterface";
 import { Pelicula } from "../../core/models/peliculaInterface";
 import { peliculaGeneroRelacion } from "../../core/models/peliculaGeneroRelacion";
 import { Header } from "../../layout/header/header";
+import { Footer } from "../../layout/footer/footer";
 
 @Component({
-  imports: [CardPelicula, Header],
+  imports: [CardPelicula, Header, Footer],
   selector: 'app-principal',
   styleUrl: './principal.css',
   templateUrl: './principal.html',

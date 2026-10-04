@@ -155,6 +155,16 @@ export class CompraService {
             await this.cuponesServices.marcarCuponComoUsado(id_cupon_usuario);
         }
 
+
+        if (monto_credito > 0) {
+            const usuario = this.authService.currentUserData();
+            if (usuario) {
+                const nuevoSaldo = usuario.creditos_disponibles - monto_credito;
+                await this.authService.actualizarCreditos(usuario.id, nuevoSaldo);
+            }
+        }
+
+
     }
 }
 

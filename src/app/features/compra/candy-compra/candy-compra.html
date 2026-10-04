@@ -3,7 +3,8 @@
 
     <section class="seccion-candy">
 
-        <h1 class="titulo-candy">Nuestros productos de la seccion Candy</h1>
+        <h1 class="titulo-candy">¿Querés agregar algo?</h1>
+        <p>Elegí tus productos favoritos para disfrutar durante la función.</p>
 
         @for (categoria of categoriasConProductosCargados(); track categoria){
 
@@ -15,9 +16,7 @@
 
                 @for (producto of obtenerProductosDeCategoriaEspecifica(categoria); track producto.id_producto_candy) {
 
-                <app-card-producto-candy
-                    (outputModificarCarrito)="modificarCarrito($event)"
-                    [productoCandy]="producto">
+                <app-card-producto-candy (outputModificarCarrito)="modificarCarrito($event)" [productoCandy]="producto">
                 </app-card-producto-candy>
 
                 }
@@ -31,9 +30,7 @@
 
         <div class="contenedor-siguiente">
 
-            <button
-                class="boton-siguiente"
-                (click)="navegarHaciaPago()">
+            <button class="boton-siguiente" (click)="navegarHaciaPago()">
                 Siguiente
             </button>
 
@@ -42,3 +39,4 @@
     </section>
 
 </main>
+<app-footer></app-footer>

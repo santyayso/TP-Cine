@@ -1,30 +1,51 @@
-import { Component, OnInit, inject, signal, computed } from '@angular/core';
+import { Component, OnInit, inject, signal, computed, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PeliculasService } from '../../../core/services/peliculas-service';
 import { Pelicula } from '../../../core/models/peliculaInterface';
 import { Genero } from '../../../core/models/generoInterface';
 import { Header } from '../../../layout/header/header';
+import { Footer } from '../../../layout/footer/footer';
+
 @Component({
-  imports: [ReactiveFormsModule, Header],
+  imports: [ReactiveFormsModule, Header, Footer],
   selector: 'app-admin-peliculas',
   styleUrl: './admin-peliculas.css',
   templateUrl: './admin-peliculas.html',
 })
-export class AdminPeliculas implements OnInit {
-  private peliculasService = inject(PeliculasService);
+export class AdminPeliculas implements OnInit, OnDestroy {
+  private peliculasService = inject(PeliculasService)
 
-  peliculas = signal<Pelicula[]>([]);
-  generos = signal<Genero[]>([]);
-  idsGenerosSeleccionados = signal<number[]>([]);
+  peliculas = signal<Pelicula[]>([])
+  generos = signal<Genero[]>([])
+  idsGenerosSeleccionados = signal<number[]>([])
+  archivoPortada = signal<File | null>(null)
+  previewUrl = signal<string | null>(null);
 
   formulario = new FormGroup({
     titulo: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]),
     sinopsis: new FormControl('', [Validators.required, Validators.maxLength(500)]),
-    portada: new FormControl('', [Validators.required, Validators.pattern(/^https?:\/\/.+/)]),
     duracion: new FormControl<number | null>(null, [Validators.required, Validators.min(1), Validators.max(400)]),
     restriccion_edad: new FormControl('', { nonNullable: true }),
     ya_estrenada_previamente: new FormControl(false, { nonNullable: true }),
   });
+
+  seleccionarArchivo(evento: Event) {
+    const input = evento.target as HTMLInputElement;
+
+    if (!input.files || input.files.length === 0) {
+      return;
+    }
+
+    const archivo = input.files[0];
+    this.archivoPortada.set(archivo);
+
+    const previewAnterior = this.previewUrl();
+    if (previewAnterior) {
+      URL.revokeObjectURL(previewAnterior);
+    }
+
+    this.previewUrl.set(URL.createObjectURL(archivo));
+  }
 
   get controles() {
     return this.formulario.controls;
@@ -89,7 +110,6 @@ export class AdminPeliculas implements OnInit {
     this.formulario.patchValue({
       titulo: pelicula.titulo,
       sinopsis: pelicula.sinopsis,
-      portada: pelicula.portada,
       duracion: pelicula.duracion,
       restriccion_edad: restriccionEdad,
       ya_estrenada_previamente: pelicula.ya_estrenada_previamente,
@@ -98,12 +118,27 @@ export class AdminPeliculas implements OnInit {
     this.idsGenerosSeleccionados.set(
       pelicula.pelicula_generos.map((relacion) => relacion.generos.id_genero)
     );
-  }
 
+    this.archivoPortada.set(null);
+    this.previewUrl.set(pelicula.portada);
+  }
   terminarEdicion() {
     this.peliculaEnEdicion.set(null)
     this.formulario.reset()
     this.idsGenerosSeleccionados.set([])
+    this.archivoPortada.set(null)
+
+    const preview = this.previewUrl();
+    if (preview) {
+      URL.revokeObjectURL(preview);
+    }
+    this.previewUrl.set(null);
+
+    const inputPortada = document.getElementById('portada') as HTMLInputElement;
+
+    inputPortada.value = '';
+
+
   }
 
   async guardar() {
@@ -117,6 +152,12 @@ export class AdminPeliculas implements OnInit {
       return
     }
 
+    if (!this.peliculaEnEdicion() && !this.archivoPortada()) {
+      alert('Selecciona una imagen para la portada')
+      return
+    }
+
+
     const valores = this.formulario.getRawValue();
 
 
@@ -128,9 +169,9 @@ export class AdminPeliculas implements OnInit {
     const datos = {
       titulo: valores.titulo!,
       sinopsis: valores.sinopsis!,
-      portada: valores.portada!,
       duracion: valores.duracion!,
       restriccion_edad: restriccionEdad,
+      portada: this.peliculaEnEdicion()?.portada ?? '',
       ya_estrenada_previamente: valores.ya_estrenada_previamente,
     };
 
@@ -139,9 +180,9 @@ export class AdminPeliculas implements OnInit {
 
 
     if (this.peliculaEnEdicion()) {
-      verificacionSupaBase = await this.peliculasService.modificarPelicula(this.peliculaEnEdicion()!.id_pelicula, datos, this.idsGenerosSeleccionados());
+      verificacionSupaBase = await this.peliculasService.modificarPelicula(this.peliculaEnEdicion()!.id_pelicula, datos, this.idsGenerosSeleccionados(), this.archivoPortada());
     } else {
-      verificacionSupaBase = await this.peliculasService.crearPelicula(datos, this.idsGenerosSeleccionados());
+      verificacionSupaBase = await this.peliculasService.crearPelicula(datos, this.idsGenerosSeleccionados(), this.archivoPortada()!);
     }
 
 
@@ -196,6 +237,36 @@ export class AdminPeliculas implements OnInit {
   estaEstrenada(pelicula: Pelicula): boolean {
     return this.peliculasService.perteneceACatalogoGeneral(pelicula)
   }
+
+  ngOnDestroy(): void {
+    const preview = this.previewUrl();
+    if (preview) {
+      URL.revokeObjectURL(preview);
+    }
+  }
+
+  eliminarFotoSeleccionada() {
+    const preview = this.previewUrl();
+    if (this.archivoPortada() && preview) {
+      URL.revokeObjectURL(preview);
+    }
+
+    this.archivoPortada.set(null);
+
+    const pelicula = this.peliculaEnEdicion();
+    if (pelicula) {
+      this.previewUrl.set(pelicula.portada);
+    } else {
+      this.previewUrl.set(null);
+    }
+
+    const inputPortada = document.getElementById('portada') as HTMLInputElement;
+    if (inputPortada) {
+      inputPortada.value = '';
+    }
+  }
+
+
 
 
 }

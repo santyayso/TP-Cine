@@ -1,0 +1,363 @@
+<section class="pagina-compras">
+
+    <h1>Mis compras</h1>
+
+    @if (compras().length > 0) {
+
+    <div class="columnas-compras">
+
+        <section class="grupo-compras">
+
+            <div class="encabezado-grupo">
+                <h2>Próximas funciones</h2>
+                <p>Entradas para tus próximas visitas al cine.</p>
+            </div>
+
+            <div class="lista-compras">
+
+                @for (compra of comprasProximas(); track compra.id_venta) {
+
+                <article class="tarjeta-compra">
+
+                    <div class="encabezado-compra">
+
+                        <div>
+                            <h3>
+                                {{ compra.detalle_ventas.funciones.peliculas.titulo }}
+                            </h3>
+
+                            <p class="fecha-compra">
+                                {{ compra.detalle_ventas.funciones.fecha_hora | date:'dd/MM/yyyy HH:mm' }}
+                            </p>
+                        </div>
+
+                        <span class="estado-compra estado-pendiente">
+                            Próxima
+                        </span>
+
+                    </div>
+
+                    <div class="detalle-compra">
+
+                        <div class="detalle-item">
+
+                            <p class="titulo-detalle">Butacas</p>
+
+                            <div class="lista-butacas">
+
+                                @for (butaca of compra.detalle_ventas.butacas_vendidas; track butaca.fila_butaca +
+                                butaca.numero_butaca) {
+                                <span>
+                                    {{ butaca.fila_butaca }}{{ butaca.numero_butaca }}
+                                </span>
+                                }
+
+                            </div>
+
+                        </div>
+
+                        @if (compra.detalle_ventas.candy_vendidos.length > 0) {
+
+                        <div class="detalle-item">
+
+                            <p class="titulo-detalle">Candy</p>
+
+                            <div class="lista-candy">
+
+                                @for (item of compra.detalle_ventas.candy_vendidos; track item.productos_candy.nombre) {
+                                <span>
+                                    {{ item.productos_candy.nombre }} x{{ item.cantidad }}
+                                </span>
+                                }
+
+                            </div>
+
+                        </div>
+
+                        }
+
+                    </div>
+
+                    <div class="pie-compra">
+
+                        <p class="total-compra">
+                            Total:
+                            <strong>{{ compra.total | currency:'ARS' }}</strong>
+                        </p>
+
+                        <div class="acciones-compra">
+
+                            <button class="boton-pdf" (click)="descargarPdf(compra)">
+                                Descargar PDF
+                            </button>
+
+                            @if (puedeReembolsar(compra)) {
+                            <button class="boton-cancelar" (click)="reembolsar(compra)">
+                                Cancelar compra
+                            </button>
+                            }
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+                }
+
+            </div>
+
+        </section>
+
+
+        <section class="grupo-compras">
+
+            <div class="encabezado-grupo">
+                <h2>Ya viste estas películas</h2>
+                <p>Historial de funciones a las que ya asististe.</p>
+            </div>
+
+            <div class="lista-compras">
+
+                @for (compra of comprasConResena(); track compra.id_venta) {
+
+                <article class="tarjeta-compra">
+
+                    <div class="encabezado-compra">
+
+                        <div>
+                            <h3>
+                                {{ compra.detalle_ventas.funciones.peliculas.titulo }}
+                            </h3>
+
+                            <p class="fecha-compra">
+                                {{ compra.detalle_ventas.funciones.fecha_hora | date:'dd/MM/yyyy HH:mm' }}
+                            </p>
+                        </div>
+
+                        <span class="estado-compra estado-finalizada">
+                            Finalizada
+                        </span>
+
+                    </div>
+
+                    <div class="detalle-compra">
+
+                        <div class="detalle-item">
+
+                            <p class="titulo-detalle">Butacas</p>
+
+                            <div class="lista-butacas">
+
+                                @for (butaca of compra.detalle_ventas.butacas_vendidas; track butaca.fila_butaca +
+                                butaca.numero_butaca) {
+                                <span>
+                                    {{ butaca.fila_butaca }}{{ butaca.numero_butaca }}
+                                </span>
+                                }
+
+                            </div>
+
+                        </div>
+
+                        @if (compra.detalle_ventas.candy_vendidos.length > 0) {
+
+                        <div class="detalle-item">
+
+                            <p class="titulo-detalle">Candy</p>
+
+                            <div class="lista-candy">
+
+                                @for (item of compra.detalle_ventas.candy_vendidos; track item.productos_candy.nombre) {
+                                <span>
+                                    {{ item.productos_candy.nombre }} x{{ item.cantidad }}
+                                </span>
+                                }
+
+                            </div>
+
+                        </div>
+
+                        }
+
+                    </div>
+
+                    <div class="pie-compra">
+
+                        <p class="total-compra">
+                            Total:
+                            <strong>{{ compra.total | currency:'ARS' }}</strong>
+                        </p>
+
+                        <div class="detalle-resena">
+
+                            @if (obtenerResenaDePelicula(compra.detalle_ventas.funciones.peliculas.id_pelicula); as
+                            resenaActual) {
+
+                            @if (peliculaEnFormularioResena() !== compra.detalle_ventas.funciones.peliculas.id_pelicula)
+                            {
+
+                            <div class="resena-guardada">
+
+                                <p class="estrellas-resena">
+                                    @for (estrella of [1,2,3,4,5]; track estrella) {
+                                    @if (estrella <= resenaActual.calificacion) { <span class="estrella-llena">★</span>
+                                        } @else {
+                                        <span class="estrella-vacia">☆</span>
+                                        }
+                                        }
+                                </p>
+
+                                @if (resenaActual.comentario) {
+                                <p class="comentario-resena">{{ resenaActual.comentario }}</p>
+                                }
+
+                                <div class="acciones-compra">
+                                    <button class="boton-pdf" (click)="descargarPdf(compra)">
+                                        Descargar PDF
+                                    </button>
+
+                                    <button class="boton-resena"
+                                        (click)="abrirFormularioResena(compra.detalle_ventas.funciones.peliculas.id_pelicula)">
+                                        Editar reseña
+                                    </button>
+
+                                    <button class="boton-cancelar"
+                                        (click)="eliminarResena(compra.detalle_ventas.funciones.peliculas.id_pelicula)">
+                                        Eliminar reseña
+                                    </button>
+                                </div>
+
+                            </div>
+
+                            }
+
+                            } @else {
+
+                            @if (peliculaEnFormularioResena() !== compra.detalle_ventas.funciones.peliculas.id_pelicula)
+                            {
+
+                            <div class="acciones-compra">
+                                <button class="boton-pdf" (click)="descargarPdf(compra)">
+                                    Descargar PDF
+                                </button>
+
+                                <button class="boton-resena"
+                                    (click)="abrirFormularioResena(compra.detalle_ventas.funciones.peliculas.id_pelicula)">
+                                    Dejar reseña
+                                </button>
+                            </div>
+
+                            }
+
+                            }
+
+                            @if (peliculaEnFormularioResena() === compra.detalle_ventas.funciones.peliculas.id_pelicula)
+                            {
+
+                            <div class="formulario-resena">
+
+                                <p class="estrellas-formulario">
+                                    @for (estrella of [1,2,3,4,5]; track estrella) {
+                                    @if (estrella <= calificacionSeleccionada()) { <span class="estrella-llena"
+                                        (click)="calificacionSeleccionada.set(estrella)">★</span>
+                                        } @else {
+                                        <span class="estrella-vacia"
+                                            (click)="calificacionSeleccionada.set(estrella)">☆</span>
+                                        }
+                                        }
+                                </p>
+
+                                <textarea placeholder="Contanos qué te pareció (opcional)" [value]="comentarioResena()"
+                                    (input)="comentarioResena.set($any($event.target).value)">
+                            </textarea>
+
+                                <div class="acciones-formulario-resena">
+                                    <button class="boton-principal"
+                                        (click)="guardarResena(compra.detalle_ventas.funciones.peliculas.id_pelicula)">
+                                        Guardar reseña
+                                    </button>
+
+                                    <button class="boton-secundario" (click)="cerrarFormularioResena()">
+                                        Cancelar
+                                    </button>
+                                </div>
+
+                            </div>
+
+                            }
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+                }
+
+            </div>
+
+        </section>
+
+
+        <section class="grupo-compras">
+
+            <div class="encabezado-grupo">
+                <h2>Compras canceladas</h2>
+                <p>Compras que fueron canceladas.</p>
+            </div>
+
+            <div class="lista-compras">
+
+                @for (compra of comprasCanceladas(); track compra.id_venta) {
+
+                <article class="tarjeta-compra compra-cancelada">
+
+                    <div class="encabezado-compra">
+
+                        <div>
+                            <h3>
+                                {{ compra.detalle_ventas.funciones.peliculas.titulo }}
+                            </h3>
+
+                            <p class="fecha-compra">
+                                {{ compra.detalle_ventas.funciones.fecha_hora | date:'dd/MM/yyyy HH:mm' }}
+                            </p>
+                        </div>
+
+                        <span class="estado-compra estado-cancelada">
+                            Cancelada
+                        </span>
+
+                    </div>
+
+                    <p class="total-compra">
+                        Total:
+                        <strong>{{ compra.total | currency:'ARS' }}</strong>
+                    </p>
+
+                </article>
+
+                }
+
+            </div>
+
+        </section>
+
+    </div>
+
+    } @else {
+
+    <div class="sin-compras">
+
+        <h2>Todavía no realizaste ninguna compra</h2>
+
+        <p>
+            Cuando compres entradas, vas a poder consultarlas desde acá.
+        </p>
+
+    </div>
+
+    }
+
+</section>

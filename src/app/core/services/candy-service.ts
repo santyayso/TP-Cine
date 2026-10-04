@@ -46,30 +46,73 @@ export class CandyService {
   }
 
 
-  async crearProducto(datos: Omit<ProductoCandy, 'id_producto_candy' | 'activo'>): Promise<boolean> {
+async crearProducto(datos: Omit<ProductoCandy, 'id_producto_candy' | 'activo'>, imagen: File): Promise<boolean> {
+    const nombreArchivo = `${Date.now()}_${imagen.name}`;
+
+    const { error: errorSubida } = await this.supabaseService.cliente.storage
+        .from('candy')
+        .upload(nombreArchivo, imagen);
+
+    if (errorSubida) {
+        console.error('Error al subir la imagen:', errorSubida);
+        return false;
+    }
+
+    const { data: urlData } = this.supabaseService.cliente.storage
+        .from('candy')
+        .getPublicUrl(nombreArchivo);
+
     const { error } = await this.supabaseService.cliente
-      .from('productos_candy')
-      .insert({ ...datos, activo: true });
+        .from('productos_candy')
+        .insert({ ...datos, imagen: urlData.publicUrl, activo: true });
 
     if (error) {
-      console.error('Error al crear producto:', error);
-      return false;
+        console.error('Error al crear producto:', error);
+        return false;
     }
     return true;
-  }
+}
 
-  async modificarProducto(idProducto: number, datos: Omit<ProductoCandy, 'id_producto_candy' | 'activo'>): Promise<boolean> {
+async modificarProducto(idProducto: number, datos: Omit<ProductoCandy, 'id_producto_candy' | 'activo'>, imagen: File | null): Promise<boolean> {
+    let urlImagen = datos.imagen;
+
+    if (imagen) {
+        const nombreArchivo = `${Date.now()}_${imagen.name}`;
+
+        const { error: errorSubida } = await this.supabaseService.cliente.storage
+            .from('candy')
+            .upload(nombreArchivo, imagen);
+
+        if (errorSubida) {
+            console.error('Error al subir la imagen:', errorSubida);
+            return false;
+        }
+
+        const { data: urlData } = this.supabaseService.cliente.storage
+            .from('candy')
+            .getPublicUrl(nombreArchivo);
+
+        const nombreArchivoViejo = datos.imagen.split('/').pop();
+        if (nombreArchivoViejo) {
+            await this.supabaseService.cliente.storage
+                .from('candy')
+                .remove([nombreArchivoViejo]);
+        }
+
+        urlImagen = urlData.publicUrl;
+    }
+
     const { error } = await this.supabaseService.cliente
-      .from('productos_candy')
-      .update(datos)
-      .eq('id_producto_candy', idProducto);
+        .from('productos_candy')
+        .update({ ...datos, imagen: urlImagen })
+        .eq('id_producto_candy', idProducto);
 
     if (error) {
-      console.error('Error al modificar producto:', error);
-      return false;
+        console.error('Error al modificar producto:', error);
+        return false;
     }
     return true;
-  }
+}
 
   async cambiarEstadoProducto(idProducto: number, activo: boolean): Promise<boolean> {
     const { error } = await this.supabaseService.cliente

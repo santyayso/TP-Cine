@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal, computed } from '@angular/core';
+import { Component, OnInit, inject, signal, computed, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CandyService } from '../../../core/services/candy-service';
 import { ProductoCandy } from '../../../core/models/productoCandyInterface';
@@ -6,25 +6,26 @@ import { CurrencyPipe } from '@angular/common';
 import { CategoriaCandy } from '../../../core/models/productoCandyInterface';
 import { CATEGORIAS_CANDY } from '../../../core/services/candy-service';
 import { Header } from '../../../layout/header/header';
-
+import { Footer } from '../../../layout/footer/footer';
 @Component({
-  imports: [ReactiveFormsModule, CurrencyPipe, Header],
+  imports: [ReactiveFormsModule, CurrencyPipe, Header, Footer],
   selector: 'app-admin-candy',
   styleUrl: './admin-candy.css',
   templateUrl: './admin-candy.html',
 })
-export class AdminCandy implements OnInit {
+export class AdminCandy implements OnInit, OnDestroy {
   private candyService = inject(CandyService);
 
   productos = signal<ProductoCandy[]>([]);
   categorias = CATEGORIAS_CANDY
- 
+  archivoImagen = signal<File | null>(null);
+  previewUrl = signal<string | null>(null);
+
   formulario = new FormGroup({
     nombre: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]),
     categoria: new FormControl('', [Validators.required]),
     precio: new FormControl<number | null>(null, [Validators.required, Validators.min(1)]),
     puntos: new FormControl<number | null>(null, [Validators.min(0)]),
-    imagen: new FormControl('', [Validators.required, Validators.pattern(/^https?:\/\/.+/)]),
   });
 
   get controles() {
@@ -75,9 +76,12 @@ export class AdminCandy implements OnInit {
       nombre: producto.nombre,
       categoria: producto.categoria,
       precio: producto.precio,
-      puntos: producto.puntos,
-      imagen: producto.imagen,
+      puntos: producto.puntos
     });
+
+    this.archivoImagen.set(null);
+    this.previewUrl.set(producto.imagen);
+
 
   }
 
@@ -85,11 +89,28 @@ export class AdminCandy implements OnInit {
     this.productoEnEdicion.set(null)
     this.formulario.reset()
 
+    const preview = this.previewUrl();
+    if (preview) {
+      URL.revokeObjectURL(preview);
+    }
+    this.previewUrl.set(null);
+    this.archivoImagen.set(null);
+
+    const inputImagen = document.getElementById('imagen') as HTMLInputElement;
+    if (inputImagen) {
+      inputImagen.value = '';
+    }
   }
+
 
   async guardar() {
     this.formulario.markAllAsTouched();
     if (this.formulario.invalid) {
+      return
+    }
+
+    if (!this.productoEnEdicion() && !this.archivoImagen()) {
+      alert('Selecciona una imagen para el producto')
       return
     }
 
@@ -101,7 +122,7 @@ export class AdminCandy implements OnInit {
       categoria: valores.categoria! as CategoriaCandy,
       precio: valores.precio!,
       puntos: valores.puntos,
-      imagen: valores.imagen!,
+      imagen: this.productoEnEdicion()?.imagen ?? ''
     };
 
 
@@ -110,9 +131,9 @@ export class AdminCandy implements OnInit {
 
 
     if (this.productoEnEdicion()) {
-      verificacionSupaBase = await this.candyService.modificarProducto(this.productoEnEdicion()!.id_producto_candy, datos);
+      verificacionSupaBase = await this.candyService.modificarProducto(this.productoEnEdicion()!.id_producto_candy, datos, this.archivoImagen());
     } else {
-      verificacionSupaBase = await this.candyService.crearProducto(datos);
+      verificacionSupaBase = await this.candyService.crearProducto(datos, this.archivoImagen()!);
     }
 
 
@@ -149,4 +170,53 @@ export class AdminCandy implements OnInit {
 
 
   }
+
+
+  seleccionarArchivo(evento: Event) {
+    const input = evento.target as HTMLInputElement;
+
+    if (!input.files || input.files.length === 0) {
+      return;
+    }
+
+    const archivo = input.files[0];
+    this.archivoImagen.set(archivo);
+
+    const previewAnterior = this.previewUrl();
+    if (previewAnterior) {
+      URL.revokeObjectURL(previewAnterior);
+    }
+
+    this.previewUrl.set(URL.createObjectURL(archivo));
+  }
+
+  eliminarFotoSeleccionada() {
+    const preview = this.previewUrl();
+    if (this.archivoImagen() && preview) {
+      URL.revokeObjectURL(preview);
+    }
+
+    this.archivoImagen.set(null);
+
+    const producto = this.productoEnEdicion();
+    if (producto) {
+      this.previewUrl.set(producto.imagen);
+    } else {
+      this.previewUrl.set(null);
+    }
+
+    const inputImagen = document.getElementById('imagen') as HTMLInputElement;
+    if (inputImagen) {
+      inputImagen.value = '';
+    }
+  }
+
+  ngOnDestroy(): void {
+    const preview = this.previewUrl();
+    if (preview) {
+      URL.revokeObjectURL(preview);
+    }
+  }
+
+
 }

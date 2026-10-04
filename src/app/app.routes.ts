@@ -1,19 +1,6 @@
 import { Routes } from '@angular/router';
-import { Principal } from './features/principal/principal';
-import { DetallePelicula } from './features/detalle-pelicula/detalle-pelicula';
-import { DatosCompra } from './features/compra/datos-compra/datos-compra';
-import { CandyCompra } from './features/compra/candy-compra/candy-compra';
-import { ButacasCompra } from './features/compra/butacas-compra/butacas-compra';
-import { LoginComponent } from './features/auth/login/login';
-import { RegisterComponent } from './features/auth/register/register';
-import { PagoCompra } from './features/compra/pago-compra/pago-compra';
-import { PdfCompra } from './features/compra/pdf-compra/pdf-compra';
-import { AdminPeliculas } from './features/admin/admin-peliculas/admin-peliculas';
 import { authAdminGuard } from './core/guards/auth-admin-guard';
-import { AdminCandy } from './features/admin/admin-candy/admin-candy';
-import { AdminRoles } from './features/admin/admin-roles/admin-roles';
-import { AdminCupones } from './features/admin/admin-cupones/admin-cupones';
-import { AdminReportes } from './features/admin/admin-reportes/admin-reportes';
+import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
     {
@@ -23,70 +10,84 @@ export const routes: Routes = [
     },
     {
         path: 'principal',
-        component: Principal
+        loadComponent: () => import('./features/principal/principal').then((componente) => componente.Principal)
     },
     {
         path: 'pelicula/:id',
-        component: DetallePelicula
+        loadComponent: () => import('./features/detalle-pelicula/detalle-pelicula').then((componente) => componente.DetallePelicula)
     },
     {
         path: 'comprar/datos',
-        component: DatosCompra
+        loadComponent: () => import('./features/compra/datos-compra/datos-compra').then((componente) => componente.DatosCompra)
     },
     {
         path: 'comprar/candy',
-        component: CandyCompra
+        loadComponent: () => import('./features/compra/candy-compra/candy-compra').then((componente) => componente.CandyCompra)
     },
     {
         path: 'comprar/butacas',
-        component: ButacasCompra
+        loadComponent: () => import('./features/compra/butacas-compra/butacas-compra').then((componente) => componente.ButacasCompra)
     },
     {
         path: 'login',
-        component: LoginComponent
+        loadComponent: () => import('./features/auth/login/login').then((componente) => componente.LoginComponent)
     },
     {
         path: 'register',
-        component: RegisterComponent
+        loadComponent: () => import('./features/auth/register/register').then((componente) => componente.RegisterComponent)
     },
     {
         path: 'comprar/pago',
-        component: PagoCompra
+        loadComponent: () => import('./features/compra/pago-compra/pago-compra').then((componente) => componente.PagoCompra)
     },
     {
         path: 'comprar/pdf',
-        component: PdfCompra
+        loadComponent: () => import('./features/compra/pdf-compra/pdf-compra').then((componente) => componente.PdfCompra)
     },
     {
         path: 'admin/peliculas',
-        component: AdminPeliculas,
+        loadComponent: () => import('./features/admin/admin-peliculas/admin-peliculas').then((componente) => componente.AdminPeliculas),
         canActivate: [authAdminGuard]
     },
     {
         path: 'admin/candy',
-        component: AdminCandy,
+        loadComponent: () => import('./features/admin/admin-candy/admin-candy').then((componente) => componente.AdminCandy),
         canActivate: [authAdminGuard]
     },
     {
         path: 'admin/roles',
-        component: AdminRoles,
+        loadComponent: () => import('./features/admin/admin-roles/admin-roles').then((componente) => componente.AdminRoles),
         canActivate: [authAdminGuard]
     },
     {
         path: 'admin/cupones',
-        component: AdminCupones,
+        loadComponent: () => import('./features/admin/admin-cupones/admin-cupones').then((componente) => componente.AdminCupones),
         canActivate: [authAdminGuard]
     },
-     {
+    {
         path: 'admin/reportes',
-        component: AdminReportes,
+        loadComponent: () => import('./features/admin/admin-reportes/admin-reportes').then((componente) => componente.AdminReportes),
         canActivate: [authAdminGuard]
+    },
+    {
+        path: 'perfil',
+        loadComponent: () => import('./features/perfil/perfil-layout/perfil-layout').then((componente) => componente.PerfilLayout),
+        canActivate: [authGuard],
+        children: [
+            { path: '', redirectTo: 'compras', pathMatch: 'full' },
+            {
+                path: 'compras',
+                loadComponent: () => import('./features/perfil/mis-compras/mis-compras').then((componente) => componente.MisCompras)
+            },
+            {
+                path: 'cupones',
+                loadComponent: () => import('./features/perfil/mis-cupones/mis-cupones').then((componente) => componente.MisCupones)
+            },
+        ]
+    },
+    { path: '**', 
+      redirectTo: '/principal' 
     }
-
-
-
-
-
 
 
 ];

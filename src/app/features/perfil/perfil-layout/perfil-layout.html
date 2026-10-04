@@ -1,0 +1,35 @@
+<app-header></app-header>
+<main class="pagina-perfil">
+
+    <header class="encabezado-perfil">
+        <h1>Hola, {{ authService.currentUserData()?.nombre }}</h1>
+        <p>Crédito disponible: {{ authService.currentUserData()?.creditos_disponibles | currency:'ARS' }}</p>
+        <p>Administrá tus compras, cupones y canjes.</p>
+    </header>
+
+    <nav class="pestanas-perfil">
+
+        <a
+            routerLink="/perfil/compras"
+            routerLinkActive="active">
+            Mis compras
+        </a>
+
+        <a
+            routerLink="/perfil/cupones"
+            routerLinkActive="active">
+            Mis cupones
+        </a>
+
+        <a
+            routerLink="/perfil/canjes"
+            routerLinkActive="active">
+            Historial de canjes
+        </a>
+
+    </nav>
+
+    <router-outlet></router-outlet>
+
+</main>
+<app-footer></app-footer>

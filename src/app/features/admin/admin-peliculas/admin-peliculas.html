@@ -41,15 +41,20 @@
             </div>
 
             <div class="grupo-campo campo-completo">
-                <label for="portada">URL de la portada *</label>
-                <input
-                    id="portada"
-                    type="text"
-                    formControlName="portada"
-                    placeholder="https://...">
+                <label for="portada">Portada *</label>
+                <input id="portada" type="file" accept="image/*" (change)="seleccionarArchivo($event)">
 
-                @if (controles.portada.touched && controles.portada.invalid) {
-                <small>Ingresá una URL válida que empiece con http:// o https://</small>
+                @if (previewUrl()) {
+                <div class="preview">
+                    <h3>Vista previa</h3>
+                    <img [src]="previewUrl()" alt="Vista previa" width="200">
+                </div>
+                @if (archivoPortada()) {
+                <button class="boton-eliminar-portada" type="button" (click)="eliminarFotoSeleccionada()">
+                    Eliminar imagen
+                </button>
+                }
+
                 }
             </div>
 
@@ -68,9 +73,7 @@
             <div class="grupo-checkbox estreno-checkbox">
 
                 <label>
-                    <input
-                        type="checkbox"
-                        formControlName="ya_estrenada_previamente">
+                    <input type="checkbox" formControlName="ya_estrenada_previamente">
 
                     <span>Ya estrenada previamente (va directo al catálogo)</span>
                 </label>
@@ -89,9 +92,7 @@
 
                     <label class="opcion-genero">
 
-                        <input
-                            type="checkbox"
-                            [checked]="idsGenerosSeleccionados().includes(genero.id_genero)"
+                        <input type="checkbox" [checked]="idsGenerosSeleccionados().includes(genero.id_genero)"
                             (change)="alternarGenero(genero.id_genero)">
 
                         <span>{{ genero.nombre_genero }}</span>
@@ -116,10 +117,7 @@
 
                 </button>
 
-                <button
-                    class="boton-secundario"
-                    type="button"
-                    (click)="terminarEdicion()">
+                <button class="boton-secundario" type="button" (click)="terminarEdicion()">
 
                     @if (peliculaEnEdicion()) {
                     Cancelar edición
@@ -142,11 +140,7 @@
 
             <h2>Películas cargadas</h2>
 
-            <input
-                class="buscador"
-                type="text"
-                placeholder="Buscar película..."
-                [value]="terminosBusqueda()"
+            <input class="buscador" type="text" placeholder="Buscar película..." [value]="terminosBusqueda()"
                 (input)="terminosBusqueda.set($any($event.target).value)">
 
         </div>
@@ -176,10 +170,7 @@
                     <tr>
 
                         <td>
-                            <img
-                                class="imagen-pelicula"
-                                [src]="pelicula.portada"
-                                [attr.alt]="pelicula.titulo">
+                            <img class="imagen-pelicula" [src]="pelicula.portada" [attr.alt]="pelicula.titulo">
                         </td>
 
                         <td>{{ pelicula.titulo }}</td>
@@ -204,9 +195,7 @@
 
                         <td>
 
-                            <span
-                                class="estado"
-                                [class.estado-activo]="pelicula.activo"
+                            <span class="estado" [class.estado-activo]="pelicula.activo"
                                 [class.estado-inactivo]="!pelicula.activo">
 
                                 {{ pelicula.activo ? 'Activa' : 'Inactiva' }}
@@ -227,15 +216,11 @@
 
                         <td class="acciones-tabla">
 
-                            <button
-                                class="boton-editar"
-                                (click)="prepararEdicion(pelicula)">
+                            <button class="boton-editar" (click)="prepararEdicion(pelicula)">
                                 Editar
                             </button>
 
-                            <button
-                                class="boton-estado"
-                                (click)="cambiarEstado(pelicula)">
+                            <button class="boton-estado" (click)="cambiarEstado(pelicula)">
 
                                 {{ pelicula.activo ? 'Dar de baja' : 'Reactivar' }}
 
@@ -266,3 +251,4 @@
     </section>
 
 </main>
+<app-footer></app-footer>

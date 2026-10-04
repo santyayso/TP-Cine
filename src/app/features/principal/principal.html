@@ -1,4 +1,5 @@
 <app-header></app-header>
+
 <main class="pagina-principal">
 
     <section class="seccion-peliculas">
@@ -20,38 +21,27 @@
 
     </section>
 
-    <!--
-    <section>
-        <h1>Lo mas vendido</h1>
-        @for (pelicula of listaPeliculasMasVendidas(); track pelicula.id_pelicula) {
-        <app-card-pelicula [pelicula]="pelicula"></app-card-pelicula>
-        }
-    </section>
-    -->
 
-
-    <section class="seccion-peliculas">
+    <section class="seccion-peliculas seccion-catalogo">
 
         <div class="contenedor-peliculas">
 
             <h1>Catalogo General</h1>
-
 
             <div class="contenedor-filtros">
 
                 <input class="buscador" type="text" placeholder="Buscar pelicula..." [value]="terminosBusqueda()"
                     (input)="terminosBusqueda.set($any($event.target).value)">
 
-
                 <div class="filtros-generos">
 
-                    @for (genero of listaGeneros(); track genero.id_genero){
+                    @for (genero of listaGeneros(); track genero.id_genero) {
 
                     <label class="filtro-genero">
 
                         <input type="checkbox" (change)="alternarGenero(genero.id_genero)">
 
-                        {{ genero.nombre_genero}}
+                        {{ genero.nombre_genero }}
 
                     </label>
 
@@ -61,7 +51,6 @@
 
             </div>
 
-
             <div class="contenedor-cards">
 
                 @for (pelicula of listaPeliculasCatalogoGeneral(); track pelicula.id_pelicula) {
@@ -69,7 +58,12 @@
                 <app-card-pelicula [pelicula]="pelicula">
                 </app-card-pelicula>
 
+                } @empty {
+
+                <p class="mensaje-vacio">No hay películas con los géneros que seleccionaste.</p>
+
                 }
+
 
             </div>
 
@@ -78,3 +72,5 @@
     </section>
 
 </main>
+
+<app-footer></app-footer>

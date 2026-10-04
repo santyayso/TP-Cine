@@ -73,10 +73,26 @@ export class PeliculasService {
         return data ?? [];
     }
 
-    async crearPelicula(datos: Omit<Pelicula, 'id_pelicula' | 'activo' | 'funciones' | 'pelicula_generos'>, idsGeneros: number[]): Promise<boolean> {
+    async crearPelicula(datos: Omit<Pelicula, 'id_pelicula' | 'activo' | 'funciones' | 'pelicula_generos'>, idsGeneros: number[], imagen: File): Promise<boolean> {
+
+        const nombreArchivo = `${Date.now()}_${imagen.name}`;
+
+        const { error: errorSubida } = await this.supabaseService.cliente.storage
+            .from('portadas')
+            .upload(nombreArchivo, imagen);
+
+        if (errorSubida) {
+            console.error('Error al subir la portada:', errorSubida);
+            return false;
+        }
+
+        const { data: urlData } = this.supabaseService.cliente.storage
+            .from('portadas')
+            .getPublicUrl(nombreArchivo);
+
         const { data, error } = await this.supabaseService.cliente
             .from('peliculas')
-            .insert({ ...datos, activo: true })
+            .insert({ ...datos, portada: urlData.publicUrl, activo: true })
             .select()
             .single();
 
@@ -87,11 +103,45 @@ export class PeliculasService {
 
         return await this.guardarGeneros(data.id_pelicula, idsGeneros);
     }
+    async modificarPelicula(
+        idPelicula: number,
+        datos: Omit<Pelicula, 'id_pelicula' | 'activo' | 'funciones' | 'pelicula_generos'>,
+        idsGeneros: number[],
+        imagen: File | null
+    ): Promise<boolean> {
 
-    async modificarPelicula(idPelicula: number, datos: Omit<Pelicula, 'id_pelicula' | 'activo' | 'funciones' | 'pelicula_generos'>, idsGeneros: number[]): Promise<boolean> {
+        let urlPortada = datos.portada;
+
+        if (imagen) {
+            const nombreArchivo = `${Date.now()}_${imagen.name}`;
+
+            const { error: errorSubida } = await this.supabaseService.cliente.storage
+                .from('portadas')
+                .upload(nombreArchivo, imagen);
+
+            if (errorSubida) {
+                console.error('Error al subir la portada:', errorSubida);
+                return false;
+            }
+
+            const { data: urlData } = this.supabaseService.cliente.storage
+                .from('portadas')
+                .getPublicUrl(nombreArchivo);
+
+            
+            const nombreArchivoViejo = datos.portada.split('/').pop();
+            if (nombreArchivoViejo) {
+                await this.supabaseService.cliente.storage
+                    .from('portadas')
+                    .remove([nombreArchivoViejo]);
+            }
+
+            urlPortada = urlData.publicUrl;
+        }
+
         const { error } = await this.supabaseService.cliente
             .from('peliculas')
-            .update(datos)
+            .update({ ...datos, portada: urlPortada })
             .eq('id_pelicula', idPelicula);
 
         if (error) {
@@ -115,7 +165,7 @@ export class PeliculasService {
         return true;
     }
 
-   
+
     private async guardarGeneros(idPelicula: number, idsGeneros: number[]): Promise<boolean> {
         const { error: errorBorrado } = await this.supabaseService.cliente
             .from('pelicula_generos')

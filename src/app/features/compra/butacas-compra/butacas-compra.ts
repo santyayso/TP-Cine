@@ -6,8 +6,9 @@ import { CompraService } from '../../../core/services/compra-service';
 import { CurrencyPipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { Header } from '../../../layout/header/header';
+import { Footer } from '../../../layout/footer/footer';
 @Component({
-  imports: [CurrencyPipe, Header],
+  imports: [CurrencyPipe, Header, Footer],
   selector: 'app-butacas-compra',
   styleUrl: './butacas-compra.css',
   templateUrl: './butacas-compra.html',

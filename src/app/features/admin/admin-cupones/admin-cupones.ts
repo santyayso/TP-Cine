@@ -3,9 +3,9 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { CuponesService } from '../../../core/services/cupones-service';
 import { Cupon } from '../../../core/models/cuponInterface';
 import { Header } from '../../../layout/header/header';
-
+import { Footer } from '../../../layout/footer/footer';
 @Component({
-  imports: [ReactiveFormsModule, Header],
+  imports: [ReactiveFormsModule, Header, Footer],
   selector: 'app-admin-cupones',
   styleUrl: './admin-cupones.css',
   templateUrl: './admin-cupones.html',

@@ -8,9 +8,9 @@ import { Router } from '@angular/router';
 import { CompraService } from '../../../core/services/compra-service';
 import { CATEGORIAS_CANDY } from '../../../core/services/candy-service';
 import { Header } from '../../../layout/header/header';
-
+import { Footer } from '../../../layout/footer/footer';
 @Component({
-  imports: [CardProductoCandy, Header],
+  imports: [CardProductoCandy, Header, Footer],
   selector: 'app-candy-compra',
   styleUrl: './candy-compra.css',
   templateUrl: './candy-compra.html',

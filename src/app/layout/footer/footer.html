@@ -1,0 +1,39 @@
+<footer class="footer">
+
+    <div class="footer-contenido">
+
+        <div class="footer-marca">
+            <img src="assets/img/logo.png" alt="Cine Santy">
+
+            <div>
+                <h2>Cine Santy</h2>
+                <p>Tu próxima película empieza acá.</p>
+            </div>
+        </div>
+
+        <div class="footer-seccion">
+            <h3>Navegación</h3>
+
+            <a routerLink="/principal">Cartelera</a>
+
+            @if (authService.currentUser()) {
+                <a routerLink="/perfil">Mi perfil</a>
+            }
+            @else{
+               <a routerLink="/login">Mi perfil</a> 
+            }
+        </div>
+
+        <div class="footer-seccion">
+            <h3>Información</h3>
+            <p>Proyecto académico</p>
+            <p>Programación 4</p>
+        </div>
+
+    </div>
+
+    <div class="footer-inferior">
+        <p>© 2026 Cine Santy · Todos los derechos reservados</p>
+    </div>
+
+</footer>

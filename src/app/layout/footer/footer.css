@@ -1,0 +1,164 @@
+.footer {
+    width: 100%;
+    margin-top: 4rem;
+
+    background-color: var(--fondo-contenedor);
+
+    border-top: 1px solid var(--borde);
+}
+
+.footer-contenido {
+    width: 85%;
+    margin: 0 auto;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    align-items: start;
+
+    padding: 2.5rem 0;
+}
+
+.footer-marca {
+    display: flex;
+    align-items: center;
+    justify-self: start;
+
+    gap: 0.9rem;
+}
+
+.footer-marca img {
+    width: 65px;
+    height: 65px;
+
+    flex-shrink: 0;
+
+    object-fit: contain;
+}
+
+.footer-marca h2 {
+    margin: 0 0 0.3rem;
+
+    color: var(--texto-principal);
+
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.footer-marca p {
+    margin: 0;
+
+    color: var(--texto-secundario);
+
+    font-size: 0.9rem;
+}
+
+.footer-seccion {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    gap: 0.5rem;
+}
+
+.footer-navegacion {
+    justify-self: start;
+}
+
+.footer-informacion {
+    justify-self: end;
+}
+
+.footer-seccion h3 {
+    margin: 0 0 0.4rem;
+
+    color: var(--texto-principal);
+
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.footer-seccion a {
+    color: var(--texto-secundario);
+
+    font-size: 0.9rem;
+
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.footer-seccion a:hover {
+    color: var(--rojo);
+
+    transform: translateX(3px);
+}
+
+.footer-seccion p {
+    margin: 0;
+
+    color: var(--texto-secundario);
+
+    font-size: 0.9rem;
+}
+
+.footer-inferior {
+    width: 85%;
+    margin: 0 auto;
+
+    padding: 1rem 0;
+
+    border-top: 1px solid var(--borde);
+
+    text-align: center;
+}
+
+.footer-inferior p {
+    margin: 0;
+
+    color: var(--texto-secundario);
+
+    font-size: 0.8rem;
+}
+
+@media (max-width: 700px) {
+
+    .footer-contenido {
+        width: 90%;
+
+        grid-template-columns: 1fr 1fr;
+
+        gap: 2rem;
+    }
+
+    .footer-marca {
+        grid-column: 1 / -1;
+    }
+
+    .footer-navegacion {
+        justify-self: start;
+    }
+
+    .footer-informacion {
+        justify-self: start;
+    }
+
+    .footer-inferior {
+        width: 90%;
+    }
+}
+
+@media (max-width: 450px) {
+
+    .footer-contenido {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-marca {
+        grid-column: auto;
+    }
+
+    .footer-marca img {
+        width: 55px;
+        height: 55px;
+    }
+}

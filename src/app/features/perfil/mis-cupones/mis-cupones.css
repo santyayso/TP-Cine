@@ -1,0 +1,118 @@
+.pagina-cupones {
+    width: 100%;
+}
+
+.encabezado-cupones {
+    margin-bottom: 2rem;
+}
+
+.encabezado-cupones h1 {
+    margin: 0 0 0.4rem;
+    color: var(--texto-principal);
+    font-size: 1.7rem;
+}
+
+.encabezado-cupones p {
+    margin: 0;
+    color: var(--texto-secundario);
+    font-size: 0.9rem;
+}
+
+.lista-cupones {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.tarjeta-cupon {
+    position: relative;
+    min-height: 190px;
+    padding: 1.5rem;
+    overflow: hidden;
+
+    background-color: var(--fondo-contenedor);
+
+    border: 1px solid var(--borde);
+    border-left: 4px solid var(--rojo);
+    border-radius: 12px;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.18);
+
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.tarjeta-cupon:hover {
+    transform: translateY(-3px);
+    border-color: #555;
+    border-left-color: var(--rojo);
+}
+
+.contenido-cupon {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.contenido-cupon h3 {
+    margin: 0 0 1.2rem;
+    color: var(--texto-principal);
+    font-size: 1.15rem;
+}
+
+.descuento-cupon {
+    margin: 0;
+    color: var(--rojo);
+    font-size: 2.2rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.texto-descuento {
+    margin-top: 0.3rem;
+    color: var(--texto-secundario);
+    font-size: 0.9rem;
+}
+
+.restriccion-cupon {
+    margin-top: auto;
+    padding-top: 1.2rem;
+    color: var(--texto-secundario);
+    font-size: 0.8rem;
+}
+
+.sin-cupones {
+    padding: 3rem 1rem;
+    text-align: center;
+    border: 1px dashed var(--borde);
+    border-radius: 12px;
+}
+
+.sin-cupones h2 {
+    margin: 0 0 0.5rem;
+    color: var(--texto-principal);
+    font-size: 1.2rem;
+}
+
+.sin-cupones p {
+    margin: 0;
+    color: var(--texto-secundario);
+    font-size: 0.9rem;
+}
+
+@media (max-width: 900px) {
+
+    .lista-cupones {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .lista-cupones {
+        grid-template-columns: 1fr;
+    }
+
+}
