@@ -28,6 +28,7 @@ export class CompraService {
     cantidadEntradas = signal<number>(1)
     peliculaSeleccionada = signal<Pelicula | null>(null)
     listaCandyVendidos = signal<CandyVendido[]>([]);
+    codigoQrGenerado = signal<string>('')
     butacasSeleccionadas = signal<ButacaGenerada[]>([]);
 
     setearCandy(items: CandyVendido[]) {
@@ -118,9 +119,10 @@ export class CompraService {
 
         if (!idVenta) return
 
+        const codigoQr = crypto.randomUUID()
+        this.codigoQrGenerado.set(codigoQr)
 
-
-        const idDetalleVenta = await this.ventasService.crearDetalleVenta(idVenta, "123", idFuncion)
+        const idDetalleVenta = await this.ventasService.crearDetalleVenta(idVenta, codigoQr, idFuncion)
 
         if (!idDetalleVenta) return;
 

@@ -4,6 +4,7 @@ import { Venta } from '../models/ventaInterface';
 import { CandyVendido } from '../models/candyVendidointerface';
 import { ButacaVendida } from '../models/butacaVendida';
 import { jsPDF } from 'jspdf';
+import QRCode from 'qrcode';
 
 @Injectable({ providedIn: 'root' })
 export class VentasService {
@@ -130,7 +131,7 @@ export class VentasService {
 
 
 
-    generarPdfCompra(
+    async generarPdfCompra(
         nombreComprador: string,
         apellidoComprador: string,
         tituloPelicula: string,
@@ -140,6 +141,9 @@ export class VentasService {
         candy: { nombre: string; cantidad: number }[],
         codigoQr: string
     ) {
+
+        console.log('codigoQr recibido:', codigoQr)
+
         const doc = new jsPDF();
         let y = 20;
 
@@ -189,6 +193,16 @@ export class VentasService {
                 doc.text(`${item.nombre} x${item.cantidad}`, 25, y);
             }
         }
+
+
+        if (codigoQr) {
+            y += 15;
+            const imagenQr = await QRCode.toDataURL(codigoQr, { margin: 1, width: 300 });
+            doc.addImage(imagenQr, 'PNG', 20, y, 45, 45);
+        }
+
+
+
 
         doc.save(`entrada-${codigoQr}.pdf`);
     }

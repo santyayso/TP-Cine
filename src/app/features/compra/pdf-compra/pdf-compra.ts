@@ -16,13 +16,13 @@ export class PdfCompra {
   router = inject(Router)
   ventasService = inject(VentasService)
 
-  descargarPdf() {
+  async descargarPdf() {
     const pelicula = this.compraService.peliculaSeleccionada();
     const funcion = this.compraService.funcionSeleccionada();
     const datos = this.compraService.datosComprador();
 
 
-    this.ventasService.generarPdfCompra(
+    await this.ventasService.generarPdfCompra(
       datos!.nombre,
       datos!.apellido,
       pelicula!.titulo,
@@ -30,7 +30,7 @@ export class PdfCompra {
       funcion!.fecha_hora,
       this.compraService.butacasSeleccionadas(),
       this.compraService.listaCandyVendidos(),
-      ''
+      this.compraService.codigoQrGenerado()
     );
   }
 
