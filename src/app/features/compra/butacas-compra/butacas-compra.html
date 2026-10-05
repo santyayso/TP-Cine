@@ -24,6 +24,7 @@
 
                     @case ('comun'){
                     <div
+                       [class.ocupada]="estaOcupada(butaca)"
                         class="butaca butaca-comun"
                         [class.seleccionada]="estaSeleccionada(butaca)"
                         (click)="alternarButaca(butaca)">
@@ -35,6 +36,7 @@
 
                     @case ('discapacitado'){
                     <div
+                       [class.ocupada]="estaOcupada(butaca)"
                         class="butaca butaca-discapacitado"
                         [class.seleccionada]="estaSeleccionada(butaca)"
                         (click)="alternarButaca(butaca)">
@@ -46,10 +48,11 @@
 
                     @case ('vip'){
                     <div
+                       [class.ocupada]="estaOcupada(butaca)"
                         class="butaca butaca-vip"
                         [class.seleccionada]="estaSeleccionada(butaca)"
                         (click)="alternarButaca(butaca)">
-
+                        
                         <p>{{ butaca.fila }}{{ butaca.numero }}</p>
 
                     </div>

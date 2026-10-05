@@ -7,6 +7,7 @@ import { CurrencyPipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { Header } from '../../../layout/header/header';
 import { Footer } from '../../../layout/footer/footer';
+import { RealtimeChannel } from '@supabase/supabase-js';
 @Component({
   imports: [CurrencyPipe, Header, Footer],
   selector: 'app-butacas-compra',
@@ -22,10 +23,7 @@ export class ButacasCompra implements OnInit {
   butacasSeleccionadas = signal<ButacaGenerada[]>([])
 
 
-  ngOnInit() {
-    this.matrizButacas.set(this.butacasService.generarMatrizButacas())
 
-  }
 
   estaSeleccionada(butacaSeleccionada: ButacaGenerada) {
     return this.butacasSeleccionadas().some((butaca) => butaca.fila == butacaSeleccionada.fila && butaca.numero == butacaSeleccionada.numero)
@@ -36,6 +34,11 @@ export class ButacasCompra implements OnInit {
   })
 
   alternarButaca(butacaSeleccionada: ButacaGenerada) {
+
+    if (this.estaOcupada(butacaSeleccionada)) {
+      return
+    }
+
     const verifiCacionSeleccionada = this.estaSeleccionada(butacaSeleccionada)
 
     if (verifiCacionSeleccionada == false) {
@@ -68,9 +71,46 @@ export class ButacasCompra implements OnInit {
       this.router.navigate(['comprar/candy'])
     }
 
+  }
 
+  butacasOcupadas = signal<{ fila: string; numero: number }[]>([])
+  private canal?: RealtimeChannel
 
+  async ngOnInit() {
+    this.matrizButacas.set(this.butacasService.generarMatrizButacas())
 
+    const funcion = this.compraService.funcionSeleccionada()
+    if (!funcion) {
+      return
+    }
+
+    await this.recargarButacasOcupadas(funcion.id_funcion)
+
+    this.canal = this.butacasService.escucharCambiosDeButacas(
+      funcion.id_funcion,
+      () => this.recargarButacasOcupadas(funcion.id_funcion)
+    )
+  }
+
+  ngOnDestroy() {
+    if (this.canal) {
+      this.butacasService.dejarDeEscuchar(this.canal)
+    }
+  }
+
+  async recargarButacasOcupadas(idFuncion: number) {
+    this.butacasOcupadas.set(await this.butacasService.obtenerButacasOcupadas(idFuncion))
+
+    const cantidadAntes = this.butacasSeleccionadas().length
+    this.butacasSeleccionadas.update((lista) => lista.filter((butaca) => !this.estaOcupada(butaca)))
+
+    if (this.butacasSeleccionadas().length < cantidadAntes) {
+      alert('Alguna de las butacas que elegiste acaba de ser comprada por otra persona. Elegí otra.')
+    }
+  }
+
+  estaOcupada(butacaConsultada: ButacaGenerada) {
+    return this.butacasOcupadas().some((ocupada) => ocupada.fila == butacaConsultada.fila && ocupada.numero == butacaConsultada.numero)
   }
 
 

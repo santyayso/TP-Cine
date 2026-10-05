@@ -372,3 +372,10 @@
 
     gap: 1.4rem;
 }
+
+.butaca.ocupada {
+  background-color: #555;
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
