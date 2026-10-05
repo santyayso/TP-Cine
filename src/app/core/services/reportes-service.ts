@@ -30,7 +30,10 @@ async obtenerFacturacionDeHoy(): Promise<number> {
 
 
 async obtenerPeliculasMasVistas(dias: number): Promise<{ titulo: string; cantidad: number }[]> {
+    // fecha hoy
     const fechaDesde = new Date();
+
+    // le restamos los dias
     fechaDesde.setDate(fechaDesde.getDate() - dias);
 
     const { data, error } = await this.supabaseService.cliente
@@ -72,6 +75,8 @@ async obtenerPeliculasMasVistas(dias: number): Promise<{ titulo: string; cantida
 
     return peliculas;
 }
+
+
 async obtenerCandyMasVendido(dias: number): Promise<{ nombre: string; cantidad: number }[]> {
     const fechaDesde = new Date();
     fechaDesde.setDate(fechaDesde.getDate() - dias);

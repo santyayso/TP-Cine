@@ -32,30 +32,28 @@ export class AdminReportes implements OnInit {
     this.crearGraficoDeBarras('graficoCandyMes', candyMes, 'nombre');
   }
 
+
+  // campoEtiqueta es el atributo por el cual se va a filtrar cada barra, en pelicula seria el titulo
   private crearGraficoDeBarras(idCanvas: string, datos: any[], campoEtiqueta: string) {
     const canvas = document.getElementById(idCanvas) as HTMLCanvasElement;
 
     const etiquetas = datos.map((fila) => fila[campoEtiqueta]);
     const cantidades = datos.map((fila) => fila.cantidad);
 
-    const colores = ['#e63946', '#f1a208', '#2a9d8f', '#457b9d', '#9b5de5', '#f15bb5', '#00bbf9', '#fee440'];
+
 
     new Chart(canvas, {
       type: 'bar',
+      //labels va justamente el titulo de la pelicula, que lo obtenemos a partir del filtro que le pasamos por parametros
       data: {
         labels: etiquetas,
         datasets: [{
+          // label es la etiqueta de lo que esta representando el grafico
           label: 'Cantidad vendida',
           data: cantidades,
-          backgroundColor: etiquetas.map((_, indice) => colores[indice % colores.length]),
           borderRadius: 6,
         }],
-      },
-      options: {
-        plugins: {
-          legend: { display: false },
-        },
-      },
+      }
     });
   }
 }
