@@ -85,7 +85,7 @@ async recargarFunciones() {
     return funciones
   })
 
-  // ---------- Form: Añadir / Editar función ----------
+
 
   formularioFuncion = new FormGroup({
     fecha: new FormControl('', [Validators.required, Validators.pattern(PATRON_FECHA)]),
@@ -220,7 +220,7 @@ async recargarFunciones() {
     await this.recargarFunciones()
   }
 
-  // ---------- Form: Añadir funciones recurrentes ----------
+
 
   diasSemanaOpciones = [
     { valor: 1, nombre: 'Lunes' },
@@ -325,7 +325,6 @@ async recargarFunciones() {
     await this.recargarFunciones()
   }
 
-  // ---------- Form: Configurar preventa ----------
 
   formularioPreventa = new FormGroup({
     precio_preventa: new FormControl<number | null>(null),
@@ -363,7 +362,7 @@ async recargarFunciones() {
     await this.recargarFunciones()
   }
 
-  // ---------- Helpers de fecha ----------
+
 
   private parsearFechaTexto(fechaTexto: string): Date {
     const [dia, mes, anio] = fechaTexto.split('/').map((texto) => Number(texto));

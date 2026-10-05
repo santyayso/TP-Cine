@@ -374,8 +374,10 @@
 }
 
 .butaca.ocupada {
-  background-color: #555;
-  opacity: 0.4;
-  cursor: not-allowed;
-  pointer-events: none;
+    position: relative;
+    background-color: #555;
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
 }
+
