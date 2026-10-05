@@ -351,6 +351,19 @@ tbody tr:last-child td {
     border-color: #777;
 }
 
+.acciones-tabla .boton-funciones {
+    background-color: var(--rojo);
+    color: white;
+    border-color: var(--rojo);
+    font-weight: 600;
+}
+
+.acciones-tabla .boton-funciones:hover {
+    background-color: var(--rojo-hover);
+    color: white;
+    border-color: var(--rojo-hover);
+}
+
 .sin-productos {
     padding: 2rem;
     color: var(--texto-secundario);
@@ -401,7 +414,6 @@ tbody tr:last-child td {
     }
 
 }
-
 
 .grupo-campo input[type="file"] {
     padding: 0.6rem;
@@ -489,4 +501,24 @@ tbody tr:last-child td {
     color: var(--rojo);
     border-color: var(--rojo);
     background-color: rgba(230, 57, 70, 0.06);
+}
+
+thead th:last-child {
+    text-align: center;
+}
+
+.acciones-tabla {
+    text-align: center;
+}
+
+th,
+td {
+    text-align: center;
+}
+
+th:nth-child(2),
+td:nth-child(2),
+th:nth-child(5),
+td:nth-child(5) {
+    text-align: left;
 }

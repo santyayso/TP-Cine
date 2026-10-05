@@ -1,0 +1,323 @@
+<app-header></app-header>
+<main class="pagina-gestion">
+
+    @if (pelicula()) {
+    <h1>Funciones de "{{ pelicula()!.titulo }}"</h1>
+
+    <section class="seccion-formulario-admin">
+
+        @if (funcionEnEdicion()) {
+        <h2>Editar función</h2>
+        } @else {
+        <h2>Añadir función</h2>
+        }
+
+        <form class="formulario-funcion" [formGroup]="formularioFuncion" (ngSubmit)="guardarFuncion()">
+
+            <div class="grupo-campo">
+                <label for="fecha">Fecha (DD/MM/AAAA) *</label>
+                <input type="text" id="fecha" formControlName="fecha" placeholder="15/03/2026">
+
+                @if (controlesFuncion.fecha.touched && controlesFuncion.fecha.invalid) {
+                <div class="mensaje-error">
+                    @if (controlesFuncion.fecha.hasError('required')) {
+                    <small>La fecha es obligatoria</small>
+                    }
+                    @if (controlesFuncion.fecha.hasError('pattern')) {
+                    <small>Formato inválido. El formato debe ser: DD/MM/AAAA</small>
+                    }
+                </div>
+                }
+            </div>
+
+            <div class="grupo-campo">
+                <label for="hora">Hora *</label>
+                <input id="hora" type="time" formControlName="hora">
+
+                @if (controlesFuncion.hora.touched && controlesFuncion.hora.invalid) {
+                <small>La hora es obligatoria</small>
+                }
+            </div>
+
+            <div class="grupo-campo">
+                <label for="precio">Precio *</label>
+                <input id="precio" type="number" formControlName="precio">
+
+                @if (controlesFuncion.precio.touched && controlesFuncion.precio.invalid) {
+                <small>El precio es obligatorio</small>
+                }
+            </div>
+
+            <div class="grupo-campo">
+                <label for="precio_preventa">Precio preventa</label>
+                <input id="precio_preventa" type="number" formControlName="precio_preventa">
+
+                @if (!tienePreventaActiva()) {
+                <small>Se habilita cuando la preventa está configurada</small>
+                }
+            </div>
+
+            <div class="grupo-campo">
+                <label for="recargo_vip">Recargo VIP *</label>
+                <input id="recargo_vip" type="number" formControlName="recargo_vip">
+
+                @if (controlesFuncion.recargo_vip.touched && controlesFuncion.recargo_vip.invalid) {
+                <small>El recargo VIP es obligatorio</small>
+                }
+            </div>
+
+            <div class="grupo-campo">
+                <label for="castellano_subtitulada">Idioma</label>
+                <select id="castellano_subtitulada" formControlName="castellano_subtitulada">
+                    <option value="castellano">Castellano</option>
+                    <option value="subtitulada">Subtitulada</option>
+                </select>
+            </div>
+
+            <div class="grupo-campo">
+                <label for="formato">Formato</label>
+                <select id="formato" formControlName="formato">
+                    <option value="2D">2D</option>
+                    <option value="3D">3D</option>
+                    <option value="4D">4D</option>
+                </select>
+            </div>
+
+            <div class="acciones-formulario">
+                <button class="boton-principal" type="submit">
+                    @if (funcionEnEdicion()) {
+                    Guardar cambios
+                    } @else {
+                    Crear función
+                    }
+                </button>
+
+                @if (funcionEnEdicion()) {
+                <button class="boton-secundario" type="button" (click)="terminarEdicionFuncion()">
+                    Cancelar edición
+                </button>
+                }
+            </div>
+
+        </form>
+
+    </section>
+    <section class="seccion-formulario-admin">
+
+        <h2>Añadir funciones recurrentes</h2>
+
+        <form class="formulario-funcion" [formGroup]="formularioRecurrente" (ngSubmit)="guardarFuncionesRecurrentes()">
+
+            <div class="seccion-dias">
+                <h3>Días de la semana *</h3>
+
+                <div class="lista-dias">
+                    @for (dia of diasSemanaOpciones; track dia.valor) {
+                    <label class="opcion-dia">
+                        <input type="checkbox" [checked]="diasSemanaSeleccionados().includes(dia.valor)"
+                            (change)="alternarDiaSemana(dia.valor)">
+                        <span>{{ dia.nombre }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+
+            <div class="grupo-campo">
+                <label for="hora_rec">Hora *</label>
+                <input id="hora_rec" type="time" formControlName="hora">
+
+                @if (controlesRecurrente.hora.touched && controlesRecurrente.hora.invalid) {
+                <small>La hora es obligatoria</small>
+                }
+            </div>
+
+            <div class="grupo-campo">
+                <label for="fecha_desde">Desde (DD/MM/AAAA) *</label>
+                <input type="text" id="fecha_desde" formControlName="fecha_desde" placeholder="10/10/2026">
+
+                @if (controlesRecurrente.fecha_desde.touched && controlesRecurrente.fecha_desde.invalid) {
+                <div class="mensaje-error">
+                    @if (controlesRecurrente.fecha_desde.hasError('required')) {
+                    <small>La fecha desde es obligatoria</small>
+                    }
+                    @if (controlesRecurrente.fecha_desde.hasError('pattern')) {
+                    <small>Formato inválido. El formato debe ser: DD/MM/AAAA</small>
+                    }
+                </div>
+                }
+            </div>
+
+            <div class="grupo-campo">
+                <label for="fecha_hasta">Hasta (DD/MM/AAAA) *</label>
+                <input type="text" id="fecha_hasta" formControlName="fecha_hasta" placeholder="29/11/2026">
+
+                @if (controlesRecurrente.fecha_hasta.touched && controlesRecurrente.fecha_hasta.invalid) {
+                <div class="mensaje-error">
+                    @if (controlesRecurrente.fecha_hasta.hasError('required')) {
+                    <small>La fecha hasta es obligatoria</small>
+                    }
+                    @if (controlesRecurrente.fecha_hasta.hasError('pattern')) {
+                    <small>Formato inválido. El formato debe ser: DD/MM/AAAA</small>
+                    }
+                </div>
+                }
+            </div>
+
+            <div class="grupo-campo">
+                <label for="precio_rec">Precio *</label>
+                <input id="precio_rec" type="number" formControlName="precio">
+
+                @if (controlesRecurrente.precio.touched && controlesRecurrente.precio.invalid) {
+                <small>El precio es obligatorio</small>
+                }
+            </div>
+
+            <div class="grupo-campo">
+                <label for="precio_preventa_rec">Precio preventa</label>
+                <input id="precio_preventa_rec" type="number" formControlName="precio_preventa">
+
+                @if (!tienePreventaActiva()) {
+                <small>Se habilita cuando la preventa está configurada</small>
+                }
+            </div>
+
+            <div class="grupo-campo">
+                <label for="recargo_vip_rec">Recargo VIP *</label>
+                <input id="recargo_vip_rec" type="number" formControlName="recargo_vip">
+
+                @if (controlesRecurrente.recargo_vip.touched && controlesRecurrente.recargo_vip.invalid) {
+                <small>El recargo VIP es obligatorio</small>
+                }
+            </div>
+
+            <div class="grupo-campo">
+                <label for="castellano_subtitulada_rec">Idioma</label>
+                <select id="castellano_subtitulada_rec" formControlName="castellano_subtitulada">
+                    <option value="castellano">Castellano</option>
+                    <option value="subtitulada">Subtitulada</option>
+                </select>
+            </div>
+
+            <div class="grupo-campo">
+                <label for="formato_rec">Formato</label>
+                <select id="formato_rec" formControlName="formato">
+                    <option value="2D">2D</option>
+                    <option value="3D">3D</option>
+                    <option value="4D">4D</option>
+                </select>
+            </div>
+
+            <button class="boton-principal" type="submit">Crear funciones recurrentes</button>
+
+        </form>
+
+    </section>
+
+    <section class="seccion-formulario-admin">
+
+        <h2>Preventa</h2>
+
+        @if (yaPerteneceACatalogoGeneral()) {
+        <p class="aviso-preventa">Esta película ya pertenece al catálogo general, por lo que no aplica preventa.</p>
+        } @else if (funcionesFuturas().length === 0) {
+        <p>Cargá al menos una función antes de configurar la preventa.</p>
+        } @else if (tienePreventaActiva()) {
+        <p>La preventa está activa para esta película.</p>
+        <button class="boton-secundario" type="button" (click)="desactivarPreventaClick()">
+            Desactivar preventa
+        </button>
+        } @else {
+        <form class="formulario-funcion" [formGroup]="formularioPreventa" (ngSubmit)="guardarPreventa()">
+            <div class="grupo-campo campo-completo">
+
+                <label for="precio_preventa_config">
+                    <span class="titulo-precio-preventa">Precio preventa</span>
+                    <span class="aclaracion-preventa">
+                        (opcional, también se puede cargar función por función)
+                    </span>
+                </label>
+
+                <input id="precio_preventa_config" type="number" formControlName="precio_preventa">
+
+            </div>
+
+            <button class="boton-principal" type="submit">Configurar preventa</button>
+
+        </form>
+        }
+
+    </section>
+
+    <section class="seccion-productos">
+
+        <div class="encabezado-productos">
+            <h2>Funciones cargadas</h2>
+
+            <input class="buscador" type="text" placeholder="Buscar función..." [value]="terminosBusqueda()"
+                (input)="terminosBusqueda.set($any($event.target).value)">
+        </div>
+
+        <div class="contenedor-tabla">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Fecha y hora</th>
+                        <th>Sala</th>
+                        <th>Precio</th>
+                        <th>Precio preventa</th>
+                        <th>Recargo VIP</th>
+                        <th>Idioma</th>
+                        <th>Formato</th>
+                        <th>Ancla</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @for (funcion of funcionesFiltradas(); track funcion.id_funcion) {
+
+                    <tr>
+                        <td>{{ funcion.fecha_hora | date:'dd/MM/yyyy HH:mm' }}</td>
+                        <td>Sala {{ funcion.id_sala }}</td>
+                        <td>{{ funcion.precio }}</td>
+                        <td>{{ funcion.precio_preventa ?? '-' }}</td>
+                        <td>{{ funcion.recargo_vip }}</td>
+                        <td>{{ funcion.castellano_subtitulada }}</td>
+                        <td>{{ funcion.formato }}</td>
+                        <td>{{ funcion.es_funcion_ancla ? 'Sí' : '-' }}</td>
+
+                        <td class="acciones-tabla">
+                            <button class="boton-editar" (click)="prepararEdicionFuncion(funcion)">
+                                Editar
+                            </button>
+
+                            <button class="boton-estado" (click)="eliminarFuncionClick(funcion)">
+                                Eliminar
+                            </button>
+                        </td>
+                    </tr>
+
+                    }
+
+                    @empty {
+                    <tr>
+                        <td colspan="9" class="sin-productos">
+                            No se encontraron funciones.
+                        </td>
+                    </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+    }
+
+</main>
+<app-footer></app-footer>

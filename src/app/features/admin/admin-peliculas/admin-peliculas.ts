@@ -5,6 +5,7 @@ import { Pelicula } from '../../../core/models/peliculaInterface';
 import { Genero } from '../../../core/models/generoInterface';
 import { Header } from '../../../layout/header/header';
 import { Footer } from '../../../layout/footer/footer';
+import { Router } from '@angular/router';
 
 @Component({
   imports: [ReactiveFormsModule, Header, Footer],
@@ -14,7 +15,7 @@ import { Footer } from '../../../layout/footer/footer';
 })
 export class AdminPeliculas implements OnInit, OnDestroy {
   private peliculasService = inject(PeliculasService)
-
+  private router = inject(Router)
   peliculas = signal<Pelicula[]>([])
   generos = signal<Genero[]>([])
   idsGenerosSeleccionados = signal<number[]>([])
@@ -266,7 +267,9 @@ export class AdminPeliculas implements OnInit, OnDestroy {
     }
   }
 
-
+  irAFunciones(pelicula: Pelicula) {
+    this.router.navigate(['/admin/peliculas', pelicula.id_pelicula, 'funciones']);
+  }
 
 
 }

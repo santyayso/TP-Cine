@@ -1,20 +1,13 @@
-/* VARIABLES GENERALES */
 :root {
     --rojo: #e63946;
     --rojo-hover: #ff4d5a;
-
     --fondo: #121212;
     --fondo-contenedor: #1c1c1c;
     --fondo-card: #242424;
-
     --texto-principal: #f5f5f5;
     --texto-secundario: #b5b5b5;
-
     --borde: #333333;
 }
-
-
-/* FUENTE */
 
 @font-face {
     font-family: "fuentePrincipal";
@@ -22,22 +15,52 @@
     font-weight: 200 700;
 }
 
-
-/* GENERALES */
-
 * {
     box-sizing: border-box;
 }
 
 html {
+    min-height: 100%;
     scroll-behavior: smooth;
 }
 
 body {
+    min-height: 100vh;
     margin: 0;
+
     background-color: var(--fondo);
     color: var(--texto-principal);
+
     font-family: "fuentePrincipal", sans-serif;
+}
+
+app-root {
+    display: block;
+    min-height: 100vh;
+}
+
+app-root > main {
+    min-height: 100vh;
+}
+
+router-outlet + * {
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+}
+
+app-header {
+    display: block;
+    flex-shrink: 0;
+}
+
+app-footer {
+    display: block;
+
+    margin-top: auto;
+
+    flex-shrink: 0;
 }
 
 button,
@@ -56,4 +79,4 @@ h2,
 h3,
 p {
     margin-top: 0;
-}/* You can add global styles to this file, and also import other style files */
+}

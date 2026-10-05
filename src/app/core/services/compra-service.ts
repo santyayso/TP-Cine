@@ -95,12 +95,14 @@ export class CompraService {
         return `${anio}-${mes}-${dia}`
     }
 
+
+
     async generarCompra(monto_efectivo: number, total: number, monto_credito: number, id_cupon_aplicado: number | null, id_cupon_usuario: number | null) {
         const datosComprador = this.datosComprador()
         if (!datosComprador) return
 
         const funcion = this.funcionSeleccionada()
-        if (!funcion) return
+        const idFuncion = funcion?.id_funcion ?? null
 
         const idVenta = await this.ventasService.crearVenta({
             nombre: datosComprador.nombre,
@@ -116,7 +118,7 @@ export class CompraService {
 
         if (!idVenta) return
 
-        const idFuncion = funcion.id_funcion
+
 
         const idDetalleVenta = await this.ventasService.crearDetalleVenta(idVenta, "123", idFuncion)
 
@@ -127,7 +129,7 @@ export class CompraService {
         for (const butaca of this.butacasSeleccionadas()) {
             filasButacas.push({
                 id_detalle_venta: idDetalleVenta,
-                id_funcion: idFuncion,
+                id_funcion: idFuncion!,
                 fila_butaca: butaca.fila,
                 numero_butaca: butaca.numero,
                 tipo_butaca: butaca.tipo,
@@ -136,7 +138,11 @@ export class CompraService {
             })
         }
 
-        await this.ventasService.crearButacasVendidas(filasButacas)
+        if (filasButacas.length > 0) {
+            await this.ventasService.crearButacasVendidas(filasButacas)
+        }
+
+
 
 
         const filasCandy = this.listaCandyVendidos().map((producto) => ({

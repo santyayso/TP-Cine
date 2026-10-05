@@ -1,0 +1,356 @@
+.seccion-resenas {
+    width: 100%;
+}
+.encabezado-resenas {
+    margin-bottom: 2rem;
+}
+
+.encabezado-resenas h2 {
+    margin: 0 0 0.4rem;
+
+    color: var(--texto-principal);
+
+    font-size: 1.7rem;
+}
+
+.encabezado-resenas p {
+    margin: 0;
+
+    color: var(--texto-secundario);
+
+    font-size: 0.9rem;
+}
+
+.lista-resenas {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    gap: 1.5rem;
+}
+
+.tarjeta-resena {
+    width: 100%;
+    min-width: 0;
+
+    padding: 1.3rem;
+
+    background-color: var(--fondo-contenedor);
+
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.18);
+
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.tarjeta-resena:hover {
+    transform: translateY(-2px);
+
+    border-color: #555;
+
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
+.encabezado-tarjeta-resena {
+    display: flex;
+    align-items: center;
+
+    gap: 1rem;
+
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+
+    border-bottom: 1px solid var(--borde);
+}
+
+.encabezado-tarjeta-resena h3 {
+    margin: 0;
+
+    color: var(--texto-principal);
+
+    font-size: 1.15rem;
+    font-weight: 600;
+    line-height: 1.3;
+}
+.detalle-resena {
+    width: 100%;
+}
+
+.resena-guardada {
+    width: 100%;
+}
+
+.estrellas-resena,
+.estrellas-formulario {
+    display: flex;
+
+    gap: 0.15rem;
+
+    margin: 0 0 0.9rem;
+}
+
+.estrella-llena,
+.estrella-vacia {
+    color: #e8c66a;
+
+    font-size: 1.45rem;
+    line-height: 1;
+}
+
+.estrella-vacia {
+    color: #666;
+}
+
+.comentario-resena {
+    margin: 0 0 1rem;
+
+    padding: 0.8rem;
+
+    background-color: var(--fondo-card);
+    color: var(--texto-secundario);
+
+    border-left: 3px solid #e8c66a;
+    border-radius: 5px;
+
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+.acciones-resena {
+    width: 100%;
+
+    display: flex;
+
+    gap: 0.6rem;
+}
+
+.acciones-resena button {
+    flex: 1;
+
+    padding: 0.6rem 0.7rem;
+
+    border-radius: 6px;
+
+    font-size: 0.8rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        color 0.2s ease,
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.boton-resena {
+    background-color: var(--rojo);
+    color: white;
+
+    border: 1px solid var(--rojo);
+}
+
+.boton-resena:hover {
+    background-color: var(--rojo-hover);
+    border-color: var(--rojo-hover);
+}
+
+.boton-eliminar-resena {
+    background-color: transparent;
+    color: var(--texto-secundario);
+
+    border: 1px solid var(--borde);
+}
+
+.boton-eliminar-resena:hover {
+    color: var(--rojo);
+
+    border-color: var(--rojo);
+
+    background-color: rgba(230, 57, 70, 0.06);
+}
+.formulario-resena {
+    width: 100%;
+}
+
+.estrellas-formulario {
+    margin-bottom: 1rem;
+}
+
+.estrellas-formulario .estrella-llena,
+.estrellas-formulario .estrella-vacia {
+    font-size: 1.7rem;
+
+    cursor: pointer;
+
+    transition:
+        color 0.2s ease,
+        transform 0.15s ease;
+}
+
+.estrellas-formulario .estrella-llena:hover,
+.estrellas-formulario .estrella-vacia:hover {
+    color: #e8c66a;
+
+    transform: scale(1.12);
+}
+
+.formulario-resena textarea {
+    width: 100%;
+    min-height: 100px;
+
+    padding: 0.75rem;
+
+    background-color: var(--fondo-card);
+    color: var(--texto-principal);
+
+    border: 1px solid var(--borde);
+    border-radius: 7px;
+
+    font-family: inherit;
+    font-size: 0.85rem;
+    line-height: 1.4;
+
+    resize: vertical;
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.formulario-resena textarea::placeholder {
+    color: #777;
+}
+
+.formulario-resena textarea:focus {
+    border-color: var(--rojo);
+
+    box-shadow: 0 0 0 2px rgba(230, 57, 70, 0.12);
+}
+
+.acciones-formulario-resena {
+    display: flex;
+
+    gap: 0.6rem;
+
+    margin-top: 0.8rem;
+}
+
+.acciones-formulario-resena button {
+    flex: 1;
+
+    padding: 0.6rem 0.7rem;
+
+    border-radius: 6px;
+
+    font-size: 0.8rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        color 0.2s ease,
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.acciones-formulario-resena .boton-principal {
+    background-color: var(--rojo);
+    color: white;
+
+    border: 1px solid var(--rojo);
+}
+
+.acciones-formulario-resena .boton-principal:hover {
+    background-color: var(--rojo-hover);
+    border-color: var(--rojo-hover);
+}
+
+.acciones-formulario-resena .boton-secundario {
+    background-color: transparent;
+    color: var(--texto-principal);
+
+    border: 1px solid var(--borde);
+}
+
+.acciones-formulario-resena .boton-secundario:hover {
+    color: var(--rojo);
+
+    border-color: var(--rojo);
+}
+
+.portada-resena {
+    width: 70px;
+    height: 100px;
+
+    flex-shrink: 0;
+
+    object-fit: cover;
+
+    border: 1px solid var(--borde);
+    border-radius: 6px;
+
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
+}
+
+.sin-resenas {
+    width: 100%;
+
+    padding: 3rem 1rem;
+
+    text-align: center;
+
+    border: 1px dashed var(--borde);
+    border-radius: 12px;
+}
+
+.sin-resenas h3 {
+    margin: 0 0 0.5rem;
+
+    color: var(--texto-principal);
+
+    font-size: 1.2rem;
+}
+
+.sin-resenas p {
+    margin: 0;
+
+    color: var(--texto-secundario);
+
+    font-size: 0.9rem;
+}
+
+
+
+@media (max-width: 1050px) {
+
+    .lista-resenas {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 700px) {
+
+    .lista-resenas {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 450px) {
+
+    .acciones-resena,
+    .acciones-formulario-resena {
+        flex-direction: column;
+    }
+
+    .acciones-resena button,
+    .acciones-formulario-resena button {
+        width: 100%;
+    }
+}

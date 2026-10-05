@@ -28,7 +28,7 @@ export class VentasService {
         return data.id_venta
     }
 
-    async crearDetalleVenta(idVenta: number, codigoQr: string, idFuncion: number): Promise<number | null> {
+    async crearDetalleVenta(idVenta: number, codigoQr: string, idFuncion: number | null): Promise<number | null> {
         const { data, error } = await this.supabaseService.cliente
             .from('detalle_ventas')
             .insert({

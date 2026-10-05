@@ -83,11 +83,25 @@ export const routes: Routes = [
                 path: 'cupones',
                 loadComponent: () => import('./features/perfil/mis-cupones/mis-cupones').then((componente) => componente.MisCupones)
             },
+            {
+                path: 'resenas',
+                loadComponent: () => import('./features/perfil/mis-resenas/mis-resenas').then((componente) => componente.MisResenas)
+            },
+
         ]
     },
-    { path: '**', 
-      redirectTo: '/principal' 
-    }
+    {
+        path: 'admin/peliculas/:id/funciones',
+        loadComponent: () => import('./features/admin/admin-funciones/admin-funciones').then(m => m.AdminFunciones),
+        canActivate: [authAdminGuard],
+    },
+
+    {
+        path: '**',
+        redirectTo: '/principal'
+    },
+
+
 
 
 ];

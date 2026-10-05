@@ -126,6 +126,56 @@
 
     </article>
 
+        <section class="seccion-resenas-pelicula">
+
+        <h3>Reseñas</h3>
+
+        @if (resenas().length > 0) {
+
+            <p class="promedio-resenas">
+                {{ promedioCalificacion() | number:'1.1-1' }} ★ ({{ resenas().length }} reseña{{ resenas().length === 1 ? '' : 's' }})
+            </p>
+
+            <div class="lista-resenas-pelicula">
+
+                @for (resena of resenas(); track resena.id_usuario) {
+
+                    <article class="tarjeta-resena-pelicula">
+
+                        <p class="autor-resena">{{ resena.usuarios.nombre }} {{ resena.usuarios.apellido }}</p>
+
+                        <p class="fecha-resena">{{ resena.fecha_resena | date:'dd/MM/yyyy' }}</p>
+                            
+                        <p class="estrellas-resena">
+                            @for (estrella of [1,2,3,4,5]; track estrella) {
+                                @if (estrella <= resena.calificacion) {
+                                    <span class="estrella-llena">★</span>
+                                } @else {
+                                    <span class="estrella-vacia">☆</span>
+                                }
+                            }
+                        </p>
+
+                        @if (resena.comentario) {
+                            <p class="comentario-resena">{{ resena.comentario }}</p>
+                        }
+
+                    </article>
+
+                }
+
+            </div>
+
+        } @else {
+
+            <p>Todavía no hay reseñas para esta película.</p>
+
+        }
+
+    </section>
+
+
+
 </section>
 
 }

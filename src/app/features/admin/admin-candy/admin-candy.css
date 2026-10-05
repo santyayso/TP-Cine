@@ -432,6 +432,8 @@ tbody tr:last-child td {
 }
 
 
+
+
 @media (max-width: 700px) {
 
     .pagina-gestion {
@@ -480,3 +482,25 @@ tbody tr:last-child td {
     }
 
 }
+
+thead th:last-child {
+    text-align: center;
+}
+
+.acciones-tabla {
+    text-align: center;
+}
+
+th,
+td {
+    text-align: center;
+}
+
+th:nth-child(2),
+td:nth-child(2),
+th:nth-child(5),
+td:nth-child(5) {
+    text-align: left;
+}
+
+

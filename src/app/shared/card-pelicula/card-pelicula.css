@@ -1,5 +1,6 @@
 .card-pelicula {
-    height: 100%;
+    width: 100%;
+    height: 510px;
 
     display: flex;
     flex-direction: column;
@@ -19,7 +20,6 @@
         border-color 0.3s ease;
 }
 
-
 .card-pelicula:hover {
     transform: translateY(-6px);
 
@@ -28,18 +28,16 @@
     border-color: var(--rojo);
 }
 
-
-
-
 .contenedor-portada {
     width: 100%;
     height: 300px;
+
+    flex-shrink: 0;
 
     overflow: hidden;
 
     background-color: #181818;
 }
-
 
 .contenedor-portada img {
     width: 100%;
@@ -50,13 +48,9 @@
     transition: transform 0.35s ease;
 }
 
-
 .card-pelicula:hover .contenedor-portada img {
     transform: scale(1.04);
 }
-
-
-
 
 .contenido-card {
     flex: 1;
@@ -67,40 +61,32 @@
     padding: 1rem;
 }
 
-
 .contenido-card h2 {
-    margin-top: 0;
-    margin-bottom: 0.5rem;
+    margin: 0 0 0.35rem;
 
     color: var(--texto-principal);
 
-    font-size: 1.2rem;
+    font-size: 1.35rem;
     font-weight: 600;
+    line-height: 1.3;
 }
 
-
-
-
 .duracion {
-    margin: 0 0 0.8rem;
+    margin: 0 0 0.7rem;
 
     color: var(--texto-secundario);
 
     font-size: 0.9rem;
 }
 
-
-
-
 .preventa {
     align-self: flex-start;
 
-    margin: 0 0 1rem;
+    margin: 0 0 0.7rem;
 
     padding: 0.25rem 0.6rem;
 
     background-color: rgba(230, 57, 70, 0.12);
-
     color: var(--rojo);
 
     border-radius: 12px;
@@ -113,37 +99,36 @@
     letter-spacing: 0.03em;
 }
 
-
-
-
 .boton-detalle {
+    width: 100%;
+
     margin-top: auto;
 
-    padding: 0.55rem 0.8rem;
+    padding: 0.65rem 1rem;
 
-    background-color: transparent;
-
-    color: var(--texto-principal);
+    background-color: var(--rojo);
+    color: white;
 
     border: 1px solid var(--rojo);
     border-radius: 6px;
 
+    font-size: 0.9rem;
+    font-weight: 600;
+
     text-align: center;
 
-    font-size: 0.95rem;
-    font-weight: 600;
+    cursor: pointer;
 
     transition:
         background-color 0.2s ease,
-        color 0.2s ease,
+        border-color 0.2s ease,
         transform 0.15s ease;
 }
 
-
 .boton-detalle:hover {
-    background-color: var(--rojo);
+    background-color: var(--rojo-hover);
 
-    color: white;
+    border-color: var(--rojo-hover);
 
-    transform: translateY(-2px);
+    transform: translateY(-1px);
 }

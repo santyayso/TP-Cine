@@ -2,9 +2,11 @@
     width: 100%;
 }
 
-.pagina-compras>h1 {
+.pagina-compras > h1 {
     margin: 0 0 2rem;
+
     color: var(--texto-principal);
+
     font-size: 1.7rem;
 }
 
@@ -27,6 +29,7 @@
 .encabezado-grupo {
     width: 100%;
     min-height: 75px;
+
     margin-bottom: 1rem;
 
     text-align: center;
@@ -34,27 +37,34 @@
 
 .encabezado-grupo h2 {
     margin: 0 0 0.3rem;
+
     color: var(--texto-principal);
+
     font-size: 1.25rem;
 }
 
 .encabezado-grupo p {
     margin: 0;
+
     color: var(--texto-secundario);
+
     font-size: 0.85rem;
     line-height: 1.4;
 }
 
 .lista-compras {
     width: 100%;
+
     display: flex;
     flex-direction: column;
+
     gap: 1rem;
 }
 
 .tarjeta-compra {
     width: 100%;
     min-width: 0;
+
     padding: 1.3rem;
 
     background-color: var(--fondo-contenedor);
@@ -72,7 +82,9 @@
 
 .tarjeta-compra:hover {
     transform: translateY(-2px);
+
     border-color: #555;
+
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
 }
 
@@ -91,7 +103,7 @@
     border-bottom: 1px solid var(--borde);
 }
 
-.encabezado-compra>div {
+.encabezado-compra > div {
     min-width: 0;
 }
 
@@ -127,16 +139,19 @@
 
 .estado-pendiente {
     color: #e8c66a;
+
     background-color: rgba(232, 198, 106, 0.1);
 }
 
 .estado-finalizada {
     color: #81c784;
+
     background-color: rgba(76, 175, 80, 0.12);
 }
 
 .estado-cancelada {
     color: var(--rojo);
+
     background-color: rgba(230, 57, 70, 0.1);
 }
 
@@ -165,6 +180,7 @@
 .lista-butacas {
     display: flex;
     flex-wrap: wrap;
+
     gap: 0.4rem;
 }
 
@@ -186,6 +202,7 @@
 .lista-candy {
     display: flex;
     flex-wrap: wrap;
+
     gap: 0.4rem;
 }
 
@@ -238,7 +255,6 @@
 
 .acciones-compra button {
     flex: 1;
-
     min-width: 0;
 
     padding: 0.6rem 0.7rem;
@@ -253,43 +269,53 @@
     transition:
         color 0.2s ease,
         border-color 0.2s ease,
-        background-color 0.2s ease;
+        background-color 0.2s ease,
+        transform 0.15s ease;
 }
 
 .boton-pdf {
-    background-color: transparent;
-    color: var(--texto-principal);
+    width: 100%;
 
-    border: 1px solid var(--borde);
-}
+    padding: 0.6rem 0.7rem;
 
-.boton-pdf:hover {
-    color: var(--rojo);
-    border-color: var(--rojo);
-}
-
-.boton-resena {
     background-color: var(--rojo);
     color: white;
 
     border: 1px solid var(--rojo);
+    border-radius: 6px;
+
+    font-size: 0.78rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.15s ease;
 }
 
-.boton-resena:hover {
+.boton-pdf:hover {
     background-color: var(--rojo-hover);
+
     border-color: var(--rojo-hover);
+
+    transform: translateY(-1px);
 }
 
 .boton-cancelar {
     background-color: transparent;
-    color: var(--rojo);
+    color: var(--texto-secundario);
 
-    border: 1px solid var(--rojo);
+    border: 1px solid var(--borde);
 }
 
 .boton-cancelar:hover {
-    background-color: var(--rojo);
-    color: white;
+    color: var(--rojo);
+
+    border-color: var(--rojo);
+
+    background-color: rgba(230, 57, 70, 0.06);
 }
 
 .compra-cancelada {
@@ -327,169 +353,11 @@
     font-size: 0.9rem;
 }
 
-
-
-
-
-
-
-
-.detalle-resena {
-    width: 100%;
-}
-
-.resena-guardada {
-    width: 100%;
-    padding-top: 0.2rem;
-}
-
-.estrellas-resena,
-.estrellas-formulario {
-    display: flex;
-    gap: 0.15rem;
-    margin: 0 0 0.7rem;
-}
-
-.estrella-llena,
-.estrella-vacia {
-    font-size: 1.35rem;
-    line-height: 1;
-}
-
-.estrella-llena {
-    color: #e8c66a;
-}
-
-.estrella-vacia {
-    color: #666;
-}
-
-.comentario-resena {
-    margin: 0 0 1rem;
-    padding: 0.8rem;
-
-    background-color: var(--fondo-card);
-    color: var(--texto-secundario);
-
-    border-left: 3px solid #e8c66a;
-    border-radius: 5px;
-
-    font-size: 0.85rem;
-    line-height: 1.5;
-}
-
-.formulario-resena {
-    width: 100%;
-    margin-top: 0.3rem;
-    padding-top: 1rem;
-
-    border-top: 1px solid var(--borde);
-}
-
-.estrellas-formulario {
-    margin-bottom: 0.9rem;
-}
-
-.estrellas-formulario .estrella-llena,
-.estrellas-formulario .estrella-vacia {
-    font-size: 1.7rem;
-    cursor: pointer;
-
-    transition:
-        color 0.2s ease,
-        transform 0.15s ease;
-}
-
-.estrellas-formulario .estrella-llena:hover,
-.estrellas-formulario .estrella-vacia:hover {
-    color: #e8c66a;
-    transform: scale(1.12);
-}
-
-.formulario-resena textarea {
-    width: 100%;
-    min-height: 90px;
-    padding: 0.75rem;
-
-    background-color: var(--fondo-card);
-    color: var(--texto-principal);
-
-    border: 1px solid var(--borde);
-    border-radius: 7px;
-
-    font-family: inherit;
-    font-size: 0.85rem;
-    line-height: 1.4;
-
-    resize: vertical;
-    outline: none;
-
-    transition:
-        border-color 0.2s ease,
-        box-shadow 0.2s ease;
-}
-
-.formulario-resena textarea::placeholder {
-    color: #777;
-}
-
-.formulario-resena textarea:focus {
-    border-color: var(--rojo);
-    box-shadow: 0 0 0 2px rgba(230, 57, 70, 0.12);
-}
-
-.acciones-formulario-resena {
-    display: flex;
-    gap: 0.6rem;
-    margin-top: 0.8rem;
-}
-
-.acciones-formulario-resena button {
-    flex: 1;
-
-    padding: 0.6rem 0.7rem;
-
-    border-radius: 6px;
-
-    font-size: 0.78rem;
-    font-weight: 600;
-
-    cursor: pointer;
-
-    transition:
-        background-color 0.2s ease,
-        border-color 0.2s ease,
-        color 0.2s ease;
-}
-
-.acciones-formulario-resena .boton-principal {
-    background-color: var(--rojo);
-    color: white;
-    border: 1px solid var(--rojo);
-}
-
-.acciones-formulario-resena .boton-principal:hover {
-    background-color: var(--rojo-hover);
-    border-color: var(--rojo-hover);
-}
-
-.acciones-formulario-resena .boton-secundario {
-    background-color: transparent;
-    color: var(--texto-principal);
-    border: 1px solid var(--borde);
-}
-
-.acciones-formulario-resena .boton-secundario:hover {
-    color: var(--rojo);
-    border-color: var(--rojo);
-}
-
 @media (max-width: 1050px) {
 
     .columnas-compras {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-
 }
 
 @media (max-width: 700px) {
@@ -501,7 +369,6 @@
     .encabezado-grupo {
         min-height: auto;
     }
-
 }
 
 @media (max-width: 450px) {
@@ -517,14 +384,4 @@
     .acciones-compra button {
         width: 100%;
     }
-
-    .acciones-formulario-resena {
-        flex-direction: column;
-    }
-
-    .acciones-formulario-resena button {
-        width: 100%;
-    }
-
 }
-

@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Supabase } from './supabase';
 import { Resena } from '../models/resenaInterface';
+import { ResenaConUsuario } from '../models/resenaConUsuarioInterface';
 
 @Injectable({ providedIn: 'root' })
 export class ResenasService {
@@ -63,4 +64,18 @@ export class ResenasService {
         }
         return true;
     }
+
+    async obtenerResenasDePelicula(idPelicula: number): Promise<ResenaConUsuario[]> {
+        const { data, error } = await this.supabaseService.cliente
+            .from('resenas')
+            .select('*, usuarios(nombre, apellido)')
+            .eq('id_pelicula', idPelicula);
+
+        if (error) {
+            console.error('Error al traer reseñas de la película:', error);
+            return [];
+        }
+        return data ?? [];
+    }
+
 }

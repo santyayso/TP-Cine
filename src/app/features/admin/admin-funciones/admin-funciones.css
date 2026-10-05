@@ -1,0 +1,543 @@
+.pagina-gestion {
+    width: 90%;
+    max-width: 1200px;
+
+    margin: 3rem auto 5rem;
+}
+
+.pagina-gestion > h1 {
+    margin: 0 0 2rem;
+
+    color: var(--texto-principal);
+
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+
+
+.seccion-formulario-admin {
+    width: 100%;
+
+    margin-bottom: 2rem;
+    padding: 2rem;
+
+    background-color: var(--fondo-contenedor);
+
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.18);
+}
+
+.seccion-formulario-admin h2 {
+    margin: 0 0 1.5rem;
+
+    color: var(--texto-principal);
+
+    font-size: 1.35rem;
+    font-weight: 600;
+}
+
+.seccion-formulario-admin > p {
+    margin: 0 0 1.2rem;
+
+    color: var(--texto-secundario);
+
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+
+
+.formulario-funcion {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 1.3rem 1.5rem;
+}
+
+
+
+.grupo-campo {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.45rem;
+}
+
+.grupo-campo label {
+    color: var(--texto-principal);
+
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.grupo-campo input,
+.grupo-campo select {
+    width: 100%;
+
+    padding: 0.7rem 0.8rem;
+
+    background-color: var(--fondo-card);
+
+    color: var(--texto-principal);
+
+    border: 1px solid var(--borde);
+    border-radius: 7px;
+
+    font-size: 0.9rem;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.grupo-campo input:focus,
+.grupo-campo select:focus {
+    border-color: var(--rojo);
+
+    box-shadow: 0 0 0 2px rgba(230, 57, 70, 0.12);
+}
+
+.grupo-campo input:disabled {
+    opacity: 0.5;
+
+    cursor: not-allowed;
+}
+
+.grupo-campo small {
+    color: var(--texto-secundario);
+
+    font-size: 0.78rem;
+}
+
+.campo-completo {
+    grid-column: 1 / -1;
+}
+
+
+
+.seccion-dias {
+    grid-column: 1 / -1;
+
+    width: 100%;
+}
+
+.seccion-dias h3 {
+    margin: 0 0 0.8rem;
+
+    color: var(--texto-principal);
+
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.lista-dias {
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 0.6rem;
+}
+
+.opcion-dia {
+    position: relative;
+
+    cursor: pointer;
+}
+
+.opcion-dia input {
+    position: absolute;
+
+    opacity: 0;
+    pointer-events: none;
+}
+
+.opcion-dia span {
+    display: block;
+
+    min-width: 75px;
+
+    padding: 0.5rem 0.8rem;
+
+    background-color: var(--fondo-card);
+
+    color: var(--texto-secundario);
+
+    border: 1px solid var(--borde);
+    border-radius: 7px;
+
+    font-size: 0.85rem;
+    font-weight: 500;
+
+    text-align: center;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.opcion-dia:hover span {
+    color: var(--texto-principal);
+
+    border-color: var(--rojo);
+}
+
+.opcion-dia input:checked + span {
+    background-color: var(--rojo);
+
+    color: white;
+
+    border-color: var(--rojo);
+}
+
+
+
+.acciones-formulario {
+    grid-column: 1 / -1;
+
+    display: flex;
+    justify-content: flex-end;
+
+    gap: 0.7rem;
+
+    margin-top: 0.5rem;
+}
+
+.boton-principal,
+.boton-secundario {
+    padding: 0.65rem 1rem;
+
+    border-radius: 6px;
+
+    font-size: 0.85rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.15s ease;
+}
+
+.boton-principal {
+    background-color: var(--rojo);
+
+    color: white;
+
+    border: 1px solid var(--rojo);
+}
+
+.boton-principal:hover {
+    background-color: var(--rojo-hover);
+
+    border-color: var(--rojo-hover);
+
+    transform: translateY(-1px);
+}
+
+.boton-secundario {
+    background-color: transparent;
+
+    color: var(--texto-principal);
+
+    border: 1px solid var(--borde);
+}
+
+.boton-secundario:hover {
+    color: var(--rojo);
+
+    border-color: var(--rojo);
+}
+
+
+
+.formulario-funcion > .boton-principal {
+    grid-column: 1 / -1;
+
+    justify-self: end;
+
+    margin-top: 0.5rem;
+}
+
+
+
+.seccion-productos {
+    width: 100%;
+
+    margin-top: 3rem;
+}
+
+.seccion-productos > h2 {
+    margin: 0 0 1.3rem;
+
+    color: var(--texto-principal);
+
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+
+
+.contenedor-tabla {
+    width: 100%;
+
+    overflow-x: auto;
+
+    border: 1px solid var(--borde);
+    border-radius: 10px;
+}
+
+table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    background-color: var(--fondo-contenedor);
+}
+
+thead {
+    background-color: var(--fondo-card);
+}
+
+th {
+    padding: 0.9rem 1rem;
+
+    color: var(--texto-principal);
+
+    font-size: 0.82rem;
+    font-weight: 600;
+
+    text-align: left;
+
+    white-space: nowrap;
+
+    border-bottom: 1px solid var(--borde);
+}
+
+td {
+    padding: 0.9rem 1rem;
+
+    color: var(--texto-secundario);
+
+    font-size: 0.82rem;
+
+    border-bottom: 1px solid var(--borde);
+
+    white-space: nowrap;
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.025);
+}
+
+
+
+.acciones-tabla {
+    white-space: nowrap;
+}
+
+.acciones-tabla button {
+    padding: 0.5rem 0.8rem;
+
+    background-color: transparent;
+
+    color: var(--texto-principal);
+
+    border: 1px solid var(--borde);
+    border-radius: 6px;
+
+    font-size: 0.8rem;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.2s ease,
+        color 0.2s ease,
+        background-color 0.2s ease;
+}
+
+.acciones-tabla button + button {
+    margin-left: 0.5rem;
+}
+
+.boton-editar:hover {
+    color: var(--rojo);
+
+    border-color: var(--rojo);
+}
+
+.boton-estado:hover {
+    color: var(--rojo);
+
+    border-color: var(--rojo);
+
+    background-color: rgba(230, 57, 70, 0.06);
+}
+
+
+
+.sin-productos {
+    padding: 2rem;
+
+    color: var(--texto-secundario);
+
+    text-align: center;
+}
+
+
+
+@media (max-width: 800px) {
+
+    .pagina-gestion {
+        width: 92%;
+
+        margin-top: 2rem;
+    }
+
+    .formulario-funcion {
+        grid-template-columns: 1fr;
+    }
+
+    .seccion-dias,
+    .campo-completo,
+    .acciones-formulario,
+    .formulario-funcion > .boton-principal {
+        grid-column: 1;
+    }
+
+    .acciones-formulario {
+        justify-content: flex-start;
+    }
+}
+
+
+
+@media (max-width: 500px) {
+
+    .seccion-formulario-admin {
+        padding: 1.3rem;
+    }
+
+    .lista-dias {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .opcion-dia span {
+        width: 100%;
+    }
+
+    .acciones-formulario {
+        flex-direction: column;
+    }
+
+    .acciones-formulario button,
+    .formulario-funcion > .boton-principal {
+        width: 100%;
+    }
+}
+.encabezado-productos {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 1rem;
+
+    margin-bottom: 1.3rem;
+}
+
+.encabezado-productos h2 {
+    margin: 0;
+
+    color: var(--texto-principal);
+
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.buscador {
+    width: 100%;
+
+    padding: 0.75rem 0.9rem;
+
+    background-color: var(--fondo-card);
+
+    color: var(--texto-principal);
+
+    border: 1px solid var(--borde);
+    border-radius: 7px;
+
+    font-size: 0.9rem;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.buscador::placeholder {
+    color: #777;
+}
+
+.buscador:focus {
+    border-color: var(--rojo);
+
+    box-shadow: 0 0 0 2px rgba(230, 57, 70, 0.12);
+}
+
+th,
+td {
+    text-align: center;
+}
+
+.acciones-tabla {
+    text-align: center;
+}
+
+.aviso-preventa {
+    padding: 0.8rem 1rem;
+
+    background-color: rgba(230, 57, 70, 0.08);
+
+    color: var(--texto-principal) !important;
+
+    border-left: 3px solid var(--rojo);
+    border-radius: 5px;
+
+    font-size: 0.95rem !important;
+    font-weight: 500;
+}
+
+.titulo-precio-preventa {
+    color: #e8c66a;
+    font-weight: 700;
+}
+
+.aclaracion-preventa {
+    margin-left: 0.3rem;
+
+    color: var(--texto-secundario);
+
+    font-size: 0.82rem;
+    font-weight: 400;
+}

@@ -47,7 +47,7 @@ export class MisCompras implements OnInit {
     this.compras().filter((venta) => venta.estado === 'activa' && !this.yaPaso(venta))
   );
 
-  comprasConResena = computed(() =>
+  comprasPasadas = computed(() =>
     this.compras().filter((venta) => venta.estado === 'activa' && this.yaPaso(venta))
   );
 
@@ -115,80 +115,6 @@ export class MisCompras implements OnInit {
     );
   }
 
-  // ===================== RESEÑAS =====================
 
-  obtenerResenaDePelicula(idPelicula: number): Resena | undefined {
-    return this.resenas().find((resena) => resena.id_pelicula === idPelicula);
-  }
-
-  peliculaEnFormularioResena = signal<number | null>(null);
-  calificacionSeleccionada = signal<number>(0);
-  comentarioResena = signal<string>('');
-
-  abrirFormularioResena(idPelicula: number) {
-    const resenaExistente = this.obtenerResenaDePelicula(idPelicula);
-
-    if (resenaExistente) {
-      this.calificacionSeleccionada.set(resenaExistente.calificacion);
-      this.comentarioResena.set(resenaExistente.comentario ?? '');
-    } else {
-      this.calificacionSeleccionada.set(0);
-      this.comentarioResena.set('');
-    }
-
-    this.peliculaEnFormularioResena.set(idPelicula);
-  }
-
-  cerrarFormularioResena() {
-    this.peliculaEnFormularioResena.set(null);
-    this.calificacionSeleccionada.set(0);
-    this.comentarioResena.set('');
-  }
-
-  async guardarResena(idPelicula: number) {
-    if (this.calificacionSeleccionada() === 0) {
-      alert('Seleccioná una calificación de 1 a 5 estrellas');
-      return;
-    }
-
-    const usuario = this.authService.currentUserData();
-    if (!usuario) return;
-
-    const resenaExistente = this.obtenerResenaDePelicula(idPelicula);
-
-    let verificacionSupaBase = false;
-
-    if (resenaExistente) {
-      verificacionSupaBase = await this.resenasService.modificarResena(usuario.id, idPelicula, this.calificacionSeleccionada(), this.comentarioResena());
-    } else {
-      verificacionSupaBase = await this.resenasService.crearResena(usuario.id, idPelicula, this.calificacionSeleccionada(), this.comentarioResena());
-    }
-
-    if (!verificacionSupaBase) {
-      alert('Ocurrió un error al guardar la reseña');
-      return;
-    }
-
-    this.cerrarFormularioResena();
-    await this.recargarResenas();
-  }
-
-  async eliminarResena(idPelicula: number) {
-    const confirmacion = confirm('¿Estás seguro que querés eliminar tu reseña?');
-    if (!confirmacion) {
-      return;
-    }
-
-    const usuario = this.authService.currentUserData();
-    if (!usuario) return;
-
-    const verificacionSupaBase = await this.resenasService.eliminarResena(usuario.id, idPelicula);
-
-    if (!verificacionSupaBase) {
-      alert('Ocurrió un error al eliminar la reseña');
-      return;
-    }
-
-    await this.recargarResenas();
-  }
+  
 }

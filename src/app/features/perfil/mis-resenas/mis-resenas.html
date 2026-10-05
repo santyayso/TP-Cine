@@ -1,0 +1,150 @@
+<section class="seccion-resenas">
+
+    <div class="encabezado-resenas">
+        <h2>Tus reseñas</h2>
+        <p>Calificá las películas que ya viste.</p>
+    </div>
+
+    @if (peliculasVistas().length > 0) {
+
+        <div class="lista-resenas">
+
+            @for (pelicula of peliculasVistas(); track pelicula.id_pelicula) {
+
+                <article class="tarjeta-resena">
+
+                    <div class="encabezado-tarjeta-resena">
+                        <img class="portada-resena" [src]="pelicula.portada" [alt]="pelicula.titulo">
+                        <h3>{{ pelicula.titulo }}</h3>
+                    </div>
+
+                    <div class="detalle-resena">
+
+                        @if (idPeliculaFormAbierto() !== pelicula.id_pelicula) {
+
+                            @if (obtenerResenaDePelicula(pelicula.id_pelicula); as resena) {
+
+                                <div class="resena-guardada">
+
+                                    <p class="estrellas-resena">
+                                        @for (puntuacion of [1,2,3,4,5]; track puntuacion) {
+                                            @if (puntuacion <= resena.calificacion) {
+                                                <span class="estrella-llena">★</span>
+                                            } @else {
+                                                <span class="estrella-vacia">☆</span>
+                                            }
+                                        }
+                                    </p>
+
+                                    @if (resena.comentario) {
+                                        <p class="comentario-resena">
+                                            {{ resena.comentario }}
+                                        </p>
+                                    }
+
+                                    <div class="acciones-resena">
+
+                                        <button
+                                            class="boton-resena"
+                                            (click)="abrirFormularioResenaExistente(pelicula.id_pelicula)">
+                                            Editar reseña
+                                        </button>
+
+                                        <button
+                                            class="boton-eliminar-resena"
+                                            (click)="eliminarResena(pelicula.id_pelicula)">
+                                            Eliminar reseña
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+                            } @else {
+
+                                <div class="acciones-resena">
+
+                                    <button
+                                        class="boton-resena"
+                                        (click)="abrirFormularioResenaNueva(pelicula.id_pelicula)">
+                                        Dejar reseña
+                                    </button>
+
+                                </div>
+
+                            }
+
+                        } @else {
+
+                            <div class="formulario-resena">
+
+                                <p class="estrellas-formulario">
+
+                                    @for (puntuacion of [1,2,3,4,5]; track puntuacion) {
+
+                                        @if (puntuacion <= calificacionSeleccionada()) {
+
+                                            <span
+                                                class="estrella-llena"
+                                                (click)="calificacionSeleccionada.set(puntuacion)">
+                                                ★
+                                            </span>
+
+                                        } @else {
+
+                                            <span
+                                                class="estrella-vacia"
+                                                (click)="calificacionSeleccionada.set(puntuacion)">
+                                                ☆
+                                            </span>
+
+                                        }
+
+                                    }
+
+                                </p>
+
+                                <textarea
+                                    placeholder="Contanos qué te pareció (opcional)"
+                                    [value]="comentarioResena()"
+                                    (input)="comentarioResena.set($any($event.target).value)">
+                                </textarea>
+
+                                <div class="acciones-formulario-resena">
+
+                                    <button
+                                        class="boton-principal"
+                                        (click)="guardarResena(pelicula.id_pelicula)">
+                                        Guardar reseña
+                                    </button>
+
+                                    <button
+                                        class="boton-secundario"
+                                        (click)="cerrarFormularioResena()">
+                                        Cancelar
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        }
+
+                    </div>
+
+                </article>
+
+            }
+
+        </div>
+
+    } @else {
+
+        <div class="sin-resenas">
+            <h3>Todavía no viste ninguna película</h3>
+            <p>Cuando hayas visto una película, vas a poder dejar tu reseña desde acá.</p>
+        </div>
+
+    }
+
+</section>

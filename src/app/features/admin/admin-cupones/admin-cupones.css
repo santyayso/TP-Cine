@@ -293,3 +293,18 @@ tbody tr:last-child td {
         width: 100%;
     }
 }
+
+
+th,
+td {
+    text-align: center;
+}
+
+th:first-child,
+td:first-child {
+    text-align: left;
+}
+
+.acciones-tabla {
+    text-align: center;
+}
