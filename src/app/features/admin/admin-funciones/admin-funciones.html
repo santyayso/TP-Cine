@@ -31,11 +31,18 @@
             </div>
 
             <div class="grupo-campo">
-                <label for="hora">Hora *</label>
-                <input id="hora" type="time" formControlName="hora">
+                <label for="hora">Hora (HH:MM) *</label>
+                <input type="text" id="hora" formControlName="hora" placeholder="20:30">
 
                 @if (controlesFuncion.hora.touched && controlesFuncion.hora.invalid) {
-                <small>La hora es obligatoria</small>
+                <div class="mensaje-error">
+                    @if (controlesFuncion.hora.hasError('required')) {
+                    <small>La hora es obligatoria</small>
+                    }
+                    @if (controlesFuncion.hora.hasError('pattern')) {
+                    <small>Formato inválido. El formato debe ser: HH:MM (de 00:00 a 23:59)</small>
+                    }
+                </div>
                 }
             </div>
 
@@ -54,6 +61,10 @@
 
                 @if (!tienePreventaActiva()) {
                 <small>Se habilita cuando la preventa está configurada</small>
+                }
+
+                @if (controlesFuncion.precio_preventa.touched && controlesFuncion.precio_preventa.invalid) {
+                <small>El precio de preventa es obligatorio mientras la preventa esté activa</small>
                 }
             </div>
 
@@ -92,11 +103,15 @@
                     }
                 </button>
 
-                @if (funcionEnEdicion()) {
-                <button class="boton-secundario" type="button" (click)="terminarEdicionFuncion()">
+                <!-- type button para que  si toca enter no lo tome como el boton de submit -->
+                <button class="boton-secundario" type="button" (click)="resetearForm()">
+                    @if (funcionEnEdicion()) {
                     Cancelar edición
+                    }
+                    @else{
+                    Limpiar Formulario
+                    }
                 </button>
-                }
             </div>
 
         </form>
@@ -123,11 +138,18 @@
             </div>
 
             <div class="grupo-campo">
-                <label for="hora_rec">Hora *</label>
-                <input id="hora_rec" type="time" formControlName="hora">
+                <label for="hora_rec">Hora (HH:MM) *</label>
+                <input type="text" id="hora_rec" formControlName="hora" placeholder="20:30">
 
                 @if (controlesRecurrente.hora.touched && controlesRecurrente.hora.invalid) {
-                <small>La hora es obligatoria</small>
+                <div class="mensaje-error">
+                    @if (controlesRecurrente.hora.hasError('required')) {
+                    <small>La hora es obligatoria</small>
+                    }
+                    @if (controlesRecurrente.hora.hasError('pattern')) {
+                    <small>Formato inválido. El formato debe ser: HH:MM (de 00:00 a 23:59)</small>
+                    }
+                </div>
                 }
             </div>
 
@@ -179,6 +201,11 @@
                 @if (!tienePreventaActiva()) {
                 <small>Se habilita cuando la preventa está configurada</small>
                 }
+
+                @if (controlesFuncion.precio_preventa.touched && controlesFuncion.precio_preventa.invalid) {
+                <small>El precio de preventa es obligatorio mientras la preventa esté activa</small>
+                }
+
             </div>
 
             <div class="grupo-campo">
@@ -207,8 +234,17 @@
                 </select>
             </div>
 
-            <button class="boton-principal" type="submit">Crear funciones recurrentes</button>
+            <div class="acciones-formulario">
 
+                <button class="boton-principal" type="submit">
+                    Crear funciones recurrentes
+                </button>
+
+                <button class="boton-secundario" type="button" (click)="resetearFormRecurrente()">
+                    Limpiar formulario
+                </button>
+
+            </div>
         </form>
 
     </section>
@@ -218,12 +254,13 @@
         <h2>Preventa</h2>
 
         @if (yaPerteneceACatalogoGeneral()) {
-        <p class="aviso-preventa">Esta película ya pertenece al catálogo general, por lo que no aplica preventa.</p>
+        <p class="aviso-preventa">Esta película ya pertenece al catálogo general (ya fue estrenada), por lo que no se
+            puede aplicar una preventa.</p>
         } @else if (funcionesFuturas().length === 0) {
         <p>Cargá al menos una función antes de configurar la preventa.</p>
         } @else if (tienePreventaActiva()) {
         <p>La preventa está activa para esta película.</p>
-        <button class="boton-secundario" type="button" (click)="desactivarPreventaClick()">
+        <button class="boton-secundario" type="button" (click)="desactivarPreventa()">
             Desactivar preventa
         </button>
         } @else {
@@ -231,13 +268,16 @@
             <div class="grupo-campo campo-completo">
 
                 <label for="precio_preventa_config">
-                    <span class="titulo-precio-preventa">Precio preventa</span>
+                    <span class="titulo-precio-preventa">Precio preventa *</span>
                     <span class="aclaracion-preventa">
-                        (opcional, también se puede cargar función por función)
+                        (se aplica a todas las funciones; después podés cambiarlo función por función)
                     </span>
                 </label>
 
                 <input id="precio_preventa_config" type="number" formControlName="precio_preventa">
+                @if (controlesPreventa.precio_preventa.touched && controlesPreventa.precio_preventa.invalid) {
+                <small>El precio de preventa es obligatorio</small>
+                }
 
             </div>
 
@@ -270,7 +310,7 @@
                         <th>Recargo VIP</th>
                         <th>Idioma</th>
                         <th>Formato</th>
-                        <th>Ancla</th>
+                        <th>Limite de preventa</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -287,10 +327,10 @@
                         <td>{{ funcion.recargo_vip }}</td>
                         <td>{{ funcion.castellano_subtitulada }}</td>
                         <td>{{ funcion.formato }}</td>
-                        <td>{{ funcion.es_funcion_ancla ? 'Sí' : '-' }}</td>
+                        <td>{{ funcion.es_funcion_ancla ? '✔' : '-' }}</td>
 
                         <td class="acciones-tabla">
-                            <button class="boton-editar" (click)="prepararEdicionFuncion(funcion)">
+                            <button class="boton-editar" (click)="prepararFormParaEdicion(funcion)">
                                 Editar
                             </button>
 

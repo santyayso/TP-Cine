@@ -1,0 +1,124 @@
+<app-header></app-header>
+<main class="pagina-gestion">
+
+    <h1>Validar entradas y candy</h1>
+
+    <section class="seccion-formulario-admin">
+
+        <!-- acá la librería dibuja la cámara. Tiene que existir siempre en el html -->
+        <div id="lector-qr" class="lector-qr"></div>
+
+        @if (mensajeCamara()) {
+        <small class="mensaje-error">{{ mensajeCamara() }}</small>
+        }
+
+        <div class="acciones-formulario">
+            @if (!escaneando()) {
+            <button class="boton-principal" type="button" (click)="activarCamara()">
+                @if (detalle() || mensajeError()) {
+                Escanear otro código
+                } @else {
+                Activar cámara
+                }
+            </button>
+            } @else {
+            <button class="boton-secundario" type="button" (click)="apagarCamara()">
+                Apagar cámara
+            </button>
+            }
+        </div>
+
+        <div class="grupo-campo">
+            <label for="codigo_manual">O ingresá el código a mano</label>
+            <input #inputCodigo id="codigo_manual" type="text" placeholder="Pegá o escribí el código del QR"
+                (keyup.enter)="buscarCodigoManual(inputCodigo.value)">
+            <button class="boton-secundario" type="button" (click)="buscarCodigoManual(inputCodigo.value)">
+                Buscar
+            </button>
+        </div>
+
+    </section>
+
+
+    @if (mensajeError()) {
+    <p class="aviso-validacion aviso-error">{{ mensajeError() }}</p>
+    }
+
+    @if (mensajeExito()) {
+    <p class="aviso-validacion aviso-exito">{{ mensajeExito() }}</p>
+    }
+
+
+    @if (detalle()) {
+    <section class="seccion-formulario-admin tarjeta-validacion">
+
+        @if (detalle().funciones) {
+        <h2>{{ detalle().funciones.peliculas.titulo }}</h2>
+        <p>Función: {{ detalle().funciones.fecha_hora | date:'dd/MM/yyyy HH:mm' }}</p>
+        } @else {
+        <h2>Compra solo de candy</h2>
+        }
+
+        <p>Comprador: {{ detalle().ventas.nombre }} {{ detalle().ventas.apellido }}</p>
+
+        @if (detalle().butacas_vendidas.length > 0) {
+        <h3>Butacas</h3>
+        <ul>
+            @for (butaca of detalle().butacas_vendidas; track butaca.fila_butaca + butaca.numero_butaca) {
+            <li>{{ butaca.fila_butaca }}{{ butaca.numero_butaca }} ({{ butaca.tipo_butaca }})</li>
+            }
+        </ul>
+        }
+
+        @if (detalle().candy_vendidos.length > 0) {
+        <h3>Candy</h3>
+        <ul>
+            @for (item of detalle().candy_vendidos; track $index) {
+            <li>{{ item.productos_candy.nombre }} x{{ item.cantidad }}</li>
+            }
+        </ul>
+        }
+
+
+        <div class="bloque-validacion">
+            <p>
+                Entrada:
+                <span [class]="detalle().validacion_entrada ? 'estado-validado' : 'estado-pendiente'">
+                    {{ detalle().validacion_entrada ? 'Validada' : 'Pendiente' }}
+                </span>
+            </p>
+
+            <button class="boton-principal" type="button" [disabled]="motivoEntradaNoValidable() !== ''"
+                (click)="validar('entrada')">
+                Validar entrada
+            </button>
+
+            @if (motivoEntradaNoValidable() !== '') {
+            <small>{{ motivoEntradaNoValidable() }}</small>
+            }
+        </div>
+
+
+        <div class="bloque-validacion">
+            <p>
+                Candy:
+                <span [class]="detalle().validacion_candy ? 'estado-validado' : 'estado-pendiente'">
+                    {{ detalle().validacion_candy ? 'Validado' : 'Pendiente' }}
+                </span>
+            </p>
+
+            <button class="boton-principal" type="button" [disabled]="motivoCandyNoValidable() !== ''"
+                (click)="validar('candy')">
+                Validar candy
+            </button>
+
+            @if (motivoCandyNoValidable() !== '') {
+            <small>{{ motivoCandyNoValidable() }}</small>
+            }
+        </div>
+
+    </section>
+    }
+
+</main>
+<app-footer></app-footer>

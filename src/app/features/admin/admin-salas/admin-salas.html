@@ -1,0 +1,118 @@
+<app-header></app-header>
+<main class="pagina-gestion">
+
+    <h1>Gestión de salas</h1>
+
+    <section class="seccion-formulario-admin">
+
+        @if (salaEnEdicion()) {
+        <h2>Editar sala</h2>
+        } @else {
+        <h2>Crear sala</h2>
+        }
+
+        <form class="formulario-pelicula" [formGroup]="formulario" (ngSubmit)="guardar()">
+
+            <div class="grupo-campo">
+                <label for="nombre">Nombre *</label>
+                <input id="nombre" type="text" formControlName="nombre" placeholder="Sala 1">
+
+                @if (controles.nombre.touched && controles.nombre.invalid) {
+                <small>El nombre es obligatorio (2 a 50 caracteres)</small>
+                }
+            </div>
+
+            <div class="acciones-formulario">
+
+                <button class="boton-principal" type="submit">
+                    @if (salaEnEdicion()) {
+                    Guardar cambios
+                    } @else {
+                    Crear sala
+                    }
+                </button>
+
+                <button class="boton-secundario" type="button" (click)="terminarEdicion()">
+                    @if (salaEnEdicion()) {
+                    Cancelar edición
+                    } @else {
+                    Limpiar formulario
+                    }
+                </button>
+
+            </div>
+
+        </form>
+
+    </section>
+
+
+    <section class="seccion-productos">
+
+        <div class="encabezado-productos">
+            <h2>Salas cargadas</h2>
+        </div>
+
+        <div class="contenedor-tabla">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @for (sala of salas(); track sala.id_sala) {
+
+                    <tr>
+
+                        <td>{{ sala.nombre }}</td>
+
+                        <td>
+                            <span class="estado" [class.estado-activo]="sala.activo"
+                                [class.estado-inactivo]="!sala.activo">
+                                {{ sala.activo ? 'Activa' : 'Inactiva' }}
+                            </span>
+                        </td>
+
+                        <td class="acciones-tabla">
+
+                            <button class="boton-editar" (click)="prepararEdicion(sala)">
+                                Editar
+                            </button>
+
+                            <button class="boton-estado" (click)="cambiarEstado(sala)">
+                                {{ sala.activo ? 'Dar de baja' : 'Reactivar' }}
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                    }
+
+                    @empty {
+
+                    <tr>
+                        <td colspan="3" class="sin-productos">
+                            No se encontraron salas.
+                        </td>
+                    </tr>
+
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</main>
+<app-footer></app-footer>

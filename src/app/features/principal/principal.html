@@ -26,6 +26,26 @@
 
         <div class="contenedor-peliculas">
 
+            <h1>Las más vendidas del mes</h1>
+
+            <div class="contenedor-cards">
+
+                @for (pelicula of listaPeliculasMasVendidas(); track pelicula.id_pelicula) {
+                <app-card-pelicula [pelicula]="pelicula" [leyendaPreventa]="esProximamente(pelicula)">
+                </app-card-pelicula>
+                }
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="seccion-peliculas seccion-catalogo">
+
+        <div class="contenedor-peliculas">
+
             <h1>Catálogo General</h1>
 
             <div class="contenedor-filtros">
@@ -63,7 +83,6 @@
                 <p class="mensaje-vacio">No hay películas disponibles.</p>
 
                 }
-
 
             </div>
 

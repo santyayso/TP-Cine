@@ -1,0 +1,358 @@
+.pagina-gestion {
+    width: 90%;
+    max-width: 1200px;
+    margin: 3rem auto 5rem;
+}
+
+.pagina-gestion > h1 {
+    margin: 0 0 2rem;
+
+    color: var(--texto-principal);
+
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.seccion-formulario-admin {
+    width: 100%;
+
+    margin-bottom: 3rem;
+    padding: 2rem;
+
+    background-color: var(--fondo-contenedor);
+
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.18);
+}
+
+.seccion-formulario-admin h2 {
+    margin: 0 0 1.5rem;
+
+    color: var(--texto-principal);
+
+    font-size: 1.35rem;
+    font-weight: 600;
+}
+
+.formulario-pelicula {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+
+    gap: 1.5rem;
+
+    align-items: end;
+}
+
+.grupo-campo {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.45rem;
+}
+
+.grupo-campo label {
+    color: var(--texto-principal);
+
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.grupo-campo input {
+    width: 100%;
+
+    padding: 0.75rem 0.9rem;
+
+    background-color: var(--fondo-card);
+
+    color: var(--texto-principal);
+
+    border: 1px solid var(--borde);
+    border-radius: 7px;
+
+    font-size: 0.9rem;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.grupo-campo input::placeholder {
+    color: #777;
+}
+
+.grupo-campo input:focus {
+    border-color: var(--rojo);
+
+    box-shadow: 0 0 0 2px rgba(230, 57, 70, 0.12);
+}
+
+.grupo-campo small {
+    color: var(--rojo);
+
+    font-size: 0.78rem;
+}
+
+.acciones-formulario {
+    display: flex;
+    align-items: center;
+
+    gap: 0.7rem;
+}
+
+.boton-principal,
+.boton-secundario {
+    padding: 0.75rem 1rem;
+
+    border-radius: 7px;
+
+    font-size: 0.85rem;
+    font-weight: 600;
+
+    white-space: nowrap;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.15s ease;
+}
+
+.boton-principal {
+    background-color: var(--rojo);
+
+    color: white;
+
+    border: 1px solid var(--rojo);
+}
+
+.boton-principal:hover {
+    background-color: var(--rojo-hover);
+
+    border-color: var(--rojo-hover);
+
+    transform: translateY(-1px);
+}
+
+.boton-secundario {
+    background-color: transparent;
+
+    color: var(--texto-principal);
+
+    border: 1px solid var(--borde);
+}
+
+.boton-secundario:hover {
+    color: var(--rojo);
+
+    border-color: var(--rojo);
+}
+
+.seccion-productos {
+    width: 100%;
+}
+
+.encabezado-productos {
+    width: 100%;
+
+    margin-bottom: 1.3rem;
+}
+
+.encabezado-productos h2 {
+    margin: 0;
+
+    color: var(--texto-principal);
+
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.contenedor-tabla {
+    width: 100%;
+
+    overflow-x: auto;
+
+    border: 1px solid var(--borde);
+    border-radius: 10px;
+}
+
+table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    background-color: var(--fondo-contenedor);
+}
+
+thead {
+    background-color: var(--fondo-card);
+}
+
+th {
+    padding: 1rem;
+
+    color: var(--texto-principal);
+
+    font-size: 0.85rem;
+    font-weight: 600;
+
+    text-align: center;
+
+    white-space: nowrap;
+
+    border-bottom: 1px solid var(--borde);
+}
+
+td {
+    padding: 1rem;
+
+    color: var(--texto-secundario);
+
+    font-size: 0.85rem;
+
+    text-align: center;
+
+    border-bottom: 1px solid var(--borde);
+
+    white-space: nowrap;
+}
+
+th:first-child,
+td:first-child {
+    text-align: left;
+}
+
+tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.025);
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.estado {
+    display: inline-block;
+
+    padding: 0.3rem 0.65rem;
+
+    border-radius: 20px;
+
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.estado-activo {
+    color: #81c784;
+
+    background-color: rgba(76, 175, 80, 0.12);
+}
+
+.estado-inactivo {
+    color: #aaa;
+
+    background-color: rgba(255, 255, 255, 0.07);
+}
+
+.acciones-tabla {
+    text-align: center;
+
+    white-space: nowrap;
+}
+
+.acciones-tabla button {
+    padding: 0.5rem 0.8rem;
+
+    background-color: transparent;
+
+    color: var(--texto-principal);
+
+    border: 1px solid var(--borde);
+    border-radius: 6px;
+
+    font-size: 0.8rem;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.2s ease,
+        color 0.2s ease,
+        background-color 0.2s ease;
+}
+
+.acciones-tabla button + button {
+    margin-left: 0.5rem;
+}
+
+.boton-editar:hover {
+    color: var(--rojo);
+
+    border-color: var(--rojo);
+}
+
+.boton-estado:hover {
+    color: var(--rojo);
+
+    border-color: var(--rojo);
+
+    background-color: rgba(230, 57, 70, 0.06);
+}
+
+.sin-productos {
+    padding: 2rem;
+
+    color: var(--texto-secundario);
+
+    text-align: center;
+}
+
+@media (max-width: 800px) {
+
+    .pagina-gestion {
+        width: 92%;
+
+        margin-top: 2rem;
+    }
+
+    .formulario-pelicula {
+        grid-template-columns: 1fr;
+    }
+
+    .acciones-formulario {
+        justify-content: flex-start;
+    }
+
+}
+
+@media (max-width: 500px) {
+
+    .seccion-formulario-admin {
+        padding: 1.3rem;
+    }
+
+    .pagina-gestion > h1 {
+        font-size: 1.7rem;
+    }
+
+    .acciones-formulario {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .acciones-formulario button {
+        width: 100%;
+    }
+
+}

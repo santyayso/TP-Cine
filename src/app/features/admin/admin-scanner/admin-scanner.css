@@ -1,0 +1,389 @@
+.pagina-gestion {
+    width: 90%;
+    max-width: 1000px;
+    margin: 3rem auto 5rem;
+}
+
+.pagina-gestion > h1 {
+    margin: 0 0 2rem;
+
+    color: var(--texto-principal);
+
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.seccion-formulario-admin {
+    width: 100%;
+
+    margin-bottom: 2rem;
+    padding: 2rem;
+
+    background-color: var(--fondo-contenedor);
+
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.18);
+}
+
+.lector-qr {
+    width: 100%;
+    max-width: 550px;
+    min-height: 280px;
+
+    margin: 0 auto 1.5rem;
+
+    overflow: hidden;
+
+    background-color: var(--fondo-card);
+
+    border: 1px solid var(--borde);
+    border-radius: 10px;
+}
+
+.mensaje-error {
+    display: block;
+
+    margin: 0.8rem 0;
+
+    color: var(--rojo);
+
+    font-size: 0.85rem;
+}
+
+.acciones-formulario {
+    display: flex;
+    justify-content: center;
+
+    gap: 0.8rem;
+
+    margin: 1.2rem 0 2rem;
+}
+
+.boton-principal,
+.boton-secundario {
+    padding: 0.7rem 1.1rem;
+
+    border-radius: 7px;
+
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.15s ease;
+}
+
+.boton-principal {
+    background-color: var(--rojo);
+
+    color: white;
+
+    border: 1px solid var(--rojo);
+}
+
+.boton-principal:hover:not(:disabled) {
+    background-color: var(--rojo-hover);
+
+    border-color: var(--rojo-hover);
+
+    transform: translateY(-1px);
+}
+
+.boton-secundario {
+    background-color: transparent;
+
+    color: var(--texto-principal);
+
+    border: 1px solid var(--borde);
+}
+
+.boton-secundario:hover {
+    color: var(--rojo);
+
+    border-color: var(--rojo);
+}
+
+.boton-principal:disabled {
+    background-color: #3a3a3a;
+
+    color: #777;
+
+    border-color: #444;
+
+    cursor: not-allowed;
+
+    opacity: 0.7;
+}
+
+.grupo-campo {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.7rem;
+    align-items: end;
+}
+
+.grupo-campo label {
+    grid-column: 1 / -1;
+
+    color: var(--texto-principal);
+
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.grupo-campo input {
+    width: 100%;
+
+    padding: 0.75rem 0.9rem;
+
+    background-color: var(--fondo-card);
+
+    color: var(--texto-principal);
+
+    border: 1px solid var(--borde);
+    border-radius: 7px;
+
+    font-size: 0.9rem;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.grupo-campo input::placeholder {
+    color: #777;
+}
+
+.grupo-campo input:focus {
+    border-color: var(--rojo);
+
+    box-shadow: 0 0 0 2px rgba(230, 57, 70, 0.12);
+}
+
+.grupo-campo .boton-secundario {
+    height: 100%;
+    min-height: 42px;
+}
+
+.aviso-validacion {
+    width: 100%;
+
+    margin: 0 0 2rem;
+    padding: 0.9rem 1rem;
+
+    border-radius: 7px;
+
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.aviso-error {
+    color: #ff7b84;
+
+    background-color: rgba(230, 57, 70, 0.1);
+
+    border: 1px solid rgba(230, 57, 70, 0.35);
+    border-left: 4px solid var(--rojo);
+}
+
+.aviso-exito {
+    color: #81c784;
+
+    background-color: rgba(76, 175, 80, 0.1);
+
+    border: 1px solid rgba(76, 175, 80, 0.3);
+    border-left: 4px solid #66bb6a;
+}
+
+.tarjeta-validacion {
+    padding: 2rem;
+}
+
+.tarjeta-validacion > h2 {
+    margin: 0 0 0.7rem;
+
+    color: var(--texto-principal);
+
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.tarjeta-validacion > p {
+    margin: 0.4rem 0;
+
+    color: var(--texto-secundario);
+
+    font-size: 0.95rem;
+}
+
+.tarjeta-validacion > h3 {
+    margin: 1.8rem 0 0.8rem;
+    padding-top: 1.3rem;
+
+    color: var(--texto-principal);
+
+    border-top: 1px solid var(--borde);
+
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.tarjeta-validacion ul {
+    margin: 0;
+    padding: 0;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 0.6rem;
+
+    list-style: none;
+}
+
+.tarjeta-validacion li {
+    padding: 0.45rem 0.7rem;
+
+    background-color: var(--fondo-card);
+
+    color: var(--texto-secundario);
+
+    border: 1px solid var(--borde);
+    border-radius: 6px;
+
+    font-size: 0.85rem;
+}
+
+.bloque-validacion {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+
+    gap: 0.7rem 1rem;
+
+    margin-top: 1.5rem;
+    padding: 1.2rem;
+
+    background-color: var(--fondo-card);
+
+    border: 1px solid var(--borde);
+    border-radius: 9px;
+}
+
+.bloque-validacion p {
+    margin: 0;
+
+    color: var(--texto-principal);
+
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.bloque-validacion small {
+    grid-column: 1 / -1;
+
+    color: var(--texto-secundario);
+
+    font-size: 0.8rem;
+}
+
+.estado-validado,
+.estado-pendiente {
+    display: inline-block;
+
+    margin-left: 0.4rem;
+    padding: 0.25rem 0.6rem;
+
+    border-radius: 15px;
+
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.estado-validado {
+    color: #81c784;
+
+    background-color: rgba(76, 175, 80, 0.12);
+}
+
+.estado-pendiente {
+    color: #e8c66a;
+
+    background-color: rgba(232, 198, 106, 0.1);
+
+    border: 1px solid rgba(232, 198, 106, 0.3);
+}
+
+@media (max-width: 700px) {
+
+    .pagina-gestion {
+        width: 92%;
+        margin-top: 2rem;
+    }
+
+    .seccion-formulario-admin {
+        padding: 1.4rem;
+    }
+
+    .lector-qr {
+        min-height: 230px;
+    }
+
+    .grupo-campo {
+        grid-template-columns: 1fr;
+    }
+
+    .grupo-campo label {
+        grid-column: 1;
+    }
+
+    .grupo-campo .boton-secundario {
+        width: 100%;
+    }
+
+    .bloque-validacion {
+        grid-template-columns: 1fr;
+    }
+
+    .bloque-validacion .boton-principal {
+        width: 100%;
+    }
+
+    .bloque-validacion small {
+        grid-column: 1;
+    }
+
+}
+
+@media (max-width: 500px) {
+
+    .pagina-gestion > h1 {
+        font-size: 1.7rem;
+    }
+
+    .acciones-formulario {
+        flex-direction: column;
+    }
+
+    .acciones-formulario button {
+        width: 100%;
+    }
+
+    .tarjeta-validacion ul {
+        flex-direction: column;
+    }
+
+    .tarjeta-validacion li {
+        width: 100%;
+    }
+
+}

@@ -30,23 +30,6 @@ export class AdminPeliculas implements OnInit, OnDestroy {
     ya_estrenada_previamente: new FormControl(false, { nonNullable: true }),
   });
 
-  seleccionarArchivo(evento: Event) {
-    const input = evento.target as HTMLInputElement;
-
-    if (!input.files || input.files.length === 0) {
-      return;
-    }
-
-    const archivo = input.files[0];
-    this.archivoPortada.set(archivo);
-
-    const previewAnterior = this.previewUrl();
-    if (previewAnterior) {
-      URL.revokeObjectURL(previewAnterior);
-    }
-
-    this.previewUrl.set(URL.createObjectURL(archivo));
-  }
 
   get controles() {
     return this.formulario.controls;
@@ -123,6 +106,8 @@ export class AdminPeliculas implements OnInit, OnDestroy {
     this.archivoPortada.set(null);
     this.previewUrl.set(pelicula.portada);
   }
+
+
   terminarEdicion() {
     this.peliculaEnEdicion.set(null)
     this.formulario.reset()
@@ -216,28 +201,17 @@ export class AdminPeliculas implements OnInit, OnDestroy {
     }
   }
 
-  puedeModificarEstreno = computed(() => {
-    const pelicula = this.peliculaEnEdicion()
 
-    if (!pelicula) {
-      return true
-    }
-
-    // si alguna función es de hoy o ya pasó, la película ya se estreno (o sea ya esta en el catalogo)
-    const yaEmpezoAProyectarse = pelicula.funciones.some((funcion) =>
-      this.peliculasService.esHoyOEsPasada(funcion.fecha_hora)
-    )
-
-    if (yaEmpezoAProyectarse) {
-      return false
-    }
-
-    return true
-  })
 
   estaEstrenada(pelicula: Pelicula): boolean {
     return this.peliculasService.perteneceACatalogoGeneral(pelicula)
   }
+
+  tienePreventaConfigurada(pelicula: Pelicula): boolean {
+    return pelicula.funciones.some((funcion) => funcion.es_funcion_ancla)
+  }
+
+
 
   ngOnDestroy(): void {
     const preview = this.previewUrl();
@@ -245,6 +219,26 @@ export class AdminPeliculas implements OnInit, OnDestroy {
       URL.revokeObjectURL(preview);
     }
   }
+
+
+  seleccionarArchivo(evento: Event) {
+    const input = evento.target as HTMLInputElement;
+
+    if (!input.files || input.files.length === 0) {
+      return;
+    }
+
+    const archivo = input.files[0];
+    this.archivoPortada.set(archivo);
+
+    const previewAnterior = this.previewUrl();
+    if (previewAnterior) {
+      URL.revokeObjectURL(previewAnterior);
+    }
+
+    this.previewUrl.set(URL.createObjectURL(archivo));
+  }
+
 
   eliminarFotoSeleccionada() {
     const preview = this.previewUrl();

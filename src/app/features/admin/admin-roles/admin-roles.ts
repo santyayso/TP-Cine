@@ -51,7 +51,7 @@ export class AdminRoles implements OnInit {
   })
 
 
-  // esto es para que el admin no pueda cambiarse  el rol a si mismo xd
+  // esto es para que el admin no pueda cambiarse  el rol a si mismo 
   esMiUsuario(usuario: Usuario): boolean {
     return usuario.id == this.authService.currentUserData()?.id
   }

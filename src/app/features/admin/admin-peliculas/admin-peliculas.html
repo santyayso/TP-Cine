@@ -8,7 +8,7 @@
         @if (peliculaEnEdicion()) {
         <h2>Editar película</h2>
         } @else {
-        <h2>Nueva película</h2>
+        <h2>Crear película</h2>
         }
 
         <form class="formulario-pelicula" [formGroup]="formulario" (ngSubmit)="guardar()">
@@ -68,14 +68,15 @@
                 </select>
             </div>
 
-            @if (puedeModificarEstreno()) {
+            @if (!peliculaEnEdicion()) {
 
             <div class="grupo-checkbox estreno-checkbox">
 
                 <label>
                     <input type="checkbox" formControlName="ya_estrenada_previamente">
 
-                    <span>Ya estrenada previamente (va directo al catálogo)</span>
+                    <span>Ya estrenada previamente a la fecha de creación (va directo al catálogo general, sin
+                        posibilidad alguna de preventa)</span>
                 </label>
 
             </div>
@@ -208,6 +209,8 @@
 
                             @if (estaEstrenada(pelicula)) {
                             <span class="estreno estrenada">Ya estrenada</span>
+                            } @else if (tienePreventaConfigurada(pelicula)) {
+                            <span class="estreno proximamente-preventa">Preventa</span>
                             } @else {
                             <span class="estreno proximamente">Próximamente</span>
                             }

@@ -314,9 +314,16 @@ tbody tr:last-child td {
     background-color: rgba(255, 255, 255, 0.07);
 }
 
-.proximamente {
+.proximamente-preventa {
     color: #e8c66a;
     background-color: rgba(232, 198, 106, 0.1);
+    border: 1px solid rgba(232, 198, 106, 0.4);
+}
+
+.proximamente {
+    color: #ff6b75;
+    background-color: rgba(230, 57, 70, 0.14);
+    
 }
 
 .acciones-tabla {
@@ -474,6 +481,8 @@ tbody tr:last-child td {
 
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
+
+
 
 .boton-eliminar-portada {
     width: 150px;

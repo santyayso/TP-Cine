@@ -14,9 +14,11 @@ import { Chart } from 'chart.js/auto';
 export class AdminReportes implements OnInit {
   private reportesService = inject(ReportesService);
 
+  entradasVendidasHoy = signal<number>(0);
   facturacionDeHoy = signal<number>(0);
 
   async ngOnInit() {
+    this.entradasVendidasHoy.set(await this.reportesService.obtenerEntradasVendidasHoy());
     this.facturacionDeHoy.set(await this.reportesService.obtenerFacturacionDeHoy());
 
     const peliculasSemana = await this.reportesService.obtenerPeliculasMasVistas(7);

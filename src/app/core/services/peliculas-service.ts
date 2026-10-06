@@ -230,6 +230,7 @@ export class PeliculasService {
             // Devuelve una nueva pelicula, pero solo con las funciones que todavia no pasaron, o sea las futuras
             return {
                 ...pelicula,
+                ya_estrenada_previamente: true,
                 funciones: pelicula.funciones.filter((funcion: Funcion) => {
                     return this.esFuncionFutura(funcion.fecha_hora)
                 })

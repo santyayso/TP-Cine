@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { authAdminGuard } from './core/guards/auth-admin-guard';
 import { authGuard } from './core/guards/auth.guard';
+import { authEmpleadoGuard } from './core/guards/auth-empleado-guard';
 
 export const routes: Routes = [
     {
@@ -95,11 +96,21 @@ export const routes: Routes = [
         loadComponent: () => import('./features/admin/admin-funciones/admin-funciones').then(m => m.AdminFunciones),
         canActivate: [authAdminGuard],
     },
-
+    {
+         path: 'admin/scanner',
+        loadComponent: () => import('./features/admin/admin-scanner/admin-scanner').then(m => m.AdminScanner),
+        canActivate: [authEmpleadoGuard],
+    },
+    {
+         path: 'admin/salas',
+        loadComponent: () => import('./features/admin/admin-salas/admin-salas').then(m => m.AdminSalas),
+        canActivate: [authAdminGuard],
+    },
     {
         path: '**',
         redirectTo: '/principal'
     },
+
 
 
 
