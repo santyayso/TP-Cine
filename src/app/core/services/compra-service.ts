@@ -25,7 +25,7 @@ export class CompraService {
     peliculasService = inject(PeliculasService)
     funcionSeleccionada = signal<Funcion | null>(null)
     datosComprador = signal<DatosComprador | null>(null)
-    cantidadEntradas = signal<number>(1)
+   
     peliculaSeleccionada = signal<Pelicula | null>(null)
     listaCandyVendidos = signal<CandyVendido[]>([]);
     codigoQrGenerado = signal<string>('')
@@ -41,10 +41,6 @@ export class CompraService {
 
     }
 
-    setearCantidadEntradas(cantidadEntradas: number) {
-        this.cantidadEntradas.set(cantidadEntradas);
-
-    }
 
 
     setearDatosComprador(datos: DatosComprador) {

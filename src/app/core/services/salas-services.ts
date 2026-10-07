@@ -78,4 +78,20 @@ export class SalasService {
 
         return data.length > 0;
     }
+
+    async obtenerNombreSala(idSala: number): Promise<string> {
+        const { data, error } = await this.supabaseService.cliente
+            .from('salas')
+            .select('nombre')
+            .eq('id_sala', idSala)
+            .single();
+
+        if (error) {
+            console.error('Error al traer el nombre de la sala:', error);
+            return '';
+        }
+
+        return data.nombre;
+    }
+
 }

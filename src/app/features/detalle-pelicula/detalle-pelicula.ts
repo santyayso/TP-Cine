@@ -26,7 +26,7 @@ export class DetallePelicula implements OnInit {
   id = input.required<string>()
   pelicula = signal<Pelicula | null>(null)
   funciones = signal<Funcion[]>([])
-  cantidadEntradas = signal<number>(1)
+
   esProximamente = signal<boolean>(false);
   resenas = signal<ResenaConUsuario[]>([]);
 
@@ -80,14 +80,10 @@ export class DetallePelicula implements OnInit {
 
   setearFechaSeleccionada(fecha: string) {
     this.fechaSeleccionada.set(fecha)
-    this.cantidadEntradas.set(1)
 
     const horarios = this.listaHorariosSegunFechaSeleccionada();
     this.funcionSeleccionada.set(horarios[0]);
-
-
   }
-
 
   listaHorariosSegunFechaSeleccionada = computed(() => {
     return this.funciones().filter((funcion) => {
@@ -101,30 +97,15 @@ export class DetallePelicula implements OnInit {
 
   setearFuncionSeleccionada(funcion: Funcion) {
     this.funcionSeleccionada.set(funcion)
-    this.cantidadEntradas.set(1)
   }
 
-
-  setearCantidad(incremento: number) {
-    this.cantidadEntradas.update((actual) => {
-      const nuevaCantidad = actual + incremento;
-      if (nuevaCantidad < 1 || nuevaCantidad > 10) {
-        return actual;
-      }
-      return nuevaCantidad;
-    });
-  }
 
 
   navegarHaciaCompra() {
-    this.compraService.setearCantidadEntradas(this.cantidadEntradas())
     this.compraService.setearFuncion(this.funcionSeleccionada()!)
     this.compraService.setearPelicula(this.pelicula()!)
     this.router.navigate(['comprar/datos'])
   }
-
-
-
   obtenerFechaHoraOriginal(fechaTexto: string): string {
     const funcion = this.funciones().find((funcion) => new Date(funcion.fecha_hora).toDateString() === fechaTexto);
     if (funcion != undefined) {

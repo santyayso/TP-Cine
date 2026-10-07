@@ -43,9 +43,6 @@ export class ButacasCompra implements OnInit, OnDestroy {
     return this.butacasSeleccionadas().some((butaca) => butaca.fila == butacaSeleccionada.fila && butaca.numero == butacaSeleccionada.numero)
   }
 
-  butacasRestantesAseleccionar = computed(() => {
-    return this.compraService.cantidadEntradas() - this.butacasSeleccionadas().length
-  })
 
   alternarButaca(butacaSeleccionada: ButacaGenerada) {
 
@@ -56,15 +53,9 @@ export class ButacasCompra implements OnInit, OnDestroy {
     const verifiCacionSeleccionada = this.estaSeleccionada(butacaSeleccionada)
 
     if (verifiCacionSeleccionada == false) {
-      if (this.butacasRestantesAseleccionar() == 0) {
-        alert(`Usted ya eligió la cantidad de butacas correspondientes a la cantidad de entradas que seleccionó (${this.compraService.cantidadEntradas()})`)
-      }
-      else {
-        this.butacasSeleccionadas.update((listaActual) => {
-          return [...listaActual, butacaSeleccionada];
-        })
-      }
-
+      this.butacasSeleccionadas.update((listaActual) => {
+        return [...listaActual, butacaSeleccionada];
+      })
     }
     else {
       this.butacasSeleccionadas.update((listaActual) => {
@@ -72,19 +63,16 @@ export class ButacasCompra implements OnInit, OnDestroy {
       })
     }
 
-
   }
 
   navegarHaciaCandy() {
-    if (this.butacasRestantesAseleccionar() > 0) {
-      alert(`Usted no eligió la cantidad de butacas correspondientes a la cantidad de entradas que seleccionó (${this.compraService.cantidadEntradas()})`)
-    }
-    else {
-      this.compraService.setearButacas(this.butacasSeleccionadas())
-
-      this.router.navigate(['comprar/candy'])
+    if (this.butacasSeleccionadas().length == 0) {
+      alert('Seleccioná al menos una butaca')
+      return
     }
 
+    this.compraService.setearButacas(this.butacasSeleccionadas())
+    this.router.navigate(['comprar/candy'])
   }
 
   async ngOnInit() {

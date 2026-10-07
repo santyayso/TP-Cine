@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CompraService } from '../../../core/services/compra-service';
 import { inject } from '@angular/core';
@@ -6,7 +6,8 @@ import { Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Header } from '../../../layout/header/header';
 import { Footer } from '../../../layout/footer/footer';
-
+import { AuthService } from '../../../core/services/auth';
+import { formatDate } from '@angular/common';
 @Component({
   imports: [ReactiveFormsModule, Header, Footer],
   selector: 'app-datos-compra',
@@ -14,10 +15,10 @@ import { Footer } from '../../../layout/footer/footer';
   templateUrl: './datos-compra.html',
 })
 
-export class DatosCompra {
+export class DatosCompra implements OnInit {
   private compraService = inject(CompraService)
   private router = inject(Router)
-
+  private authService = inject(AuthService)
   datosCompraForm = new FormGroup({
     nombre: new FormControl('', [
       Validators.required,
@@ -42,6 +43,33 @@ export class DatosCompra {
 
   })
 
+  ngOnInit(): void {
+    const usuario = this.authService.currentUserData()
+    const email = this.authService.currentUser()?.email
+
+    // si es invitado: se queda en el formulario
+    if (!usuario || !email) {
+      return
+    }
+
+     const fechaDeNacimiento = formatDate(usuario.fecha_nacimiento, 'dd/MM/yyyy', 'en-US')
+
+    if (!this.cumpleRestriccionEdad(fechaDeNacimiento)) {
+      alert('No cumplís con la edad mínima requerida para esta película.')
+      this.router.navigate(['/pelicula', this.compraService.peliculaSeleccionada()!.id_pelicula])
+      return
+    }
+
+    this.compraService.setearDatosComprador({
+      nombre: usuario.nombre,
+      apellido: usuario.apellido,
+      email: email,
+      fechaDeNacimiento: fechaDeNacimiento,
+    })
+
+    this.router.navigate(['/comprar/butacas'], { replaceUrl: true })
+  }
+
 
   get formularioControles() {
     return this.datosCompraForm.controls;
@@ -61,6 +89,7 @@ export class DatosCompra {
 
     if (!this.cumpleRestriccionEdad(formValue.fechaDeNacimiento!)) {
       alert('No cumplís con la edad mínima requerida para esta película.');
+      this.router.navigate(['/pelicula', this.compraService.peliculaSeleccionada()!.id_pelicula])
       return;
     }
 

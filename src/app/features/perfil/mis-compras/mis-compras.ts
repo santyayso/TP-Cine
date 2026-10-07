@@ -111,7 +111,8 @@ export class MisCompras implements OnInit {
       detalle.funciones.fecha_hora,
       butacas,
       candy,
-      detalle.codigo_qr
+      detalle.codigo_qr,
+      detalle.funciones.salas?.nombre ?? ''
     );
   }
 

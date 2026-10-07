@@ -87,21 +87,6 @@
                 }
 
 
-                <div class="grupo-seleccion">
-
-                    <h3>Cantidad:</h3>
-
-                    <div class="control-cantidad">
-
-                        <button (click)="setearCantidad(-1)">-</button>
-
-                        <p>{{ cantidadEntradas() }}</p>
-
-                        <button (click)="setearCantidad(1)">+</button>
-
-                    </div>
-
-                </div>
 
 
                 <button class="boton-comprar" [disabled]="funcionSeleccionada() === null"

@@ -4,6 +4,7 @@ import { CompraService } from '../../../core/services/compra-service';
 import { Router } from '@angular/router';
 import { Header } from '../../../layout/header/header';
 import { VentasService } from '../../../core/services/ventas-service';
+import { SalasService } from '../../../core/services/salas-services';
 import { Footer } from '../../../layout/footer/footer';
 @Component({
   selector: 'app-pdf-compra',
@@ -15,12 +16,14 @@ export class PdfCompra {
   compraService = inject(CompraService);
   router = inject(Router)
   ventasService = inject(VentasService)
+  salasService = inject(SalasService)
 
   async descargarPdf() {
     const pelicula = this.compraService.peliculaSeleccionada();
     const funcion = this.compraService.funcionSeleccionada();
     const datos = this.compraService.datosComprador();
 
+    const nombreSala = await this.salasService.obtenerNombreSala(funcion!.id_sala)
 
     await this.ventasService.generarPdfCompra(
       datos!.nombre,
@@ -30,7 +33,8 @@ export class PdfCompra {
       funcion!.fecha_hora,
       this.compraService.butacasSeleccionadas(),
       this.compraService.listaCandyVendidos(),
-      this.compraService.codigoQrGenerado()
+      this.compraService.codigoQrGenerado(),
+      nombreSala
     );
   }
 

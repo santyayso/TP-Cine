@@ -98,6 +98,7 @@ export class VentasService {
         codigo_qr,
         funciones (
           fecha_hora,
+          salas (nombre),
           peliculas ( id_pelicula, titulo, portada, restriccion_edad )
         ),
         butacas_vendidas ( fila_butaca, numero_butaca, tipo_butaca, precio_pagado ),
@@ -139,7 +140,8 @@ export class VentasService {
         fechaHoraFuncion: string,
         butacas: { fila: string; numero: number; tipo: string }[],
         candy: { nombre: string; cantidad: number }[],
-        codigoQr: string
+        codigoQr: string,
+        nombreSala: string
     ) {
 
         console.log('codigoQr recibido:', codigoQr)
@@ -169,6 +171,12 @@ export class VentasService {
             })}`,
             20, y
         );
+
+        if (nombreSala) {
+            y += 8;
+            doc.text(`Sala: ${nombreSala}`, 20, y);
+        }
+
 
         if (restriccionEdad) {
             y += 8;
