@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, effect } from '@angular/core';
 import { ButacasService } from '../../../core/services/butacas-service';
 import { inject, signal, computed } from '@angular/core';
 import { ButacaGenerada } from '../../../core/models/butacaGeneradaInterface';
@@ -7,7 +7,6 @@ import { CurrencyPipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { Header } from '../../../layout/header/header';
 import { Footer } from '../../../layout/footer/footer';
-import { RealtimeChannel } from '@supabase/supabase-js';
 @Component({
   imports: [CurrencyPipe, Header, Footer],
   selector: 'app-butacas-compra',
@@ -15,15 +14,30 @@ import { RealtimeChannel } from '@supabase/supabase-js';
   templateUrl: './butacas-compra.html',
 })
 
-export class ButacasCompra implements OnInit {
+export class ButacasCompra implements OnInit, OnDestroy {
   compraService = inject(CompraService)
   router = inject(Router)
   private butacasService = inject(ButacasService)
   matrizButacas = signal<ButacaGenerada[][][]>([])
   butacasSeleccionadas = signal<ButacaGenerada[]>([])
 
+  // viene del service: se actualiza solo con el realtime
+  butacasOcupadas = this.butacasService.butacasOcupadas
 
+  constructor() {
+    // cada vez que cambian las ocupadas, saco las que yo había elegido y alguien me ganó
+    effect(() => {
+      this.butacasOcupadas()
 
+      const antes = this.butacasSeleccionadas()
+      const quedan = antes.filter((butaca) => !this.estaOcupada(butaca))
+
+      if (quedan.length < antes.length) {
+        this.butacasSeleccionadas.set(quedan)
+        alert('Alguna de las butacas que elegiste acaba de ser comprada por otra persona. Elegí otra.')
+      }
+    })
+  }
 
   estaSeleccionada(butacaSeleccionada: ButacaGenerada) {
     return this.butacasSeleccionadas().some((butaca) => butaca.fila == butacaSeleccionada.fila && butaca.numero == butacaSeleccionada.numero)
@@ -73,9 +87,6 @@ export class ButacasCompra implements OnInit {
 
   }
 
-  butacasOcupadas = signal<{ fila: string; numero: number }[]>([])
-  private canal?: RealtimeChannel
-
   async ngOnInit() {
     this.matrizButacas.set(this.butacasService.generarMatrizButacas())
 
@@ -84,34 +95,15 @@ export class ButacasCompra implements OnInit {
       return
     }
 
-    await this.recargarButacasOcupadas(funcion.id_funcion)
-
-    this.canal = this.butacasService.escucharCambiosDeButacas(
-      funcion.id_funcion,
-      () => this.recargarButacasOcupadas(funcion.id_funcion)
-    )
+    await this.butacasService.escucharButacasDeFuncion(funcion.id_funcion)
   }
 
   ngOnDestroy() {
-    if (this.canal) {
-      this.butacasService.dejarDeEscuchar(this.canal)
-    }
-  }
-
-  async recargarButacasOcupadas(idFuncion: number) {
-    this.butacasOcupadas.set(await this.butacasService.obtenerButacasOcupadas(idFuncion))
-
-    const cantidadAntes = this.butacasSeleccionadas().length
-    this.butacasSeleccionadas.update((lista) => lista.filter((butaca) => !this.estaOcupada(butaca)))
-
-    if (this.butacasSeleccionadas().length < cantidadAntes) {
-      alert('Alguna de las butacas que elegiste acaba de ser comprada por otra persona. Elegí otra.')
-    }
+    this.butacasService.dejarDeEscuchar()
   }
 
   estaOcupada(butacaConsultada: ButacaGenerada) {
-    return this.butacasOcupadas().some((ocupada) => ocupada.fila == butacaConsultada.fila && ocupada.numero == butacaConsultada.numero)
+    return this.butacasOcupadas().some((ocupada) => ocupada.fila_butaca == butacaConsultada.fila && ocupada.numero_butaca == butacaConsultada.numero)
   }
-
 
 }

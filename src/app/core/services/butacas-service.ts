@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, signal, computed, } from "@angular/core";
 import { ButacaGenerada } from "../models/butacaGeneradaInterface";
 import { TipoButaca } from "../models/butacaGeneradaInterface";
 import { RealtimeChannel } from "@supabase/supabase-js";
@@ -10,6 +10,13 @@ const FILAS_COMUNES_1 = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'];
 const FILAS_COMUNES_2 = ['L', 'M', 'N', 'Ñ', 'O', 'P'];
 const FILA_DISCAPACITADOS = ['J', 'K']
 const FILAS_VIP = ['Q', 'R', 'S'];
+
+export interface ButacaOcupada {
+    id_butaca_vendida: number;
+    fila_butaca: string;
+    numero_butaca: number;
+}
+
 
 @Injectable({
     providedIn: 'root',
@@ -58,33 +65,61 @@ export class ButacasService {
         return bloquesDeLaFila;
     }
 
-    async obtenerButacasOcupadas(idFuncion: number): Promise<{ fila: string; numero: number }[]> {
+    private butacasOcupadasSignal = signal<ButacaOcupada[]>([]);
+    butacasOcupadas = computed(() => this.butacasOcupadasSignal());
+
+    private canal?: RealtimeChannel;
+
+    async escucharButacasDeFuncion(idFuncion: number) {
+        this.dejarDeEscuchar();
+        this.butacasOcupadasSignal.set([]);
+
+        
+        this.canal = this.supabaseService.cliente
+            .channel(`butacas-funcion-${idFuncion}`)
+            .on('postgres_changes',
+                { event: 'INSERT', schema: 'public', table: 'butacas_vendidas', filter: `id_funcion=eq.${idFuncion}` },
+                (payload) => {
+                    const nueva = payload.new as ButacaOcupada;
+                    this.butacasOcupadasSignal.update((lista) => {
+                        const yaEsta = lista.some((butaca) => butaca.id_butaca_vendida === nueva.id_butaca_vendida);
+                        return yaEsta ? lista : [...lista, nueva];
+                    });
+                }
+            )
+            .on('postgres_changes',
+                { event: 'DELETE', schema: 'public', table: 'butacas_vendidas' },
+                (payload) => {
+                    const borrada = payload.old as { id_butaca_vendida: number };
+                    this.butacasOcupadasSignal.update((lista) =>
+                        lista.filter((butaca) => butaca.id_butaca_vendida !== borrada.id_butaca_vendida)
+                    );
+                }
+            )
+            .subscribe();
+
+        await this.cargarButacasOcupadas(idFuncion);
+    }
+
+    private async cargarButacasOcupadas(idFuncion: number) {
         const { data, error } = await this.supabaseService.cliente
-            .rpc('butacas_ocupadas', { p_id_funcion: idFuncion });
+            .from('butacas_vendidas')
+            .select('id_butaca_vendida, fila_butaca, numero_butaca')
+            .eq('id_funcion', idFuncion);
 
         if (error) {
             console.error('Error al traer butacas ocupadas:', error);
-            return [];
+            return;
         }
 
-        return (data ?? []).map((fila: any) => ({
-            fila: fila.fila_butaca,
-            numero: fila.numero_butaca,
-        }));
+        this.butacasOcupadasSignal.set(data ?? []);
     }
 
-    escucharCambiosDeButacas(idFuncion: number, alCambiar: () => void): RealtimeChannel {
-        return this.supabaseService.cliente
-            .channel(`butacas-funcion-${idFuncion}`)
-            .on('postgres_changes',
-                { event: '*', schema: 'public', table: 'butacas_vendidas' },
-                () => alCambiar()
-            )
-            .subscribe();
-    }
-
-    dejarDeEscuchar(canal: RealtimeChannel) {
-        this.supabaseService.cliente.removeChannel(canal);
+    dejarDeEscuchar() {
+        if (this.canal) {
+            this.supabaseService.cliente.removeChannel(this.canal);
+            this.canal = undefined;
+        }
     }
 
 }

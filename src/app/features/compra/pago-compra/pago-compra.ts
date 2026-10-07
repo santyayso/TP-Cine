@@ -101,14 +101,20 @@ export class PagoCompra implements OnInit {
     }
 
 
-    await this.compraService.generarCompra(
+    const compraExitosa = await this.compraService.generarCompra(
       this.montoEfectivo(),
       this.totalConCupon(),
       this.creditoIngresado(),
       this.cuponSeleccionado()?.id_cupon ?? null,
       this.cuponUsuarioSeleccionado()?.id_cupon_usuario ?? null
     )
-    
+
+    if (!compraExitosa) {
+      alert('No se pudo completar la compra. Es posible que alguna de las butacas ya haya sido comprada por otra persona. Volvé a elegir tus butacas.')
+      this.router.navigate(['comprar/butacas'])
+      return
+    }
+
     this.router.navigate(['comprar/pdf'])
 
   }

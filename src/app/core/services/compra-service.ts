@@ -98,9 +98,9 @@ export class CompraService {
 
 
 
-    async generarCompra(monto_efectivo: number, total: number, monto_credito: number, id_cupon_aplicado: number | null, id_cupon_usuario: number | null) {
+    async generarCompra(monto_efectivo: number, total: number, monto_credito: number, id_cupon_aplicado: number | null, id_cupon_usuario: number | null): Promise<boolean> {
         const datosComprador = this.datosComprador()
-        if (!datosComprador) return
+        if (!datosComprador) return false
 
         const funcion = this.funcionSeleccionada()
         const idFuncion = funcion?.id_funcion ?? null
@@ -117,14 +117,14 @@ export class CompraService {
             monto_credito: monto_credito,
         })
 
-        if (!idVenta) return
+        if (!idVenta) return false
 
         const codigoQr = crypto.randomUUID()
         this.codigoQrGenerado.set(codigoQr)
 
         const idDetalleVenta = await this.ventasService.crearDetalleVenta(idVenta, codigoQr, idFuncion)
 
-        if (!idDetalleVenta) return;
+        if (!idDetalleVenta) return false;
 
         const filasButacas: Omit<ButacaVendida, 'id_butaca_vendida'>[] = [];
 
@@ -141,10 +141,14 @@ export class CompraService {
         }
 
         if (filasButacas.length > 0) {
-            await this.ventasService.crearButacasVendidas(filasButacas)
+            const butacasCreadas = await this.ventasService.crearButacasVendidas(filasButacas)
+
+            if (!butacasCreadas) {
+            
+                await this.ventasService.reembolsarVenta(idVenta)
+                return false
+            }
         }
-
-
 
 
         const filasCandy = this.listaCandyVendidos().map((producto) => ({
@@ -172,7 +176,7 @@ export class CompraService {
             }
         }
 
-
+        return true
     }
 }
 
