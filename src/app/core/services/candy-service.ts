@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ProductoCandy, CategoriaCandy } from '../models/productoCandyInterface';
 import { Supabase } from './supabase';
+import { LogService } from './log-service';
 import { inject } from '@angular/core';
 import { signal } from '@angular/core';
 
@@ -13,6 +14,7 @@ export const CATEGORIAS_CANDY: CategoriaCandy[] = ['Pochoclos', 'Bebidas', 'Golo
 export class CandyService {
 
   private supabaseService = inject(Supabase);
+  private logService = inject(LogService);
 
 
   async obtenerProductosCandy(): Promise<ProductoCandy[]> {
@@ -70,6 +72,9 @@ async crearProducto(datos: Omit<ProductoCandy, 'id_producto_candy' | 'activo'>, 
         console.error('Error al crear producto:', error);
         return false;
     }
+
+    await this.logService.registrar('Creó producto de candy', `"${datos.nombre}"`);
+
     return true;
 }
 
@@ -111,6 +116,9 @@ async modificarProducto(idProducto: number, datos: Omit<ProductoCandy, 'id_produ
         console.error('Error al modificar producto:', error);
         return false;
     }
+
+    await this.logService.registrar('Modificó producto de candy', `"${datos.nombre}" (id ${idProducto})`);
+
     return true;
 }
 
@@ -124,10 +132,11 @@ async modificarProducto(idProducto: number, datos: Omit<ProductoCandy, 'id_produ
       console.error('Error al cambiar estado:', error);
       return false;
     }
+
+    await this.logService.registrar(activo ? 'Reactivó producto de candy' : 'Dio de baja producto de candy', `Producto id ${idProducto}`);
+
     return true;
   }
 
 
 }
-
-

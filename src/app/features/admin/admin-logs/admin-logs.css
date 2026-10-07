@@ -1,0 +1,203 @@
+.pagina-gestion {
+    width: 90%;
+    max-width: 1200px;
+    margin: 3rem auto 5rem;
+}
+
+.pagina-gestion > h1 {
+    margin: 0 0 2rem;
+
+    color: var(--texto-principal);
+
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.seccion-usuarios {
+    width: 100%;
+}
+
+.encabezado-usuarios {
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 2rem;
+
+    margin-bottom: 1.5rem;
+}
+
+.encabezado-usuarios h2 {
+    margin: 0;
+
+    color: var(--texto-principal);
+
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.buscador {
+    width: 360px;
+
+    padding: 0.75rem 0.9rem;
+
+    background-color: var(--fondo-card);
+
+    color: var(--texto-principal);
+
+    border: 1px solid var(--borde);
+    border-radius: 7px;
+
+    font-size: 0.9rem;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.buscador::placeholder {
+    color: #777;
+}
+
+.buscador:focus {
+    border-color: var(--rojo);
+
+    box-shadow: 0 0 0 2px rgba(230, 57, 70, 0.12);
+}
+
+.contenedor-tabla {
+    width: 100%;
+
+    overflow-x: auto;
+
+    border: 1px solid var(--borde);
+    border-radius: 10px;
+}
+
+table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    background-color: var(--fondo-contenedor);
+}
+
+thead {
+    background-color: var(--fondo-card);
+}
+
+th {
+    padding: 1rem;
+
+    color: var(--texto-principal);
+
+    font-size: 0.85rem;
+    font-weight: 600;
+
+    text-align: left;
+
+    white-space: nowrap;
+
+    border-bottom: 1px solid var(--borde);
+}
+
+td {
+    padding: 1rem;
+
+    color: var(--texto-secundario);
+
+    font-size: 0.85rem;
+
+    text-align: left;
+
+    border-bottom: 1px solid var(--borde);
+
+    vertical-align: top;
+}
+
+tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.025);
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+th:first-child,
+td:first-child {
+    width: 170px;
+
+    white-space: nowrap;
+}
+
+th:nth-child(2),
+td:nth-child(2) {
+    width: 190px;
+}
+
+th:nth-child(3),
+td:nth-child(3) {
+    width: 180px;
+}
+
+th:last-child,
+td:last-child {
+    width: auto;
+}
+
+td:last-child {
+    white-space: normal;
+
+    line-height: 1.45;
+}
+
+.sin-usuarios {
+    padding: 2rem;
+
+    color: var(--texto-secundario);
+
+    text-align: center;
+}
+
+@media (max-width: 800px) {
+
+    .pagina-gestion {
+        width: 92%;
+        margin-top: 2rem;
+    }
+
+    .encabezado-usuarios {
+        flex-direction: column;
+        align-items: stretch;
+
+        gap: 1rem;
+    }
+
+    .buscador {
+        width: 100%;
+    }
+
+}
+
+@media (max-width: 500px) {
+
+    .pagina-gestion > h1 {
+        font-size: 1.7rem;
+    }
+
+    th,
+    td {
+        padding: 0.8rem;
+
+        font-size: 0.8rem;
+    }
+
+}

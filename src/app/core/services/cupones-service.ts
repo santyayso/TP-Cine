@@ -2,12 +2,14 @@ import { Injectable, inject } from '@angular/core';
 import { Supabase } from './supabase';
 import { CuponUsuario } from '../models/cuponUsuarioInterface';
 import { Cupon } from '../models/cuponInterface';
+import { LogService } from './log-service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CuponesService {
   private supabaseService = inject(Supabase);
+  private logService = inject(LogService);
 
   async obtenerCuponesActivos(): Promise<Cupon[]> {
     const { data, error } = await this.supabaseService.cliente
@@ -124,6 +126,9 @@ export class CuponesService {
       console.error('Error al crear cupón:', error);
       return null;
     }
+
+    await this.logService.registrar('Creó cupón', `"${datos.nombre}" (${datos.porcentaje}%)`);
+
     return data;
   }
 
@@ -137,6 +142,9 @@ export class CuponesService {
       console.error('Error al modificar cupón:', error);
       return false;
     }
+
+    await this.logService.registrar('Modificó cupón', `"${nombre}" (${porcentaje}%) (id ${idCupon})`);
+
     return true;
   }
 
@@ -150,6 +158,9 @@ export class CuponesService {
       console.error('Error al cambiar estado:', error);
       return false;
     }
+
+    await this.logService.registrar(activo ? 'Reactivó cupón' : 'Dio de baja cupón', `Cupón id ${idCupon}`);
+
     return true;
   }
 

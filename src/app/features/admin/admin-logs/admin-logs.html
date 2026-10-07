@@ -1,0 +1,66 @@
+<app-header></app-header>
+<main class="pagina-gestion">
+
+    <h1>Log de actividad</h1>
+
+    <section class="seccion-usuarios">
+
+        <div class="encabezado-usuarios">
+
+            <h2>Últimos movimientos</h2>
+
+            <input
+                class="buscador"
+                type="text"
+                placeholder="Buscar por usuario, acción o detalle..."
+                [value]="terminosBusqueda()"
+                (input)="terminosBusqueda.set($any($event.target).value)">
+
+        </div>
+
+        <div class="contenedor-tabla">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Fecha y hora</th>
+                        <th>Usuario</th>
+                        <th>Acción</th>
+                        <th>Detalle</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @for (registro of registrosFiltrados(); track registro.id_log) {
+
+                    <tr>
+                        <td>{{ registro.fecha | date:'dd/MM/yyyy HH:mm' }}</td>
+                        <td>{{ registro.usuarios?.nombre }} {{ registro.usuarios?.apellido }}</td>
+                        <td>{{ registro.accion }}</td>
+                        <td>{{ registro.detalle }}</td>
+                    </tr>
+
+                    }
+
+                    @empty {
+
+                    <tr>
+                        <td colspan="4" class="sin-usuarios">
+                            No hay registros.
+                        </td>
+                    </tr>
+
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</main>
+<app-footer></app-footer>

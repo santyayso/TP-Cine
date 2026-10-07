@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Supabase } from './supabase';
 import { Pelicula } from '../models/peliculaInterface';
 import { Funcion } from '../models/funcionInterface';
-
+import { LogService } from './log-service';
 @Injectable({
     providedIn: 'root',
 })
@@ -11,7 +11,7 @@ export class PeliculasService {
 
 
 
-    constructor(private supabaseService: Supabase) { }
+    constructor(private supabaseService: Supabase, private logService: LogService) { }
 
     async obtenerTodasLasPeliculasActivas() {
         const { data, error } = await this.supabaseService.cliente
@@ -101,8 +101,12 @@ export class PeliculasService {
             return false;
         }
 
+        await this.logService.registrar('Creó película', `"${datos.titulo}" (id ${data.id_pelicula})`);
+
         return await this.guardarGeneros(data.id_pelicula, idsGeneros);
     }
+
+
     async modificarPelicula(
         idPelicula: number,
         datos: Omit<Pelicula, 'id_pelicula' | 'activo' | 'funciones' | 'pelicula_generos'>,
@@ -149,8 +153,11 @@ export class PeliculasService {
             return false;
         }
 
+        await this.logService.registrar('Modificó película', `"${datos.titulo}" (id ${idPelicula})`);
+
         return await this.guardarGeneros(idPelicula, idsGeneros);
     }
+
 
     async cambiarEstadoPelicula(idPelicula: number, activo: boolean): Promise<boolean> {
         const { error } = await this.supabaseService.cliente
@@ -162,9 +169,11 @@ export class PeliculasService {
             console.error('Error al cambiar estado:', error);
             return false;
         }
+
+        await this.logService.registrar(activo ? 'Reactivó película' : 'Dio de baja película', `Película id ${idPelicula}`);
+
         return true;
     }
-
 
     private async guardarGeneros(idPelicula: number, idsGeneros: number[]): Promise<boolean> {
         const { error: errorBorrado } = await this.supabaseService.cliente

@@ -1,10 +1,12 @@
 import { Injectable, inject } from '@angular/core';
 import { Supabase } from './supabase';
 import { Sala } from '../models/salaInterface';
+import { LogService } from './log-service';
 
 @Injectable({ providedIn: 'root' })
 export class SalasService {
     private supabaseService = inject(Supabase);
+    private logService = inject(LogService);
 
     // trae TODAS las salas (activas e inactivas) para la tabla del admin
     async obtenerSalasAdmin(): Promise<Sala[]> {
@@ -30,6 +32,9 @@ export class SalasService {
             console.error('Error al crear sala:', error);
             return false;
         }
+
+        await this.logService.registrar('Creó sala', `"${nombre}"`);
+
         return true;
     }
 
@@ -44,6 +49,9 @@ export class SalasService {
             console.error('Error al modificar sala:', error);
             return false;
         }
+
+        await this.logService.registrar('Modificó sala', `Nuevo nombre "${nombre}" (id ${idSala})`);
+
         return true;
     }
 
@@ -58,6 +66,9 @@ export class SalasService {
             console.error('Error al cambiar estado de la sala:', error);
             return false;
         }
+
+        await this.logService.registrar(activo ? 'Reactivó sala' : 'Dio de baja sala', `Sala id ${idSala}`);
+
         return true;
     }
 

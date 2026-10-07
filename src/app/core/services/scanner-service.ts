@@ -1,9 +1,11 @@
 import { Injectable, inject } from '@angular/core';
 import { Supabase } from './supabase';
+import { LogService } from './log-service';
 
 @Injectable({ providedIn: 'root' })
 export class ScannerService {
     private supabaseService = inject(Supabase);
+    private logService = inject(LogService);
 
 
     async obtenerDetallePorCodigoQr(codigoQr: string): Promise<any | null> {
@@ -52,6 +54,12 @@ export class ScannerService {
         }
 
         // si devuelve false es porque no modificó nada
-        return data.length > 0;
+        const validado = data.length > 0;
+
+        if (validado) {
+            await this.logService.registrar('Validó QR', `Detalle ${idDetalleVenta}, tipo ${tipo}`);
+        }
+
+        return validado;
     }
 }
